@@ -1,4 +1,4 @@
-package com.newstar.scorpio;
+package com.newstar.scorpiodata;
 
 import android.content.Context;
 
@@ -21,6 +21,7 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.newstar.scorpio.test", appContext.getPackageName());
+
+        assertEquals("com.newstar.scorpiodata.test", appContext.getPackageName());
     }
 }

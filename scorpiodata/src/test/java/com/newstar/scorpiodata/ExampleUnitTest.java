@@ -1,4 +1,4 @@
-package com.newstar.scorpioapp;
+package com.newstar.scorpiodata;
 
 import org.junit.Test;
 
