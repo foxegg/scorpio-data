@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="teal_200">#FF7474</color>
+    <color name="teal_700">#3E246C</color>
+    <!--app主颜色基调-->
+    <color name="main_color">@color/teal_700</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#bbFFFFFF</color>
+    <color name="ic_launcher_background">@color/teal_700</color>
+</resources>

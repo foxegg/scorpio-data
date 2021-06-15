@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Kim Tiền</string>
+    <string name="facebook_app_id">485211752475095</string>
+    <string name="appID" translatable="false">710130597906020829</string>
+
+    <string name="permission_contacts_hint">访问通讯录;\n</string>
+    <string name="permission_camera_hint">访问相机;\n</string>
+    <string name="permission_phone_hint">获取设备信息;\n</string>
+    <string name="permission_storage_hint">访问外部存储;\n</string>
+    <string name="permission_location_hint">开启定位;\n</string>
+    <string name="permission_sms_hint">读取信息;\n</string>
+    <string name="permission_call_phone_hint">拨打电话;\n</string>
+
+    <!--权限说明-->
+    <string name="shoud_open_permissions">此应用需要以下权限:\n</string>
+
+    <string name="click_setting">为了正常升级，请点击设置按钮，允许安装未知来源应用</string>
+    <string name="auth_failure">授权失败，无法安装应用</string>
+    <string name="already_new">已是最新版本</string>
+    <string name="install">安装</string>
+    <string name="gp_update">在Google Play中更新</string>
+    <string name="find_new_version">发现新版本</string>
+    <string name="download">下载</string>
+    <string name="downloading">下载中</string>
+    <string name="start_download">开始下载，可在通知栏查看下载进度</string>
+    <string name="wait_download">文件下载中,请稍等</string>
+    <string name="allow_storage_permission">请允许文件读写权限</string>
+
+    <string name="ok">确定</string>
+    <string name="setting">设置</string>
+    <string name="cancel">取消</string>
+    <string name="load_failed_please_reload">加载失败,请检查网络并点击重试</string>
+    <string name="loading_text">Vay tiền mọi lúc mọi nơi</string>
+</resources>
