@@ -1,3 +1,3 @@
-rootProject.name = "scorpio"
+rootProject.name = "scorpio-data"
 include ':app'
 include ':scorpio'

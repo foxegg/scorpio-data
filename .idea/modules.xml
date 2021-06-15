@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpio.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/scorpio.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/scorpio.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpio/scorpio.scorpio.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpio/scorpio.scorpio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpio-data.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpio-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/scorpio-data.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/scorpio-data.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpio/scorpio-data.scorpio.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpio/scorpio-data.scorpio.iml" />
     </modules>
   </component>
 </project>
