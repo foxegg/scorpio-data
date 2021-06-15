@@ -11,11 +11,4 @@ public class RiskType {
     public static final String CELLINFO_LIST = PREFIX + "stationInfo";
     public static final String APP_LIST = PREFIX + "appNum";
     public static final String SMS_LIST = PREFIX + "smsInfo";
-
-    public static Context context;
-    public static String subChannel;
-    public static void init(Context context, String subChannel){
-        RiskType.context = context;
-        RiskType.subChannel = subChannel;
-    }
 }

@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.newstar.scorpiodata.risk.RiskType;
+import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
 import org.json.JSONException;
@@ -29,17 +30,14 @@ public class NetUtils {
     //上传归因信息
     public static String INSERT_PROMOTERS_GID;
 
-    public static String CHANNEL;
-    public static String SUB_CHANNEL;
-    public static void init(String channel, String subChannel,String host){
-        CHANNEL = channel;
-        SUB_CHANNEL = subChannel;
-        header.put("channel", channel);
-        header.put("subChannel", subChannel);
-        queue = Volley.newRequestQueue(RiskType.context);
-        ADD_CONTACTS = host + "xUserContactss/add_contacts";
-        APP_VERSION_UPDATE = host + "appVersion/update";
-        INSERT_PROMOTERS_GID = host + "appMacCode/insertPromotersGid";
+    public static void init(){
+
+        header.put("channel", PluginInit.CHANNEL);
+        header.put("subChannel", PluginInit.SUB_CHANNEL);
+        queue = Volley.newRequestQueue(PluginInit.ACTIVITY);
+        ADD_CONTACTS = PluginInit.HOST + "xUserContactss/add_contacts";
+        APP_VERSION_UPDATE = PluginInit.HOST + "appVersion/update";
+        INSERT_PROMOTERS_GID = PluginInit.HOST + "appMacCode/insertPromotersGid";
     }
 
     public static void requestGetInQueue(int methend, String url, Response.Listener<String> listener, Map<String, String> mapParams, Map<String, String> headers) {
@@ -86,8 +84,8 @@ public class NetUtils {
         }
         if(jsonObject!=null){
             try {
-                jsonObject.put("channel", CHANNEL);
-                jsonObject.put("subChannel", SUB_CHANNEL);
+                jsonObject.put("channel", PluginInit.CHANNEL);
+                jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

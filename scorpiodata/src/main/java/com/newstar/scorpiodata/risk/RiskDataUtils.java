@@ -30,6 +30,7 @@ import androidx.annotation.RequiresApi;
 
 import com.newstar.scorpiodata.utils.ContactHelp;
 import com.newstar.scorpiodata.utils.PermissionUtils;
+import com.newstar.scorpiodata.utils.PluginInit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,11 +104,11 @@ public class RiskDataUtils {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static JSONArray getSmsList() {
         JSONArray jsonArray = new JSONArray();
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_SMS)
-                && PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_CONTACTS)) {
-            SharedPreferences sharedPreferences = RiskType.context.getSharedPreferences("shared_data", Context.MODE_PRIVATE);
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_SMS)
+                && PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_CONTACTS)) {
+            SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("shared_data", Context.MODE_PRIVATE);
             int maxId = sharedPreferences.getInt("MAX_SMS_ID", 0);
-            ContentResolver cr = RiskType.context.getContentResolver();
+            ContentResolver cr = PluginInit.ACTIVITY.getContentResolver();
             String[] projection = new String[]{
                     BaseColumns._ID,
                     Telephony.Sms.ADDRESS,
@@ -162,7 +163,7 @@ public class RiskDataUtils {
         String displayName = null;
         Cursor cursor = null;
         try {
-            ContentResolver resolver = RiskType.context.getContentResolver();
+            ContentResolver resolver = PluginInit.ACTIVITY.getContentResolver();
             String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
             cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection,
                     ContactsContract.CommonDataKinds.Phone.NUMBER + " like ?",
@@ -249,9 +250,9 @@ public class RiskDataUtils {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static JSONArray getCellinfoList() {
         JSONArray jsonArray = new JSONArray();
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                || PermissionUtils.checkPermission(RiskType.context, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            TelephonyManager telephonyMgr = (TelephonyManager) RiskType.context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.ACCESS_COARSE_LOCATION)
+                || PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            TelephonyManager telephonyMgr = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(Context.TELEPHONY_SERVICE);
             List<CellInfo> cellInfos = telephonyMgr.getAllCellInfo();
             //LTE,WCDMA,LTE
             int cid = 0;

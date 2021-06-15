@@ -24,6 +24,7 @@ import androidx.annotation.RequiresApi;
 
 import com.newstar.scorpiodata.utils.ConvertUtils;
 import com.newstar.scorpiodata.utils.PermissionUtils;
+import com.newstar.scorpiodata.utils.PluginInit;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -73,7 +74,7 @@ public class PhoneUtils {
         //结果返回值
         int netType = 0;
         //获取手机所有连接管理对象
-        ConnectivityManager manager = (ConnectivityManager) RiskType.context.getSystemService(RiskType.context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.CONNECTIVITY_SERVICE);
         //获取NetworkInfo对象
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         //NetworkInfo对象为空 则代表没有网络
@@ -87,7 +88,7 @@ public class PhoneUtils {
             netType = 1;
         } else if (nType == ConnectivityManager.TYPE_MOBILE) {
             int nSubType = networkInfo.getSubtype();
-            TelephonyManager telephonyManager = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+            TelephonyManager telephonyManager = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
             //3G   联通的3G为UMTS或HSDPA 电信的3G为EVDO
             if (nSubType == TelephonyManager.NETWORK_TYPE_LTE
                     && !telephonyManager.isNetworkRoaming()) {
@@ -116,7 +117,7 @@ public class PhoneUtils {
      * @return {@code true}: 是<br>{@code false}: 否
      */
     public static boolean isPhone() {
-        TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
         return tm != null && tm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
     }
 
@@ -126,7 +127,7 @@ public class PhoneUtils {
      * @return {@code true}: 是<br>{@code false}: 否
      */
     public static boolean isSimCardReady() {
-        TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
         return tm != null && tm.getSimState() == TelephonyManager.SIM_STATE_READY;
     }
 
@@ -137,8 +138,8 @@ public class PhoneUtils {
      * @return IMEI码
      */
     public static String getIMEI() {
-        TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_PHONE_STATE)) {
+        TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
             try {
                 return tm != null ? tm.getDeviceId() : null;
             } catch (Exception ignored) {}
@@ -153,8 +154,8 @@ public class PhoneUtils {
      * @return IMSI码
      */
     public static String getIMSI() {
-        TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_PHONE_STATE)) {
+        TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
             try {
                 return tm != null ? tm.getSubscriberId() : null;
             } catch (Exception ignored) {}
@@ -169,7 +170,7 @@ public class PhoneUtils {
      * @return sim卡运营商名称
      */
     public static String getSimOperatorName() {
-        TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
         return tm != null ? tm.getSimOperatorName() : null;
     }
 
@@ -182,9 +183,9 @@ public class PhoneUtils {
      * @return 序列号
      */
     public static String getSimSerialNumber() {
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
             try {
-                TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+                TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
                 String serialNumber = tm != null ? tm.getSimSerialNumber() : null;
                 return serialNumber != null ? serialNumber : null;
             } catch (Exception e) {
@@ -199,7 +200,7 @@ public class PhoneUtils {
      * @return 国家代码
      */
     public static String getSimCountryIso() {
-        TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
         return tm != null ? tm.getSimCountryIso() : null;
     }
 
@@ -215,8 +216,8 @@ public class PhoneUtils {
      * @return 电话号码
      */
     public static String getPhoneNumber() {
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_PHONE_STATE)) {
-            TelephonyManager tm = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
+            TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
             try {
                 return tm != null ? tm.getLine1Number() : null;
             } catch (Exception ignored) {
@@ -234,7 +235,7 @@ public class PhoneUtils {
     public static int getSimCount() {
         int count = 1;
         try {
-            SubscriptionManager mSubscriptionManager = (SubscriptionManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SUBSCRIPTION_SERVICE);
+            SubscriptionManager mSubscriptionManager = (SubscriptionManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SUBSCRIPTION_SERVICE);
             if (mSubscriptionManager != null) {
                 count = mSubscriptionManager.getActiveSubscriptionInfoCountMax();
                 return count;
@@ -256,10 +257,10 @@ public class PhoneUtils {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
-        if (PermissionUtils.checkPermission(RiskType.context, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 //1.版本超过5.1，调用系统方法
-                SubscriptionManager mSubscriptionManager = (SubscriptionManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                SubscriptionManager mSubscriptionManager = (SubscriptionManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SUBSCRIPTION_SERVICE);
                 List<SubscriptionInfo> activeSubscriptionInfoList = null;
                 if (mSubscriptionManager != null) {
                     try {
@@ -288,7 +289,7 @@ public class PhoneUtils {
 
             //2.版本低于5.1的系统，首先调用数据库，看能不能访问到
             Uri uri = Uri.parse("content://telephony/siminfo"); //访问raw_contacts表
-            ContentResolver resolver = RiskType.context.getContentResolver();
+            ContentResolver resolver = PluginInit.ACTIVITY.getContentResolver();
             Cursor cursor = resolver.query(uri, new String[]{"_id", "icc_id", "sim_id", "display_name", "carrier_name", "name_source", "color", "number", "display_number_format", "data_roaming", "mcc", "mnc"}, null, null, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -384,7 +385,7 @@ public class PhoneUtils {
      */
     private static String getReflexMethod(String predictedMethodName) throws MethodNotFoundException {
         String result = null;
-        TelephonyManager telephony = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        TelephonyManager telephony = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
         try {
             Class<?> telephonyClass = Class.forName(telephony.getClass().getName());
             Method getSimID = telephonyClass.getMethod(predictedMethodName);
@@ -408,7 +409,7 @@ public class PhoneUtils {
      */
     private static String getReflexMethodWithId( String predictedMethodName, String id) throws MethodNotFoundException {
         String result = null;
-        TelephonyManager telephony = (TelephonyManager) RiskType.context.getSystemService(RiskType.context.TELEPHONY_SERVICE);
+        TelephonyManager telephony = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
         try {
             Class<?> telephonyClass = Class.forName(telephony.getClass().getName());
             Class<?>[] parameter = new Class[1];
@@ -540,11 +541,11 @@ public class PhoneUtils {
      */
     private static String getMacDefault() throws Exception {
         String mac = null;
-        if (RiskType.context == null) {
+        if (PluginInit.ACTIVITY == null) {
             return mac;
         }
 
-        WifiManager wifi = (WifiManager) RiskType.context.getSystemService(RiskType.context.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.WIFI_SERVICE);
         if (wifi == null) {
             return mac;
         }
@@ -701,7 +702,7 @@ public class PhoneUtils {
         StatFs statFs = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         long blockSize = statFs.getBlockSizeLong();
         long availableBlocks = statFs.getAvailableBlocksLong();
-        return Formatter.formatFileSize(RiskType.context, blockSize*availableBlocks);
+        return Formatter.formatFileSize(PluginInit.ACTIVITY, blockSize*availableBlocks);
     }
 
     /**
@@ -713,7 +714,7 @@ public class PhoneUtils {
         StatFs statFs = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         long blockSize = statFs.getBlockSizeLong();
         long totalBlocks = statFs.getBlockCountLong();
-        return Formatter.formatFileSize(RiskType.context, blockSize*totalBlocks);
+        return Formatter.formatFileSize(PluginInit.ACTIVITY, blockSize*totalBlocks);
     }
 
     /**

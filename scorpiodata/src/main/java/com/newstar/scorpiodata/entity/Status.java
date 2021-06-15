@@ -6,6 +6,7 @@ package com.newstar.scorpiodata.entity;
 import android.widget.Toast;
 
 import com.newstar.scorpiodata.risk.RiskType;
+import com.newstar.scorpiodata.utils.PluginInit;
 
 /**
  * Auto-generated: 2021-02-03 16:0:31
@@ -24,7 +25,7 @@ public class Status {
     public static final int CODE_0015 = 0015;
 
     public void showMessage(){
-        Toast.makeText(RiskType.context, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(PluginInit.ACTIVITY, message, Toast.LENGTH_SHORT).show();
     }
     private Integer code;
     private String message;

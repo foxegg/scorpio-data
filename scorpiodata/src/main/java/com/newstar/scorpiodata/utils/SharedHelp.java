@@ -48,20 +48,20 @@ public class SharedHelp {
         buildSB.append(Build.ID).append("/");
         buildSB.append(Build.VERSION.INCREMENTAL);
         buildInfo = buildSB.toString();
-        androidId = "" + android.provider.Settings.Secure.getString(RiskType.context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        androidId = "" + android.provider.Settings.Secure.getString(PluginInit.ACTIVITY.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         UUID deviceUuid = new UUID(androidId.hashCode(), buildInfo.hashCode());
-        return RiskType.subChannel+"-"+deviceUuid.toString();
+        return PluginInit.SUB_CHANNEL+"-"+deviceUuid.toString();
     }
 
     public static String getSharedPreferencesValue(String key) {
         //步骤1：创建一个SharedPreferences对象
-        SharedPreferences sharedPreferences = RiskType.context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("data", Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, null);
     }
 
     public static void setSharedPreferencesValue(String key, String value) {
         //步骤1：创建一个SharedPreferences对象
-        SharedPreferences sharedPreferences = RiskType.context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("data", Context.MODE_PRIVATE);
         //步骤2： 实例化SharedPreferences.Editor对象
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //步骤3：将获取过来的值放入文件

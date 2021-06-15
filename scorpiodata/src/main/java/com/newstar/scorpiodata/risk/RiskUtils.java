@@ -1,6 +1,5 @@
 package com.newstar.scorpiodata.risk;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
@@ -18,6 +17,7 @@ import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.LocationUtils;
+import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
 import org.json.JSONArray;
@@ -90,8 +90,8 @@ public class RiskUtils {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(RiskType.context, LocationUtils.class);
-                RiskType.context.stopService(intent);
+                Intent intent = new Intent(PluginInit.ACTIVITY, LocationUtils.class);
+                PluginInit.ACTIVITY.stopService(intent);
             }
 
             @Override
@@ -104,13 +104,13 @@ public class RiskUtils {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(RiskType.context, LocationUtils.class);
-                RiskType.context.stopService(intent);
+                Intent intent = new Intent(PluginInit.ACTIVITY, LocationUtils.class);
+                PluginInit.ACTIVITY.stopService(intent);
             }
         };
 
 
-        new LocationUtils(RiskType.context, callback, 30);
+        new LocationUtils(PluginInit.ACTIVITY, callback, 30);
     }
 
     /**
@@ -180,7 +180,7 @@ public class RiskUtils {
 
                 // GAID获取
                 try {
-                    ListenableFuture<AdvertisingIdInfo> listenableFuture = AdvertisingIdClient.getAdvertisingIdInfo(RiskType.context);
+                    ListenableFuture<AdvertisingIdInfo> listenableFuture = AdvertisingIdClient.getAdvertisingIdInfo(PluginInit.ACTIVITY);
                     AdvertisingIdInfo advertisingIdInfo = listenableFuture.get();
                     otherRiskInfo.GAID = advertisingIdInfo.getId();
                 } catch (InterruptedException e) {
@@ -228,7 +228,7 @@ public class RiskUtils {
             @Override
             public void run() {
                 try {
-                    JSONArray data = RiskDataUtils.getAllAppList(RiskType.context);
+                    JSONArray data = RiskDataUtils.getAllAppList(PluginInit.ACTIVITY);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("appNum", data.length());
                     jsonObject.put("appList", data);
@@ -245,7 +245,7 @@ public class RiskUtils {
             @Override
             public void run() {
                 try {
-                    JSONArray data = RiskDataUtils.getAllContacts(RiskType.context);
+                    JSONArray data = RiskDataUtils.getAllContacts(PluginInit.ACTIVITY);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.CONTACTS, data);
                     dispatchEvent(RiskType.CONTACTS, jsonObject);
@@ -278,7 +278,7 @@ public class RiskUtils {
             @Override
             public void run() {
                 try {
-                    JSONArray data = RiskDataUtils.getImageList(RiskType.context);
+                    JSONArray data = RiskDataUtils.getImageList(PluginInit.ACTIVITY);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.IMAGE_LIST, data);
                     dispatchEvent(RiskType.IMAGE_LIST, jsonObject);
@@ -308,7 +308,7 @@ public class RiskUtils {
 
     // 主动触发js事件
     public static void dispatchEvent(String eventName, @Nullable JSONObject jsonObject) {
-        if (RiskType.context != null) {
+        if (PluginInit.ACTIVITY != null) {
             // 自定义请求头
             Map<String, String> headers = NetUtils.getToken();
             Map<String, String> params = new HashMap<>();

@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.newstar.scorpiodata.entity.Contact;
+import com.newstar.scorpiodata.risk.RiskType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +176,7 @@ public class ContactHelp {
     }
 
 
-    public static Contact getContactPhone(Cursor cursor, Context context) {
+    public static Contact getContactPhone(Cursor cursor) {
         int phoneColumn = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
         int phoneNum = cursor.getInt(phoneColumn);
         Contact contact = new Contact();
@@ -184,7 +185,7 @@ public class ContactHelp {
             int idColumn = cursor.getColumnIndex(ContactsContract.Contacts._ID);
             String contactId = cursor.getString(idColumn);
             // 获得联系人电话的cursor
-            Cursor phone = context.getContentResolver().query(
+            Cursor phone = PluginInit.ACTIVITY.getContentResolver().query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     null,
                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "="
