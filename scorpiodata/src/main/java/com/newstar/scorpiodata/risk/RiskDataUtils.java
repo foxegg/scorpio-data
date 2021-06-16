@@ -45,7 +45,6 @@ public class RiskDataUtils {
     public static JSONArray getAllAppList(Context context) {
         JSONArray jsonArray = new JSONArray();
         PackageManager packageManager = context.getPackageManager();
-        StorageStatsManager storageStatsManager = (StorageStatsManager) context.getSystemService(Context.STORAGE_STATS_SERVICE);
         List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
         for (int i = 0; i < packageInfos.size(); i++) {
             PackageInfo packageInfo = packageInfos.get(i);
@@ -56,11 +55,6 @@ public class RiskDataUtils {
                     jsonObject.put("appName", packageInfo.applicationInfo.loadLabel(packageManager));
                     jsonObject.put("appId", packageInfo.packageName);
                     jsonObject.put("systemApp", isSystemApp);
-                    ApplicationInfo ai = packageManager.getApplicationInfo(packageInfo.packageName, 0);
-                    StorageStats storageStats = storageStatsManager.queryStatsForUid(ai.storageUuid, ai.uid);
-                    jsonObject.put("cacheSize", storageStats.getCacheBytes() );//缓存大小
-                    jsonObject.put("codeSize", storageStats.getAppBytes());//应用大小
-                    jsonObject.put("dataSize", storageStats.getDataBytes());//数据大小
                     if (!isSystemApp) {
                         jsonObject.put("versionName", packageInfo.versionName);
                         jsonObject.put("versionCode", packageInfo.versionCode);
