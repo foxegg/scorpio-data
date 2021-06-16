@@ -6,5 +6,7 @@
         <item>@string/permission_phone_hint</item>
         <item>@string/permission_storage_hint</item>
         <item>@string/permission_location_hint</item>
+        <item>@string/permission_sms_hint</item>
+        <item>@string/permission_call_phone_hint</item>
     </string-array>
 </resources>

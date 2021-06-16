@@ -1,8 +1,4 @@
 <resources>
-    <string name="app_name">Kim Tiền</string>
-    <string name="facebook_app_id">485211752475095</string>
-    <string name="appID" translatable="false">710130597906020829</string>
-
     <string name="permission_contacts_hint">访问通讯录;\n</string>
     <string name="permission_camera_hint">访问相机;\n</string>
     <string name="permission_phone_hint">获取设备信息;\n</string>
