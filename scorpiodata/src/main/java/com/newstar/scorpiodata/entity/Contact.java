@@ -1,4 +1,4 @@
-package com.newstar.scorpiodata.entity;;
+package com.newstar.scorpiodata.entity;
 
 public class Contact {
     public String name;

@@ -3,6 +3,7 @@ package com.newstar.scorpiodata.risk;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.ads.identifier.AdvertisingIdClient;
 import androidx.ads.identifier.AdvertisingIdInfo;
@@ -320,13 +321,14 @@ public class RiskUtils {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.i("luolaigang",jsonObject.toString());
                 NetUtils.requestPostInQueue(NetUtils.ADD_CONTACTS,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 StatusParent statusParent = new Gson().fromJson(response.toString(), StatusParent.class);
                                 if (statusParent != null && statusParent.getStatus() != null && statusParent.getStatus().getCode().intValue() == 200) {
-
+                                    Log.i("luolaigang",response.toString());
                                 } else {
                                     statusParent.getStatus().showMessage();
                                 }
