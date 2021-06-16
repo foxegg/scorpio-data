@@ -136,7 +136,6 @@ public class PermissionUtils {
         }
 
         if (requestCode < 0 || requestCode >= requestPermissions.length) {
-            Log.w(TAG, "requestPermission illegal requestCode:" + requestCode);
             return;
         }
 
@@ -156,7 +155,6 @@ public class PermissionUtils {
         } catch (RuntimeException e) {
             Toast.makeText(activity, "please open this permission", Toast.LENGTH_SHORT)
                     .show();
-            Log.e(TAG, "RuntimeException:" + e.getMessage());
             return;
         }
 
@@ -165,12 +163,10 @@ public class PermissionUtils {
                 shouldShowRationale(activity, requestCode, requestPermission);
 
             } else {
-                Log.d(TAG, "requestCameraPermission else");
                 ActivityCompat.requestPermissions(activity, new String[]{requestPermission}, requestCode);
             }
 
         } else {
-            Log.d(TAG, "ActivityCompat.checkSelfPermission ==== PackageManager.PERMISSION_GRANTED");
             Toast.makeText(activity, "opened:" + requestPermissions[requestCode], Toast.LENGTH_SHORT).show();
             if(permissionGrant!=null){
                 permissionGrant.onPermissionGranted(requestCode);
@@ -185,12 +181,10 @@ public class PermissionUtils {
         }
 
         //TODO
-        Log.d(TAG, "onRequestPermissionsResult permissions length:" + permissions.length);
         Map<String, Integer> perms = new HashMap<>();
 
         ArrayList<String> notGranted = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
-            Log.d(TAG, "permissions: [i]:" + i + ", permissions[i]" + permissions[i] + ",grantResults[i]:" + grantResults[i]);
             perms.put(permissions[i], grantResults[i]);
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                 notGranted.add(permissions[i]);
@@ -230,7 +224,6 @@ public class PermissionUtils {
         if (permissionsList == null || shouldRationalePermissionsList == null) {
             return 0;
         }
-        Log.d(TAG, "requestMultiPermissions permissionsList:" + permissionsList.size() + ",shouldRationalePermissionsList:" + shouldRationalePermissionsList.size());
 
         if (permissionsList.size() > 0) {
             String showPermissions = SharedHelp.getSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS);
@@ -247,7 +240,6 @@ public class PermissionUtils {
                             }
                         });
             }
-            Log.d(TAG, "showMessageOKCancel1 requestPermissions");
             return permissionsList.size();
         } else if (shouldRationalePermissionsList.size() > 0) {
             showMessageOKCancel(activity, activity.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
@@ -256,7 +248,6 @@ public class PermissionUtils {
                         public void onClick(DialogInterface dialog, int which) {
                             ActivityCompat.requestPermissions(activity, shouldRationalePermissionsList.toArray(new String[shouldRationalePermissionsList.size()]),
                                     CODE_MULTI_PERMISSION);
-                            Log.d(TAG, "showMessageOKCancel2 requestPermissions");
                         }
                     });
             return shouldRationalePermissionsList.size();
@@ -283,7 +274,6 @@ public class PermissionUtils {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{requestPermission},
                         requestCode);
-                Log.d(TAG, "showMessageOKCancel requestPermissions:" + requestPermission);
             }
         });
     }
@@ -310,7 +300,6 @@ public class PermissionUtils {
         if (activity == null) {
             return;
         }
-        Log.d(TAG, "requestPermissionsResult requestCode:" + requestCode);
 
         if (requestCode == CODE_MULTI_PERMISSION) {
             requestMultiResult(activity, permissions, grantResults, permissionGrant);
@@ -318,7 +307,6 @@ public class PermissionUtils {
         }
 
         if (requestCode < 0 || requestCode >= requestPermissions.length) {
-            Log.w(TAG, "requestPermissionsResult illegal requestCode:" + requestCode);
             Toast.makeText(activity, "illegal requestCode:" + requestCode, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -340,7 +328,6 @@ public class PermissionUtils {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent();
                 intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Log.d(TAG, "getPackageName(): " + activity.getPackageName());
                 Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                 intent.setData(uri);
                 activity.startActivity(intent);
@@ -367,12 +354,10 @@ public class PermissionUtils {
             } catch (RuntimeException e) {
                 Toast.makeText(activity, "please open those permission", Toast.LENGTH_SHORT)
                         .show();
-                Log.e(TAG, "RuntimeException:" + e.getMessage());
                 return null;
             }
             if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(activity, requestPermission)) {
-                    Log.d(TAG, "shouldShowRequestPermissionRationale if");
                     if (isShouldRationale) {
                         permissions.add(requestPermission);
                     }
@@ -380,7 +365,6 @@ public class PermissionUtils {
                     if (!isShouldRationale) {
                         permissions.add(requestPermission);
                     }
-                    Log.d(TAG, "shouldShowRequestPermissionRationale else");
                 }
             }
         }

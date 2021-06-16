@@ -94,12 +94,10 @@ public class ContactHelp {
      * @return
      */
     public static List<ContactHelp> getDataList(ContentResolver resolver) {
-        Log.e("luolaigang","getDataList");
         List<ContactHelp> contactsList = new ArrayList<>();
         Cursor cursor = resolver.query(ContactsContract.Contacts.CONTENT_URI,
                 null, ContactsContract.Contacts.IN_VISIBLE_GROUP+"=1 and "+ ContactsContract.Contacts.HAS_PHONE_NUMBER+" =1",
                 null, ContactsContract.Contacts._ID + " LIMIT 1000");
-        Log.e("luolaigang","getDataList getCount:"+cursor.getCount());
         if (cursor != null) {
             try{
                 while(cursor.moveToNext()) {

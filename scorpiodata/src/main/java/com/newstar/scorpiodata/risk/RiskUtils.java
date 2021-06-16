@@ -321,14 +321,14 @@ public class RiskUtils {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i("luolaigang",jsonObject.toString());
+                Log.e("luolaigang",jsonObject.toString());
                 NetUtils.requestPostInQueue(NetUtils.ADD_CONTACTS,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 StatusParent statusParent = new Gson().fromJson(response.toString(), StatusParent.class);
                                 if (statusParent != null && statusParent.getStatus() != null && statusParent.getStatus().getCode().intValue() == 200) {
-                                    Log.i("luolaigang",response.toString());
+                                    Log.e("luolaigang",response.toString());
                                 } else {
                                     statusParent.getStatus().showMessage();
                                 }
