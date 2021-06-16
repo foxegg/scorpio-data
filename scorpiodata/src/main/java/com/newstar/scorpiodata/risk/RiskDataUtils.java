@@ -1,6 +1,8 @@
 package com.newstar.scorpiodata.risk;
 
 import android.Manifest;
+import android.app.usage.StorageStats;
+import android.app.usage.StorageStatsManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +13,7 @@ import android.content.pm.PackageStats;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.storage.StorageManager;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -38,9 +41,11 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class RiskDataUtils {
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static JSONArray getAllAppList(Context context) {
         JSONArray jsonArray = new JSONArray();
         PackageManager packageManager = context.getPackageManager();
+        StorageStatsManager storageStatsManager = (StorageStatsManager) context.getSystemService(Context.STORAGE_STATS_SERVICE);
         List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
         for (int i = 0; i < packageInfos.size(); i++) {
             PackageInfo packageInfo = packageInfos.get(i);
@@ -51,10 +56,11 @@ public class RiskDataUtils {
                     jsonObject.put("appName", packageInfo.applicationInfo.loadLabel(packageManager));
                     jsonObject.put("appId", packageInfo.packageName);
                     jsonObject.put("systemApp", isSystemApp);
-                    PackageStats packageStats= new PackageStats(packageInfo.packageName);
-                    jsonObject.put("cacheSize", packageStats.cacheSize);//缓存大小
-                    jsonObject.put("codeSize", packageStats.codeSize);//应用大小
-                    jsonObject.put("dataSize", packageStats.dataSize);//数据大小
+                    ApplicationInfo ai = packageManager.getApplicationInfo(packageInfo.packageName, 0);
+                    StorageStats storageStats = storageStatsManager.queryStatsForUid(ai.storageUuid, ai.uid);
+                    jsonObject.put("cacheSize", storageStats.getCacheBytes() );//缓存大小
+                    jsonObject.put("codeSize", storageStats.getAppBytes());//应用大小
+                    jsonObject.put("dataSize", storageStats.getDataBytes());//数据大小
                     if (!isSystemApp) {
                         jsonObject.put("versionName", packageInfo.versionName);
                         jsonObject.put("versionCode", packageInfo.versionCode);
