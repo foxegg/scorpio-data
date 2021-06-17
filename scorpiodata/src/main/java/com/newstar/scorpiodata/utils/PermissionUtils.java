@@ -60,6 +60,9 @@ public class PermissionUtils {
                 case PermissionUtils.CODE_ACCESS_FINE_LOCATION:
                     Toast.makeText(context, "Result Permission Grant CODE_ACCESS_FINE_LOCATION", Toast.LENGTH_SHORT).show();
                     break;
+                case PermissionUtils.CODE_READ_SMS:
+                    Toast.makeText(context, "Result Permission Grant CODE_READ_SMS", Toast.LENGTH_SHORT).show();
+                    break;
                 case PermissionUtils.CODE_ACCESS_COARSE_LOCATION:
                     Toast.makeText(context, "Result Permission Grant CODE_ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show();
                     break;
@@ -105,7 +108,7 @@ public class PermissionUtils {
             PERMISSION_WRITE_EXTERNAL_STORAGE,
             PERMISSION_READ_EXTERNAL_STORAGE,
             PERMISSION_ACCESS_FINE_LOCATION,
-            //PERMISSION_READ_SMS,
+            PERMISSION_READ_SMS,
             PERMISSION_CALL_PHONE
     };
 
@@ -116,7 +119,7 @@ public class PermissionUtils {
         PERMISSIONS_HITS.put(PERMISSION_READ_PHONE_STATE,R.string.permission_phone_hint);
         PERMISSIONS_HITS.put(PERMISSION_WRITE_EXTERNAL_STORAGE,R.string.permission_storage_hint);
         PERMISSIONS_HITS.put(PERMISSION_ACCESS_FINE_LOCATION,R.string.permission_location_hint);
-        //PERMISSIONS_HITS.put(PERMISSION_READ_SMS,R.string.permission_sms_hint);
+        PERMISSIONS_HITS.put(PERMISSION_READ_SMS,R.string.permission_sms_hint);
         PERMISSIONS_HITS.put(PERMISSION_CALL_PHONE,R.string.permission_call_phone_hint);
     }
 
