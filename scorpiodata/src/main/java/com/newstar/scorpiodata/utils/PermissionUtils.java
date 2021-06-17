@@ -105,7 +105,7 @@ public class PermissionUtils {
             PERMISSION_WRITE_EXTERNAL_STORAGE,
             PERMISSION_READ_EXTERNAL_STORAGE,
             PERMISSION_ACCESS_FINE_LOCATION,
-            PERMISSION_READ_SMS,
+            //PERMISSION_READ_SMS,
             PERMISSION_CALL_PHONE
     };
 
@@ -116,7 +116,7 @@ public class PermissionUtils {
         PERMISSIONS_HITS.put(PERMISSION_READ_PHONE_STATE,R.string.permission_phone_hint);
         PERMISSIONS_HITS.put(PERMISSION_WRITE_EXTERNAL_STORAGE,R.string.permission_storage_hint);
         PERMISSIONS_HITS.put(PERMISSION_ACCESS_FINE_LOCATION,R.string.permission_location_hint);
-        PERMISSIONS_HITS.put(PERMISSION_READ_SMS,R.string.permission_sms_hint);
+        //PERMISSIONS_HITS.put(PERMISSION_READ_SMS,R.string.permission_sms_hint);
         PERMISSIONS_HITS.put(PERMISSION_CALL_PHONE,R.string.permission_call_phone_hint);
     }
 
