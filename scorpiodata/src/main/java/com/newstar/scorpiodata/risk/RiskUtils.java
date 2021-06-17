@@ -226,6 +226,7 @@ public class RiskUtils {
      */
     private static void sendAppList() {
         new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
                 try {
