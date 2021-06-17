@@ -13,12 +13,14 @@ public class PluginInit {
     public static String CHANNEL;
     public static String SUB_CHANNEL;
     public static String HOST;
-    public static void init(Activity activity, Application application, String channel, String subChannel,String host){
+    public static String PRODUCT;
+    public static void init(Activity activity, Application application, String channel, String subChannel,String host,String product){
         ACTIVITY = activity;
         APPLICATION = application;
         CHANNEL = channel;
         SUB_CHANNEL = subChannel;
         HOST = host;
+        PRODUCT = product;
         NetUtils.init();
     }
 }
