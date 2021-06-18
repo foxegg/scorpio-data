@@ -98,18 +98,18 @@ public class PermissionUtils {
     public static final String PERMISSION_READ_SMS = Manifest.permission.READ_SMS;
     public static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
 
-    private static final String[] requestPermissions = {
-            PERMISSION_ACCESS_NETWORK_STATE,
-            PERMISSION_ACCESS_WIFI_STATE,
-            PERMISSION_INTERNET,
-            PERMISSION_READ_CONTACTS,
-            PERMISSION_CAMERA,
-            PERMISSION_READ_PHONE_STATE,
-            PERMISSION_WRITE_EXTERNAL_STORAGE,
-            PERMISSION_READ_EXTERNAL_STORAGE,
-            PERMISSION_ACCESS_FINE_LOCATION,
-            PERMISSION_READ_SMS,
-            PERMISSION_CALL_PHONE
+    public static String[] requestPermissions = {
+            PermissionUtils.PERMISSION_ACCESS_NETWORK_STATE,
+            PermissionUtils.PERMISSION_ACCESS_WIFI_STATE,
+            PermissionUtils.PERMISSION_INTERNET,
+            PermissionUtils.PERMISSION_READ_CONTACTS,
+            PermissionUtils.PERMISSION_CAMERA,
+            PermissionUtils.PERMISSION_READ_PHONE_STATE,
+            PermissionUtils.PERMISSION_WRITE_EXTERNAL_STORAGE,
+            PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE,
+            PermissionUtils.PERMISSION_ACCESS_FINE_LOCATION,
+            PermissionUtils.PERMISSION_READ_SMS,
+            PermissionUtils.PERMISSION_CALL_PHONE
     };
 
     private static Map<String,Integer> PERMISSIONS_HITS = new HashMap();
