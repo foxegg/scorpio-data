@@ -91,12 +91,14 @@ public class RiskDataUtils {
                         tmpObj.put("groups", contact.groups);
                         tmpObj.put("timesContacted", contact.timesContacted);
                         tmpObj.put("lastTimeContacted", contact.lastTimeContacted);
-                        jsonArray.put(tmpObj);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    jsonArray.put(tmpObj);
                 }
             }
+        }else{
+            RiskUtils.dispatchErrorEvent("ContactHelp4", "No permission");
         }
         return jsonArray;
     }

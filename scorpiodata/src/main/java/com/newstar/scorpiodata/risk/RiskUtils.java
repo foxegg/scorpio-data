@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.android.volley.Response;
+import com.google.android.gms.common.util.HttpUtils;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.entity.FailureReason;
@@ -335,6 +336,32 @@ public class RiskUtils {
                                 }
                             }
                         }, jsonObject, params, headers);
+            }
+        }
+    }
+
+    public static void dispatchErrorEvent(String logKey, String log) {
+        if (PluginInit.ACTIVITY != null) {
+            // 自定义请求头
+            Map<String, String> headers = NetUtils.getToken();
+            Map<String, String> paramsGid = NetUtils.getUserGid();
+            String gid = paramsGid.get("userGid");
+            paramsGid.clear();
+            if (gid == null) {
+                gid = SharedHelp.getUid();
+            }
+            paramsGid.put("gid", gid);
+            paramsGid.put("logKey", logKey);
+            paramsGid.put("log", log);
+            if (headers != null) {
+                JSONObject jsonObject = new JSONObject(paramsGid);
+                NetUtils.requestPostInQueue(NetUtils.APPERROR_SAVE_SUBMIT,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                            }
+                        }, jsonObject, null, headers);
+
             }
         }
     }

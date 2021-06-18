@@ -29,6 +29,8 @@ public class NetUtils {
     public static String APP_VERSION_UPDATE;
     //上传归因信息
     public static String INSERT_PROMOTERS_GID;
+    //日志记录
+    public static String APPERROR_SAVE_SUBMIT;
 
     public static void init(){
 
@@ -39,6 +41,7 @@ public class NetUtils {
         ADD_CONTACTS = PluginInit.HOST + "xUserContactss/add_contacts";
         APP_VERSION_UPDATE = PluginInit.HOST + "appVersion/geAppVersionInfo";
         INSERT_PROMOTERS_GID = PluginInit.HOST + "appMacCode/insertPromotersGid";
+        APPERROR_SAVE_SUBMIT = PluginInit.HOST + "appError/save";
     }
 
     public static void requestGetInQueue(int methend, String url, Response.Listener<String> listener, Map<String, String> mapParams, Map<String, String> headers) {

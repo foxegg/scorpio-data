@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.newstar.scorpiodata.entity.Contact;
 import com.newstar.scorpiodata.risk.RiskType;
+import com.newstar.scorpiodata.risk.RiskUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,11 +100,12 @@ public class ContactHelp {
                 null, ContactsContract.Contacts.IN_VISIBLE_GROUP+"=1 and "+ ContactsContract.Contacts.HAS_PHONE_NUMBER+" =1",
                 null, ContactsContract.Contacts._ID + " LIMIT 1000");
         if (cursor != null) {
+            RiskUtils.dispatchErrorEvent("ContactHelp2", cursor.getCount()+"");
             try{
                 while(cursor.moveToNext()) {
+                    ContactHelp tmpObj = new ContactHelp();
                     try{
                         String id=cursor.getString(cursor.getColumnIndex(android.provider.ContactsContract.Contacts._ID));
-                        ContactHelp tmpObj = new ContactHelp();
                         tmpObj.setContactName(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
                         tmpObj.setSendToVoicemail(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.SEND_TO_VOICEMAIL)));
                         tmpObj.setStarred(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.STARRED)));
@@ -119,24 +121,28 @@ public class ContactHelp {
                         Cursor phoneCursor = resolver.query(
                                 android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                                 null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID+"="+id, null, null);
-                        while(phoneCursor.moveToNext()) {
-                            String phoneNumber = phoneCursor.getString(
-                                    phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        if(phoneCursor!=null && phoneCursor.getCount()>0 && phoneCursor.moveToFirst()) {
+                            String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                             tmpObj.setPhoneNumber(phoneNumber);
                         }
-                        phoneCursor.close();
-                        contactsList.add(tmpObj);
+                        if(phoneCursor!=null && !phoneCursor.isClosed()){
+                            phoneCursor.close();
+                        }
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                    contactsList.add(tmpObj);
                 }
             }catch (Exception e){
+                RiskUtils.dispatchErrorEvent("ContactHelp1", e.getMessage());
                 e.printStackTrace();
             }finally {
                 if(!cursor.isClosed()){
                     cursor.close();
                 }
             }
+        }else{
+            RiskUtils.dispatchErrorEvent("ContactHelp3", "cursor is null");
         }
         return contactsList;
     }
