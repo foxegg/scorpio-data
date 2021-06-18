@@ -10,6 +10,9 @@ import com.android.volley.toolbox.Volley;
 import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.risk.RiskType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PluginInit {
     public static Activity ACTIVITY;
     public static Application APPLICATION;
@@ -45,7 +48,16 @@ public class PluginInit {
             //得到自己的包名
             String pkgName = pi.packageName;
             PackageInfo pkgInfo = pm.getPackageInfo(pkgName, PackageManager.GET_PERMISSIONS);
-            PermissionUtils.requestPermissions = pkgInfo.requestedPermissions;
+            List<String> peimissions = new ArrayList<>();
+            for(String allP:PermissionUtils.requestPermissions){
+                for(String localP:pkgInfo.requestedPermissions){
+                    if(allP.equals(localP)){
+                        peimissions.add(allP);
+                    }
+                }
+            }
+            PermissionUtils.requestPermissions = new String[peimissions.size()];
+            peimissions.toArray(PermissionUtils.requestPermissions);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
