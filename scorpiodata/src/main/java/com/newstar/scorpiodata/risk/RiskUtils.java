@@ -341,28 +341,32 @@ public class RiskUtils {
     }
 
     public static void dispatchErrorEvent(String logKey, String log) {
-        if (PluginInit.ACTIVITY != null) {
-            // 自定义请求头
-            Map<String, String> headers = NetUtils.getToken();
-            Map<String, String> paramsGid = NetUtils.getUserGid();
-            String gid = paramsGid.get("userGid");
-            paramsGid.clear();
-            if (gid == null) {
-                gid = SharedHelp.getUid();
-            }
-            paramsGid.put("gid", gid);
-            paramsGid.put("logKey", logKey);
-            paramsGid.put("log", log);
-            if (headers != null) {
-                JSONObject jsonObject = new JSONObject(paramsGid);
-                NetUtils.requestPostInQueue(NetUtils.APPERROR_SAVE_SUBMIT,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                            }
-                        }, jsonObject, null, headers);
+        try{
+            if (PluginInit.ACTIVITY != null) {
+                // 自定义请求头
+                Map<String, String> headers = NetUtils.getToken();
+                Map<String, String> paramsGid = NetUtils.getUserGid();
+                String gid = paramsGid.get("userGid");
+                paramsGid.clear();
+                if (gid == null) {
+                    gid = SharedHelp.getUid();
+                }
+                paramsGid.put("gid", gid);
+                paramsGid.put("logKey", logKey);
+                paramsGid.put("log", log);
+                if (headers != null) {
+                    JSONObject jsonObject = new JSONObject(paramsGid);
+                    NetUtils.requestPostInQueue(NetUtils.APPERROR_SAVE_SUBMIT,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                }
+                            }, jsonObject, null, headers);
 
+                }
             }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }
