@@ -328,9 +328,10 @@ public class RiskUtils {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                Log.e("luolaigang",response.toString());
                                 StatusParent statusParent = new Gson().fromJson(response.toString(), StatusParent.class);
                                 if (statusParent != null && statusParent.getStatus() != null && statusParent.getStatus().getCode().intValue() == 200) {
-                                    Log.e("luolaigang",response.toString());
+
                                 } else {
                                     statusParent.getStatus().showMessage();
                                 }
