@@ -25,6 +25,7 @@ public class PluginInit {
         APPLICATION = application;
         CHANNEL = channel;
         SUB_CHANNEL = subChannel;
+        Log.i("luolaigang",host);
         HOST = host;
         PRODUCT = product;
         NetUtils.init();
