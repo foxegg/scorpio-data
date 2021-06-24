@@ -39,9 +39,6 @@ public class NetUtils {
         header.put("subChannel", PluginInit.SUB_CHANNEL);
         header.put("product", PluginInit.PRODUCT);
         queue = Volley.newRequestQueue(PluginInit.ACTIVITY);
-        if(!PluginInit.HOST.endsWith("/")){
-            PluginInit.HOST = PluginInit.HOST+"/";
-        }
         ADD_CONTACTS = PluginInit.HOST + "xUserContactss/add_contacts";
         APP_VERSION_UPDATE = PluginInit.HOST + "appVersion/geAppVersionInfo";
         INSERT_PROMOTERS_GID = PluginInit.HOST + "appMacCode/insertPromotersGid";
