@@ -11,7 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.android.volley.Response;
-import com.google.android.gms.common.util.HttpUtils;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.entity.FailureReason;
@@ -26,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -309,6 +311,45 @@ public class RiskUtils {
         }.start();
     }
 
+    private static OtherRiskInfo getInfos() {
+        OtherRiskInfo otherRiskInfo = new OtherRiskInfo();
+        try {
+            otherRiskInfo.uid = SharedHelp.getUid();
+        } catch (Exception ignore) {
+        }
+        try {
+            // 如果是手机且sim卡已经准备
+            if (PhoneUtils.isPhone() && PhoneUtils.isSimCardReady()) {
+                List<PhoneUtils.SimInfo> simInfos = PhoneUtils.getSimMultiInfo();
+
+                for (int i = 0; i < simInfos.size(); i++) {
+                    PhoneUtils.SimInfo currSim = simInfos.get(i);
+                    if (otherRiskInfo.imei == null) {
+                        otherRiskInfo.imei = currSim.mImei != null ? currSim.mImei.toString() : null;
+                    }
+
+                    if (otherRiskInfo.imsi == null) {
+                        otherRiskInfo.imsi = currSim.mImsi != null ? currSim.mImsi.toString() : null;
+                    }
+                }
+            }
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
+        }
+
+        // GAID获取
+        try {
+            ListenableFuture<AdvertisingIdInfo> listenableFuture = AdvertisingIdClient.getAdvertisingIdInfo(PluginInit.ACTIVITY);
+            AdvertisingIdInfo advertisingIdInfo = listenableFuture.get();
+            otherRiskInfo.GAID = advertisingIdInfo.getId();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return otherRiskInfo;
+    }
+
     // 主动触发js事件
     public static void dispatchEvent(String eventName, @Nullable JSONObject jsonObject) {
         if (PluginInit.ACTIVITY != null) {
@@ -320,11 +361,19 @@ public class RiskUtils {
                 try {
                     jsonObject.put("userGid", NetUtils.getUserGid().get("userGid"));
                     jsonObject.put("uid", SharedHelp.getUid());
+                    try {
+                        OtherRiskInfo otherRiskInfo = getInfos();
+                        jsonObject.put("GAID",otherRiskInfo.GAID);
+                        jsonObject.put("imei",otherRiskInfo.imei);
+                        jsonObject.put("imsi",otherRiskInfo.imsi);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Log.e("luolaigang",jsonObject.toString());
-                NetUtils.requestPostInQueue(NetUtils.ADD_CONTACTS,
+                NetUtils.requestPostInQueue(NetUtils.UPLOAD_RISK_DATA,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {

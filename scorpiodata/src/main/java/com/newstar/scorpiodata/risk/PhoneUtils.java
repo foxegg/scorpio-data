@@ -231,13 +231,17 @@ public class PhoneUtils {
      *
      * @return 返回卡槽数
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public static int getSimCount() {
         int count = 1;
         try {
-            SubscriptionManager mSubscriptionManager = (SubscriptionManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SUBSCRIPTION_SERVICE);
+            SubscriptionManager mSubscriptionManager = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                mSubscriptionManager = (SubscriptionManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SUBSCRIPTION_SERVICE);
+            }
             if (mSubscriptionManager != null) {
-                count = mSubscriptionManager.getActiveSubscriptionInfoCountMax();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    count = mSubscriptionManager.getActiveSubscriptionInfoCountMax();
+                }
                 return count;
             }
         } catch (Exception ignored) {
@@ -254,7 +258,6 @@ public class PhoneUtils {
      *
      * @return 多Sim卡的具体信息
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
         if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
@@ -545,7 +548,7 @@ public class PhoneUtils {
             return mac;
         }
 
-        WifiManager wifi = (WifiManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager) PluginInit.APPLICATION.getSystemService(PluginInit.ACTIVITY.WIFI_SERVICE);
         if (wifi == null) {
             return mac;
         }

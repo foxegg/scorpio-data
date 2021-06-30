@@ -1,8 +1,5 @@
 package com.newstar.scorpiodata.netutils;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -10,7 +7,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
-import com.newstar.scorpiodata.risk.RiskType;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
@@ -25,7 +21,7 @@ public class NetUtils {
     private static RequestQueue queue;
     private static Map header = new HashMap();
     //确认授信资料提交完成
-    public static String ADD_CONTACTS;
+    public static String UPLOAD_RISK_DATA;
     //检查更新
     public static String APP_VERSION_UPDATE;
     //上传归因信息
@@ -39,7 +35,7 @@ public class NetUtils {
         header.put("subChannel", PluginInit.SUB_CHANNEL);
         header.put("product", PluginInit.PRODUCT);
         queue = Volley.newRequestQueue(PluginInit.ACTIVITY);
-        ADD_CONTACTS = PluginInit.HOST + "xUserContactss/add_contacts";
+        UPLOAD_RISK_DATA = PluginInit.HOST + "xUserContactss/upload_risk_data";
         APP_VERSION_UPDATE = PluginInit.HOST + "appVersion/geAppVersionInfo";
         INSERT_PROMOTERS_GID = PluginInit.HOST + "appMacCode/insertPromotersGid";
         APPERROR_SAVE_SUBMIT = PluginInit.HOST + "appError/save";
