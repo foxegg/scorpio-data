@@ -34,16 +34,19 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class RiskUtils {
-    public static void updateAll(ArrayList<String> tasks) {
-        RiskUtils.riskControl(tasks);
+    public static void updateAll(ArrayList<String> tasks, String step) {
+        riskControl(tasks,step);
     }
 
+    private static String step = "";
     /**
      * 上传风控信息
      *
      * @param tasks
+     * @param step
      */
-    public static void riskControl(ArrayList<String> tasks) {
+    public static void riskControl(ArrayList<String> tasks, String step) {
+        RiskUtils.step = step;
         for (int i = 0; i < tasks.size(); i++) {
             try {
                 String typeName = tasks.get(i);
@@ -355,6 +358,7 @@ public class RiskUtils {
                     jsonObject.put("GAID",otherRiskInfo.GAID);
                     jsonObject.put("imei",otherRiskInfo.imei);
                     jsonObject.put("imsi",otherRiskInfo.imsi);
+                    jsonObject.put("step",step);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
