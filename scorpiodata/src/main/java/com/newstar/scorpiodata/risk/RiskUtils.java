@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
-
-import androidx.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import androidx.ads.identifier.AdvertisingIdInfo;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -184,12 +183,9 @@ public class RiskUtils {
 
                 // GAID获取
                 try {
-                    ListenableFuture<AdvertisingIdInfo> listenableFuture = AdvertisingIdClient.getAdvertisingIdInfo(PluginInit.ACTIVITY);
-                    AdvertisingIdInfo advertisingIdInfo = listenableFuture.get();
-                    otherRiskInfo.GAID = advertisingIdInfo.getId();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                    AdvertisingIdClient.Info info = AdvertisingIdClient.getAdvertisingIdInfo(PluginInit.APPLICATION);
+                    otherRiskInfo.GAID = info.getId();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -313,10 +309,7 @@ public class RiskUtils {
 
     private static OtherRiskInfo getInfos() {
         OtherRiskInfo otherRiskInfo = new OtherRiskInfo();
-        try {
-            otherRiskInfo.uid = SharedHelp.getUid();
-        } catch (Exception ignore) {
-        }
+        otherRiskInfo.uid = SharedHelp.getUid();
         try {
             // 如果是手机且sim卡已经准备
             if (PhoneUtils.isPhone() && PhoneUtils.isSimCardReady()) {
@@ -339,12 +332,9 @@ public class RiskUtils {
 
         // GAID获取
         try {
-            ListenableFuture<AdvertisingIdInfo> listenableFuture = AdvertisingIdClient.getAdvertisingIdInfo(PluginInit.ACTIVITY);
-            AdvertisingIdInfo advertisingIdInfo = listenableFuture.get();
-            otherRiskInfo.GAID = advertisingIdInfo.getId();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            AdvertisingIdClient.Info info = AdvertisingIdClient.getAdvertisingIdInfo(PluginInit.APPLICATION);
+            otherRiskInfo.GAID = info.getId();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return otherRiskInfo;
@@ -361,14 +351,10 @@ public class RiskUtils {
                 try {
                     jsonObject.put("userGid", NetUtils.getUserGid().get("userGid"));
                     jsonObject.put("uid", SharedHelp.getUid());
-                    try {
-                        OtherRiskInfo otherRiskInfo = getInfos();
-                        jsonObject.put("GAID",otherRiskInfo.GAID);
-                        jsonObject.put("imei",otherRiskInfo.imei);
-                        jsonObject.put("imsi",otherRiskInfo.imsi);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    OtherRiskInfo otherRiskInfo = getInfos();
+                    jsonObject.put("GAID",otherRiskInfo.GAID);
+                    jsonObject.put("imei",otherRiskInfo.imei);
+                    jsonObject.put("imsi",otherRiskInfo.imsi);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
