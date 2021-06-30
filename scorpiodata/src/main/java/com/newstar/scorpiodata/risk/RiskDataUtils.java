@@ -1,15 +1,18 @@
 package com.newstar.scorpiodata.risk;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.usage.StorageStats;
 import android.app.usage.StorageStatsManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +31,7 @@ import android.telephony.CellInfoGsm;
 import android.telephony.CellInfoLte;
 import android.telephony.CellInfoWcdma;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -307,6 +311,20 @@ public class RiskDataUtils {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }
+        return jsonArray;
+    }
+
+    public static JSONArray getAllCameraAppList(Activity activity) {
+        JSONArray jsonArray = new JSONArray();
+        PackageManager packageManager = activity.getPackageManager();
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent,PackageManager.MATCH_ALL);
+        if(resolveInfos!=null && resolveInfos.size()>0){
+            for (int i = 0; i < resolveInfos.size(); i++) {
+                ResolveInfo resolveInfo = resolveInfos.get(i);
+                jsonArray.put(resolveInfo.activityInfo.packageName);
             }
         }
         return jsonArray;

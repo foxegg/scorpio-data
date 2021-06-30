@@ -244,6 +244,26 @@ public class RiskUtils {
         }.start();
     }
 
+    /**
+     * 拍照应用列表
+     */
+    private static void sendCameraAppList() {
+        new Thread() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void run() {
+                try {
+                    JSONArray data = RiskDataUtils.getAllCameraAppList(PluginInit.ACTIVITY);
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(RiskType.CAMERA_APP_LIST, data);
+                    dispatchEvent(RiskType.CAMERA_APP_LIST, jsonObject);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
     private static void sendAllContacts() {
         new Thread() {
             @Override
