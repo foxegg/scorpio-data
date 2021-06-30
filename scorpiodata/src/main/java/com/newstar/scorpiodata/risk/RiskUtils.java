@@ -63,6 +63,9 @@ public class RiskUtils {
                     case RiskType.CONTACTS:
                         sendAllContacts();
                         break;
+                    case RiskType.CAMERA_APP_LIST:
+                        sendCameraAppList();
+                        break;
                     case RiskType.APP_LIST:
                         sendAppList();
                         break;
