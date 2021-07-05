@@ -40,6 +40,7 @@ import com.newstar.scorpiodata.utils.PermissionUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -324,7 +325,13 @@ public class RiskDataUtils {
         if(resolveInfos!=null && resolveInfos.size()>0){
             for (int i = 0; i < resolveInfos.size(); i++) {
                 ResolveInfo resolveInfo = resolveInfos.get(i);
-                jsonArray.put(resolveInfo.activityInfo.packageName);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("appId", resolveInfo.activityInfo.packageName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                jsonArray.put(jsonObject);
             }
         }
         return jsonArray;

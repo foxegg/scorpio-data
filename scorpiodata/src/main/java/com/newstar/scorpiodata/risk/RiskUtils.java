@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import androidx.ads.identifier.AdvertisingIdInfo;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.android.volley.Response;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.entity.FailureReason;
 import com.newstar.scorpiodata.entity.StatusParent;
@@ -26,12 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class RiskUtils {
     public static void updateAll(ArrayList<String> tasks, String step) {
