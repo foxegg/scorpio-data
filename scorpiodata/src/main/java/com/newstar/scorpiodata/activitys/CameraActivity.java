@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -77,6 +78,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         back.setOnClickListener(this);
         preview = findViewById(R.id.preview_view);
         preview_image = findViewById(R.id.preview_image);
+        preview_image.setOnTouchListener((v, event) -> true);
         ImageView cancel = findViewById(R.id.cancel);
         ImageView ok = findViewById(R.id.ok);
         cancel.setOnClickListener(this);
