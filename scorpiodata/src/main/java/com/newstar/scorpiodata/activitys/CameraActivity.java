@@ -52,6 +52,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     PreviewView mPreviewView;
     ImageView captureImage;
+    ImageView back;
     ImageView swap_camera;
     private FrameLayout preview;
     private ImageView preview_image;
@@ -71,11 +72,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         mPreviewView = findViewById(R.id.previewView);
         captureImage = findViewById(R.id.captureImg);
         swap_camera = findViewById(R.id.swap_camera);
+        back = findViewById(R.id.back);
         swap_camera.setOnClickListener(this);
+        back.setOnClickListener(this);
         preview = findViewById(R.id.preview_view);
         preview_image = findViewById(R.id.preview_image);
-        Button cancel = findViewById(R.id.cancel);
-        Button ok = findViewById(R.id.ok);
+        ImageView cancel = findViewById(R.id.cancel);
+        ImageView ok = findViewById(R.id.ok);
         cancel.setOnClickListener(this);
         ok.setOnClickListener(this);
         if(allPermissionsGranted()){
@@ -148,7 +151,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
+                            path = file.getAbsolutePath();
                             handler.sendEmptyMessage(0);
                         }
                     });
@@ -189,7 +193,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if(allPermissionsGranted()){
                 startCamera();
             } else{
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
                 this.finish();
             }
         }
@@ -198,7 +201,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.swap_camera) {
+        if (id == R.id.back) {
+            finish();
+        } else if (id == R.id.swap_camera) {
             toggleFrontBackCamera();
         } else if (id == R.id.ok) {
             Intent intent = new Intent();
