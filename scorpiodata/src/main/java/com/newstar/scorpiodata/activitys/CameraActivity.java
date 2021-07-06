@@ -49,7 +49,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     PreviewView mPreviewView;
     ImageView captureImage;
-    Button swap_camera;
+    ImageView swap_camera;
     private FrameLayout preview;
     private ImageView preview_image;
     @Override
