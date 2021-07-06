@@ -43,6 +43,9 @@ import java.util.concurrent.Executors;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String PHOTO_PATH = "photo_path";
+    public static final String CAMERA_TYPE = "camera_type";
+    public static final String CAMERA_FRONT = "camera_front";
+    public static final String CAMERA_BACK = "camera_back";
     private Executor executor = Executors.newSingleThreadExecutor();
     private int REQUEST_CODE_PERMISSIONS = 1001;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -57,6 +60,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_main);
 
+        String cameraType = getIntent().getStringExtra(CAMERA_TYPE);
+        if(cameraType!=null){
+            if(cameraType.endsWith(CAMERA_FRONT)){
+                cameraSelectorIndex = CameraSelector.LENS_FACING_FRONT;
+            }else if(cameraType.endsWith(CAMERA_BACK)){
+                cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
+            }
+        }
         mPreviewView = findViewById(R.id.previewView);
         captureImage = findViewById(R.id.captureImg);
         swap_camera = findViewById(R.id.swap_camera);
