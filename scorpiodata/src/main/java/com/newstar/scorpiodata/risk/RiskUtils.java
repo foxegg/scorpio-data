@@ -200,19 +200,19 @@ public class RiskUtils {
 
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("phoneModel", otherRiskInfo.phoneModel);
-                    jsonObject.put("systemVersion", otherRiskInfo.systemVersion);
-                    jsonObject.put("uid", otherRiskInfo.uid);
-                    jsonObject.put("ipv4Address", otherRiskInfo.ipv4Address);
-                    jsonObject.put("wifiMacAddress", otherRiskInfo.wifiMacAddress);
-                    jsonObject.put("imei", otherRiskInfo.imei);
-                    jsonObject.put("imsi", otherRiskInfo.imsi);
-                    jsonObject.put("phoneNumber", otherRiskInfo.phoneNumber);
-                    jsonObject.put("carrierName", otherRiskInfo.carrierName);
-                    jsonObject.put("gaid", otherRiskInfo.GAID);
-                    jsonObject.put("availableSize", otherRiskInfo.availableSize);
-                    jsonObject.put("totalSize", otherRiskInfo.totalSize);
-                    jsonObject.put("bootTime", otherRiskInfo.bootTime);
+                    jsonObject.put("phoneModel", otherRiskInfo.phoneModel!=null?otherRiskInfo.phoneModel:"");
+                    jsonObject.put("systemVersion", otherRiskInfo.systemVersion!=null?otherRiskInfo.systemVersion:"");
+                    jsonObject.put("uid", otherRiskInfo.uid!=null?otherRiskInfo.uid:"");
+                    jsonObject.put("ipv4Address", otherRiskInfo.ipv4Address!=null?otherRiskInfo.ipv4Address:"");
+                    jsonObject.put("wifiMacAddress", otherRiskInfo.wifiMacAddress!=null?otherRiskInfo.wifiMacAddress:"");
+                    jsonObject.put("imei", otherRiskInfo.imei!=null?otherRiskInfo.imei:"");
+                    jsonObject.put("imsi", otherRiskInfo.imsi!=null?otherRiskInfo.imsi:"");
+                    jsonObject.put("phoneNumber", otherRiskInfo.phoneNumber!=null?otherRiskInfo.phoneNumber:"");
+                    jsonObject.put("carrierName", otherRiskInfo.carrierName!=null?otherRiskInfo.carrierName:"");
+                    jsonObject.put("gaid", otherRiskInfo.GAID!=null?otherRiskInfo.GAID:"");
+                    jsonObject.put("availableSize", otherRiskInfo.availableSize!=null?otherRiskInfo.availableSize:"");
+                    jsonObject.put("totalSize", otherRiskInfo.totalSize!=null?otherRiskInfo.totalSize:"");
+                    jsonObject.put("bootTime", otherRiskInfo.bootTime!=null?otherRiskInfo.bootTime:"");
                     dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject);
                 } catch (Exception e) {
                     e.printStackTrace();
