@@ -2,7 +2,9 @@ package com.newstar.scorpiodata.activitys;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -10,12 +12,15 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -57,8 +62,22 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     ImageView swap_camera;
     private FrameLayout preview;
     private ImageView preview_image;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+        getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+        //隐藏标题栏
+        if (this instanceof AppCompatActivity && getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+        //专门设置一下状态栏导航栏背景颜色为透明，凸显效果。
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //activity.getWindow().setNavigationBarColor(activity.getResources().getColor(R.color.white));
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_main);
 
