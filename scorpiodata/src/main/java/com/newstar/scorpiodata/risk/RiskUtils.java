@@ -200,25 +200,29 @@ public class RiskUtils {
 
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("phoneModel", otherRiskInfo.phoneModel!=null?otherRiskInfo.phoneModel:"");
-                    jsonObject.put("systemVersion", otherRiskInfo.systemVersion!=null?otherRiskInfo.systemVersion:"");
-                    jsonObject.put("uid", otherRiskInfo.uid!=null?otherRiskInfo.uid:"");
-                    jsonObject.put("ipv4Address", otherRiskInfo.ipv4Address!=null?otherRiskInfo.ipv4Address:"");
-                    jsonObject.put("wifiMacAddress", otherRiskInfo.wifiMacAddress!=null?otherRiskInfo.wifiMacAddress:"");
-                    jsonObject.put("imei", otherRiskInfo.imei!=null?otherRiskInfo.imei:"");
-                    jsonObject.put("imsi", otherRiskInfo.imsi!=null?otherRiskInfo.imsi:"");
-                    jsonObject.put("phoneNumber", otherRiskInfo.phoneNumber!=null?otherRiskInfo.phoneNumber:"");
-                    jsonObject.put("carrierName", otherRiskInfo.carrierName!=null?otherRiskInfo.carrierName:"");
-                    jsonObject.put("gaid", otherRiskInfo.GAID!=null?otherRiskInfo.GAID:"");
-                    jsonObject.put("availableSize", otherRiskInfo.availableSize!=null?otherRiskInfo.availableSize:"");
-                    jsonObject.put("totalSize", otherRiskInfo.totalSize!=null?otherRiskInfo.totalSize:"");
-                    jsonObject.put("bootTime", otherRiskInfo.bootTime!=null?otherRiskInfo.bootTime:"");
+                    jsonObject.put("phoneModel", isNoeEmpty(otherRiskInfo.phoneModel)?otherRiskInfo.phoneModel:"");
+                    jsonObject.put("systemVersion", isNoeEmpty(otherRiskInfo.systemVersion)?otherRiskInfo.systemVersion:"");
+                    jsonObject.put("uid", isNoeEmpty(otherRiskInfo.uid)?otherRiskInfo.uid:"");
+                    jsonObject.put("ipv4Address", isNoeEmpty(otherRiskInfo.ipv4Address)?otherRiskInfo.ipv4Address:"");
+                    jsonObject.put("wifiMacAddress", isNoeEmpty(otherRiskInfo.wifiMacAddress)?otherRiskInfo.wifiMacAddress:"");
+                    jsonObject.put("imei", isNoeEmpty(otherRiskInfo.imei)?otherRiskInfo.imei:"");
+                    jsonObject.put("imsi", isNoeEmpty(otherRiskInfo.imsi)?otherRiskInfo.imsi:"");
+                    jsonObject.put("phoneNumber", isNoeEmpty(otherRiskInfo.phoneNumber)?otherRiskInfo.phoneNumber:"");
+                    jsonObject.put("carrierName", isNoeEmpty(otherRiskInfo.carrierName)?otherRiskInfo.carrierName:"");
+                    jsonObject.put("gaid", isNoeEmpty(otherRiskInfo.GAID)?otherRiskInfo.GAID:"");
+                    jsonObject.put("availableSize", isNoeEmpty(otherRiskInfo.availableSize)?otherRiskInfo.availableSize:"");
+                    jsonObject.put("totalSize", isNoeEmpty(otherRiskInfo.totalSize)?otherRiskInfo.totalSize:"");
+                    jsonObject.put("bootTime", isNoeEmpty(otherRiskInfo.bootTime)?otherRiskInfo.bootTime:"");
                     dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }.start();
+    }
+
+    static boolean isNoeEmpty(String val){
+        return (val!=null && val.length()>0);
     }
 
     /**
@@ -373,9 +377,9 @@ public class RiskUtils {
                     jsonObject.put("userGid", NetUtils.getUserGid().get("userGid"));
                     jsonObject.put("uid", SharedHelp.getUid());
                     OtherRiskInfo otherRiskInfo = getInfos();
-                    jsonObject.put("GAID",otherRiskInfo.GAID);
-                    jsonObject.put("imei",otherRiskInfo.imei);
-                    jsonObject.put("imsi",otherRiskInfo.imsi);
+                    jsonObject.put("GAID",isNoeEmpty(otherRiskInfo.GAID)?otherRiskInfo.GAID:"");
+                    jsonObject.put("imei",isNoeEmpty(otherRiskInfo.imei)?otherRiskInfo.imei:"");
+                    jsonObject.put("imsi",isNoeEmpty(otherRiskInfo.imsi)?otherRiskInfo.imsi:"");
                     jsonObject.put("step",step);
                 } catch (JSONException e) {
                     e.printStackTrace();
