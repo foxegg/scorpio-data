@@ -187,9 +187,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public String getBatchDirectoryName() {
-
         String app_folder_path = "";
-        app_folder_path = Environment.getExternalStorageDirectory().toString() + "/images";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        app_folder_path = storageDir + "/images";
         File dir = new File(app_folder_path);
         if (!dir.exists() && !dir.mkdirs()) {
 
