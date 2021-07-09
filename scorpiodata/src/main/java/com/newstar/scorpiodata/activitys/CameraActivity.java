@@ -116,6 +116,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
         cameraProviderFuture.addListener(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
                 try {
