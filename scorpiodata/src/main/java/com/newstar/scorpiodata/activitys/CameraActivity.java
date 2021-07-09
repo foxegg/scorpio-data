@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -132,6 +133,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }, ContextCompat.getMainExecutor(this));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
 
         Preview preview = new Preview.Builder()
@@ -143,17 +145,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         //设置宽高比
         //设置实际的尺寸
         int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
-        int width = 900;
-        int height = 1200;
-        if(rotation== Surface.ROTATION_0 || rotation== Surface.ROTATION_180){
-            width = 900;
-            height = 1200;
-        }else{
-            width = 1200;
-            height = 900;
-        }
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
-                .setTargetResolution(new android.util.Size(width, height))
+                .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .build();
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
