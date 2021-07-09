@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -139,7 +140,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(cameraSelectorIndex)
                 .build();
+        //设置宽高比
+        //设置实际的尺寸
+        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
+        int width = 900;
+        int height = 1200;
+        if(rotation== Surface.ROTATION_0 || rotation== Surface.ROTATION_180){
+            width = 900;
+            height = 1200;
+        }else{
+            width = 1200;
+            height = 900;
+        }
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
+                .setTargetResolution(new android.util.Size(width, height))
                 .build();
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
@@ -157,14 +171,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
 
-        preview.setSurfaceProvider(mPreviewView.createSurfaceProvider());
+        preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
         captureImage.setOnClickListener(v -> {
 
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
             File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
-            path = file.getAbsolutePath();
+
             ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
             imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
                 @Override

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion '29.0.3'
 
     defaultConfig {
@@ -44,10 +44,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // CameraX core library using the camera2 implementation
-    def camerax_version = "1.1.0-alpha05"
-    implementation "androidx.camera:camera-camera2:${camerax_version}"
-    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
-    implementation"androidx.camera:camera-view:1.0.0-alpha12"
-    implementation "androidx.camera:camera-extensions:1.0.0-alpha12"
+    implementation "androidx.camera:camera-camera2:1.1.0-alpha06"
+    implementation "androidx.camera:camera-lifecycle:1.1.0-alpha05"
+    implementation"androidx.camera:camera-view:1.0.0-alpha26"
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha26"
+
     implementation 'com.google.android.material:material:1.2.1'
 }
