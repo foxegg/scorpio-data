@@ -33,7 +33,6 @@ public class RiskUtils {
         riskControl(tasks,step);
     }
 
-    private static String step = "";
     /**
      * 上传风控信息
      *
@@ -41,34 +40,33 @@ public class RiskUtils {
      * @param step
      */
     public static void riskControl(ArrayList<String> tasks, String step) {
-        RiskUtils.step = step;
         for (int i = 0; i < tasks.size(); i++) {
             try {
                 String typeName = tasks.get(i);
                 switch (typeName) {
                     case RiskType.SYS_OTHER_INFO:
-                        sendSysOtherInfo();
+                        sendSysOtherInfo(step);
                         break;
                     case RiskType.LOCATION:
-                        sendLocation();
+                        sendLocation(step);
                         break;
                     case RiskType.CELLINFO_LIST:
-                        sendCellinfoList();
+                        sendCellinfoList(step);
                         break;
                     case RiskType.CONTACTS:
-                        sendAllContacts();
+                        sendAllContacts(step);
                         break;
                     case RiskType.CAMERA_APP_LIST:
-                        sendCameraAppList();
+                        sendCameraAppList(step);
                         break;
                     case RiskType.APP_LIST:
-                        sendAppList();
+                        sendAppList(step);
                         break;
                     case RiskType.SMS_LIST:
-                        sendSmsList();
+                        sendSmsList(step);
                         break;
                     case RiskType.IMAGE_LIST:
-                        sendImageList();
+                        sendImageList(step);
                         break;
                 }
             } catch (Exception e) {
@@ -79,8 +77,9 @@ public class RiskUtils {
 
     /**
      * 经纬度
+     * @param step
      */
-    private static void sendLocation() {
+    private static void sendLocation(String step) {
         Callback<Location, FailureReason> callback = new Callback<Location, FailureReason>() {
             @Override
             public void resolve(Location res) {
@@ -90,7 +89,7 @@ public class RiskUtils {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("longitude", lng);
                     jsonObject.put("latitude", lat);
-                    dispatchEvent(RiskType.LOCATION, jsonObject);
+                    dispatchEvent(RiskType.LOCATION, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -104,7 +103,7 @@ public class RiskUtils {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("msg", err.failureReason);
                     jsonObject.put("isError", true);
-                    dispatchEvent(RiskType.LOCATION, jsonObject);
+                    dispatchEvent(RiskType.LOCATION, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -119,8 +118,9 @@ public class RiskUtils {
 
     /**
      * 设备信息
+     * @param step
      */
-    private static void sendSysOtherInfo() {
+    private static void sendSysOtherInfo(String step) {
         new Thread() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
@@ -213,7 +213,7 @@ public class RiskUtils {
                     jsonObject.put("availableSize", isNoeEmpty(otherRiskInfo.availableSize)?otherRiskInfo.availableSize:"");
                     jsonObject.put("totalSize", isNoeEmpty(otherRiskInfo.totalSize)?otherRiskInfo.totalSize:"");
                     jsonObject.put("bootTime", isNoeEmpty(otherRiskInfo.bootTime)?otherRiskInfo.bootTime:"");
-                    dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject);
+                    dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -227,8 +227,9 @@ public class RiskUtils {
 
     /**
      * 应用列表
+     * @param step
      */
-    private static void sendAppList() {
+    private static void sendAppList(String step) {
         new Thread() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -238,7 +239,7 @@ public class RiskUtils {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("appNum", data.length());
                     jsonObject.put("appList", data);
-                    dispatchEvent(RiskType.APP_LIST, jsonObject);
+                    dispatchEvent(RiskType.APP_LIST, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -248,8 +249,9 @@ public class RiskUtils {
 
     /**
      * 拍照应用列表
+     * @param step
      */
-    private static void sendCameraAppList() {
+    private static void sendCameraAppList(String step) {
         new Thread() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -258,7 +260,7 @@ public class RiskUtils {
                     JSONArray data = RiskDataUtils.getAllCameraAppList(PluginInit.ACTIVITY);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.CAMERA_APP_LIST, data);
-                    dispatchEvent(RiskType.CAMERA_APP_LIST, jsonObject);
+                    dispatchEvent(RiskType.CAMERA_APP_LIST, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -266,7 +268,7 @@ public class RiskUtils {
         }.start();
     }
 
-    private static void sendAllContacts() {
+    private static void sendAllContacts(String step) {
         new Thread() {
             @Override
             public void run() {
@@ -274,7 +276,7 @@ public class RiskUtils {
                     JSONArray data = RiskDataUtils.getAllContacts(PluginInit.ACTIVITY);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.CONTACTS, data);
-                    dispatchEvent(RiskType.CONTACTS, jsonObject);
+                    dispatchEvent(RiskType.CONTACTS, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -282,7 +284,7 @@ public class RiskUtils {
         }.start();
     }
 
-    private static void sendSmsList() {
+    private static void sendSmsList(String step) {
         new Thread() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -291,7 +293,7 @@ public class RiskUtils {
                     JSONArray data = RiskDataUtils.getSmsList();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.SMS_LIST, data);
-                    dispatchEvent(RiskType.SMS_LIST, jsonObject);
+                    dispatchEvent(RiskType.SMS_LIST, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -299,7 +301,7 @@ public class RiskUtils {
         }.start();
     }
 
-    private static void sendImageList() {
+    private static void sendImageList(String step) {
         new Thread() {
             @Override
             public void run() {
@@ -307,7 +309,7 @@ public class RiskUtils {
                     JSONArray data = RiskDataUtils.getImageList(PluginInit.ACTIVITY);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.IMAGE_LIST, data);
-                    dispatchEvent(RiskType.IMAGE_LIST, jsonObject);
+                    dispatchEvent(RiskType.IMAGE_LIST, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -315,7 +317,7 @@ public class RiskUtils {
         }.start();
     }
 
-    private static void sendCellinfoList() {
+    private static void sendCellinfoList(String step) {
         new Thread() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
@@ -324,7 +326,7 @@ public class RiskUtils {
                     JSONArray data = RiskDataUtils.getCellinfoList();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(RiskType.CELLINFO_LIST, data);
-                    dispatchEvent(RiskType.CELLINFO_LIST, jsonObject);
+                    dispatchEvent(RiskType.CELLINFO_LIST, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -366,7 +368,7 @@ public class RiskUtils {
     }
 
     // 主动触发js事件
-    public static void dispatchEvent(String eventName, @Nullable JSONObject jsonObject) {
+    public static void dispatchEvent(String eventName, @Nullable JSONObject jsonObject, String step) {
         if (PluginInit.ACTIVITY != null) {
             // 自定义请求头
             Map<String, String> headers = NetUtils.getToken();
