@@ -38,6 +38,7 @@ import androidx.annotation.RequiresApi;
 import com.newstar.scorpiodata.utils.ContactHelp;
 import com.newstar.scorpiodata.utils.PermissionUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
+import com.newstar.scorpiodata.utils.SharedHelp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,7 +115,7 @@ public class RiskDataUtils {
         if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_SMS)
                 && PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_CONTACTS)) {
             SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("shared_data", Context.MODE_PRIVATE);
-            int maxId = sharedPreferences.getInt("MAX_SMS_ID", 0);
+            int maxId = sharedPreferences.getInt("MAX_SMS_ID" + SharedHelp.getUid(), 0);
             ContentResolver cr = PluginInit.ACTIVITY.getContentResolver();
             String[] projection = new String[]{
                     BaseColumns._ID,
@@ -205,7 +206,7 @@ public class RiskDataUtils {
 
     private static void getImage(Uri uri, String path, Context context, JSONArray jsonArray){
         SharedPreferences sharedPreferences = context.getSharedPreferences("shared_data", Context.MODE_PRIVATE);
-        int maxId = sharedPreferences.getInt("MAX_" + path + "_ID", 0);
+        int maxId = sharedPreferences.getInt("MAX_" + path + "_ID" + SharedHelp.getUid(), 0);
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[]{
                 BaseColumns._ID,
