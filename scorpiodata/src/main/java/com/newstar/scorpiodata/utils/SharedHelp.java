@@ -27,12 +27,7 @@ public class SharedHelp {
      * @return
      */
     public static String getUid(){
-        String uid = getSharedPreferencesValue(UID);
-        if(uid==null){
-            uid = getUidReal();
-            setSharedPreferencesValue(UID, uid);
-        }
-        return uid;
+        return getUidReal();
     }
 
     /**
