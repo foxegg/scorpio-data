@@ -29,16 +29,17 @@ import java.util.List;
 import java.util.Map;
 
 public class RiskUtils {
-    public static void updateAll(String step) {
-        ArrayList<String> tasks = new ArrayList<>();
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.CONTACTS);
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.IMAGE_LIST);
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.LOCATION);
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.SYS_OTHER_INFO);
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.CELLINFO_LIST);
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.APP_LIST);
-        tasks.add(com.newstar.scorpiodata.risk.RiskType.SMS_LIST);
-
+    public static void updateAll(ArrayList<String> tasks, String step) {
+        if(tasks==null || tasks.size()==0){
+            tasks = new ArrayList<>();
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.CONTACTS);
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.IMAGE_LIST);
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.LOCATION);
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.SYS_OTHER_INFO);
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.CELLINFO_LIST);
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.APP_LIST);
+            tasks.add(com.newstar.scorpiodata.risk.RiskType.SMS_LIST);
+        }
         riskControl(tasks,step);
     }
 
