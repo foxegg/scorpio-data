@@ -136,7 +136,7 @@ public class RiskDataUtils {
                 if (firstItem) {
                     firstItem = false;
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("MAX_SMS_ID", id);
+                    editor.putInt("MAX_SMS_ID" + SharedHelp.getUid() , id);
                     editor.apply();
                 }
                 String phone = cursor.getString(cursor.getColumnIndex(Telephony.Sms.ADDRESS));
@@ -229,7 +229,7 @@ public class RiskDataUtils {
             if (firstItem) {
                 firstItem = false;
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("MAX_" + path + "_ID", id);
+                editor.putInt("MAX_" + path + "_ID" + SharedHelp.getUid(), id);
                 editor.apply();
             }
             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
