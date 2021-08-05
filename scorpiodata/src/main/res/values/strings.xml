@@ -6,6 +6,8 @@
     <string name="permission_location_hint">Mở định vị;\n</string>
     <string name="permission_sms_hint">Truy cập thông tin;\n</string>
     <string name="permission_call_phone_hint">Gọi điện thoại;\n</string>
+    <string name="permission_read_calendar_hint">Đọc lịch trình;\n</string>
+    <string name="permission_write_calendar_hint">Viết lịch trình;\n</string>
 
     <!--Chi tiết cấp quyền-->
     <string name="shoud_open_permissions">Ứng dụng này cần những quyền dưới đây:\n</string>

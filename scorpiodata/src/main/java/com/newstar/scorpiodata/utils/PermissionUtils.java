@@ -63,6 +63,15 @@ public class PermissionUtils {
                 case PermissionUtils.CODE_READ_SMS:
                     Toast.makeText(context, "Result Permission Grant CODE_READ_SMS", Toast.LENGTH_SHORT).show();
                     break;
+                case PermissionUtils.CODE_CALL_PHONE:
+                    Toast.makeText(context, "Result Permission Grant CODE_CALL_PHONE", Toast.LENGTH_SHORT).show();
+                    break;
+                case PermissionUtils.CODE_READ_CALENDAR:
+                    Toast.makeText(context, "Result Permission Grant CODE_READ_CALENDAR", Toast.LENGTH_SHORT).show();
+                    break;
+                case PermissionUtils.CODE_WRITE_CALENDAR:
+                    Toast.makeText(context, "Result Permission Grant CODE_WRITE_CALENDAR", Toast.LENGTH_SHORT).show();
+                    break;
                 case PermissionUtils.CODE_ACCESS_COARSE_LOCATION:
                     Toast.makeText(context, "Result Permission Grant CODE_ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show();
                     break;
@@ -84,6 +93,9 @@ public class PermissionUtils {
     public static final int CODE_ACCESS_FINE_LOCATION = 8;
     public static final int CODE_ACCESS_COARSE_LOCATION = 9;
     public static final int CODE_READ_SMS = 10;
+    public static final int CODE_CALL_PHONE = 11;
+    public static final int CODE_READ_CALENDAR = 12;
+    public static final int CODE_WRITE_CALENDAR = 13;
     public static final int CODE_MULTI_PERMISSION = 100;
 
     public static final String PERMISSION_ACCESS_NETWORK_STATE = Manifest.permission.ACCESS_NETWORK_STATE;
@@ -97,6 +109,8 @@ public class PermissionUtils {
     public static final String PERMISSION_ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String PERMISSION_READ_SMS = Manifest.permission.READ_SMS;
     public static final String PERMISSION_CALL_PHONE = Manifest.permission.CALL_PHONE;
+    public static final String PERMISSION_READ_CALENDAR = Manifest.permission.READ_CALENDAR;
+    public static final String PERMISSION_WRITE_CALENDAR = Manifest.permission.WRITE_CALENDAR;
 
     public static String[] requestPermissions = {
             PermissionUtils.PERMISSION_ACCESS_NETWORK_STATE,
@@ -109,7 +123,9 @@ public class PermissionUtils {
             PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE,
             PermissionUtils.PERMISSION_ACCESS_FINE_LOCATION,
             PermissionUtils.PERMISSION_READ_SMS,
-            PermissionUtils.PERMISSION_CALL_PHONE
+            PermissionUtils.PERMISSION_CALL_PHONE,
+            PermissionUtils.PERMISSION_READ_CALENDAR,
+            PermissionUtils.PERMISSION_WRITE_CALENDAR
     };
 
     private static Map<String,Integer> PERMISSIONS_HITS = new HashMap();
@@ -121,6 +137,8 @@ public class PermissionUtils {
         PERMISSIONS_HITS.put(PERMISSION_ACCESS_FINE_LOCATION,R.string.permission_location_hint);
         PERMISSIONS_HITS.put(PERMISSION_READ_SMS,R.string.permission_sms_hint);
         PERMISSIONS_HITS.put(PERMISSION_CALL_PHONE,R.string.permission_call_phone_hint);
+        PERMISSIONS_HITS.put(PERMISSION_READ_CALENDAR,R.string.permission_read_calendar_hint);
+        PERMISSIONS_HITS.put(PERMISSION_WRITE_CALENDAR,R.string.permission_write_calendar_hint);
     }
 
     public interface PermissionGrant {
