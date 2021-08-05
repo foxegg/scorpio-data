@@ -139,7 +139,7 @@ public class PhoneUtils {
      */
     public static String getIMEI() {
         TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.READ_PHONE_STATE)) {
             try {
                 return tm != null ? tm.getDeviceId() : null;
             } catch (Exception ignored) {}
@@ -155,7 +155,7 @@ public class PhoneUtils {
      */
     public static String getIMSI() {
         TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.READ_PHONE_STATE)) {
             try {
                 return tm != null ? tm.getSubscriberId() : null;
             } catch (Exception ignored) {}
@@ -183,7 +183,7 @@ public class PhoneUtils {
      * @return 序列号
      */
     public static String getSimSerialNumber() {
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission(Manifest.permission.READ_PHONE_STATE)) {
             try {
                 TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
                 String serialNumber = tm != null ? tm.getSimSerialNumber() : null;
@@ -216,7 +216,7 @@ public class PhoneUtils {
      * @return 电话号码
      */
     public static String getPhoneNumber() {
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission(Manifest.permission.READ_PHONE_STATE)) {
             TelephonyManager tm = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SERVICE);
             try {
                 return tm != null ? tm.getLine1Number() : null;
@@ -260,7 +260,7 @@ public class PhoneUtils {
      */
     public static List<SimInfo> getSimMultiInfo() {
         List<SimInfo> infos = new ArrayList<>();
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_PHONE_STATE)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.READ_PHONE_STATE)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 //1.版本超过5.1，调用系统方法
                 SubscriptionManager mSubscriptionManager = (SubscriptionManager) PluginInit.ACTIVITY.getSystemService(PluginInit.ACTIVITY.TELEPHONY_SUBSCRIPTION_SERVICE);

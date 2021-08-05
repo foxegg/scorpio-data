@@ -196,7 +196,7 @@ public class PictureUtils {
     public static final File createImageFile(Activity activity) throws IOException, Exception {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_tmp";
-        if (PermissionUtils.checkPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 File imageFile = new File(storageDir, imageFileName + ".png");

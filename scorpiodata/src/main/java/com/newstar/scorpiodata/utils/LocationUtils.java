@@ -24,7 +24,6 @@ public class LocationUtils extends Service implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 0;
 
     protected LocationManager locationManager;
-    private final Context mContext;
     private Callback<Location, FailureReason> mCallback;
     private Timer mTimer;
     private int mTimeout;
@@ -37,7 +36,6 @@ public class LocationUtils extends Service implements LocationListener {
     public FailureReason failureReason = new FailureReason();
 
     public LocationUtils(Context context, Callback<Location, FailureReason> callback, int timeout) {
-        mContext = context;
         mCallback = callback;
         mTimeout = timeout;
         mTimer = new Timer();
@@ -55,12 +53,12 @@ public class LocationUtils extends Service implements LocationListener {
 
     public void getLocation(boolean reset) {
         try {
-            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) PluginInit.ACTIVITY.getSystemService(LOCATION_SERVICE);
 
             if (reset) {
                 isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 isNetWorkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                hasPermission = PermissionUtils.checkPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION);
+                hasPermission = PermissionUtils.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION);
             }
 
             if (!hasPermission || (!isGPSEnabled && !isNetWorkEnabled)) {

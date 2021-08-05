@@ -78,7 +78,7 @@ public class RiskDataUtils {
 
     public static JSONArray getAllContacts(Context context) {
         JSONArray jsonArray = new JSONArray();
-        if (PermissionUtils.checkPermission(context, Manifest.permission.READ_CONTACTS)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.READ_CONTACTS)) {
             List<ContactHelp> contacts = ContactHelp.getDataList(context.getContentResolver());
             if (contacts != null && contacts.size() > 0) {
                 for (ContactHelp contact : contacts) {
@@ -112,8 +112,8 @@ public class RiskDataUtils {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static JSONArray getSmsList() {
         JSONArray jsonArray = new JSONArray();
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_SMS)
-                && PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.READ_CONTACTS)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.READ_SMS)
+                && PermissionUtils.checkPermission( Manifest.permission.READ_CONTACTS)) {
             SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("shared_data", Context.MODE_PRIVATE);
             int maxId = sharedPreferences.getInt("MAX_SMS_ID" + SharedHelp.getUid(), 0);
             ContentResolver cr = PluginInit.ACTIVITY.getContentResolver();
@@ -194,7 +194,7 @@ public class RiskDataUtils {
     public static JSONArray getImageList(Context context){
         JSONArray jsonArray = new JSONArray();
         try{
-            if (PermissionUtils.checkPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (PermissionUtils.checkPermission( Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 getImage(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "internal", context, jsonArray);
                 getImage(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "external", context, jsonArray);
             }
@@ -258,8 +258,8 @@ public class RiskDataUtils {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static JSONArray getCellinfoList() {
         JSONArray jsonArray = new JSONArray();
-        if (PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.ACCESS_COARSE_LOCATION)
-                || PermissionUtils.checkPermission(PluginInit.ACTIVITY, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (PermissionUtils.checkPermission( Manifest.permission.ACCESS_COARSE_LOCATION)
+                || PermissionUtils.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             TelephonyManager telephonyMgr = (TelephonyManager) PluginInit.ACTIVITY.getSystemService(Context.TELEPHONY_SERVICE);
             List<CellInfo> cellInfos = telephonyMgr.getAllCellInfo();
             //LTE,WCDMA,LTE
