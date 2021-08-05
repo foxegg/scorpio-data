@@ -27,53 +27,51 @@ import java.util.Map;
  * Created by qianxiaoai on 2016/7/7.
  */
 public class PermissionUtils {
-    public static Context context;
-
     public static PermissionUtils.PermissionGrant mPermissionGrant = new PermissionGrant() {
         @Override
         public void onPermissionGranted(int requestCode) {
             switch (requestCode) {
                 case PermissionUtils.CODE_ACCESS_NETWORK_STATE:
-                    Toast.makeText(context, "Result Permission Grant CODE_ACCESS_NETWORK_STATE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_ACCESS_NETWORK_STATE", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_ACCESS_WIFI_STATE:
-                    Toast.makeText(context, "Result Permission Grant CODE_ACCESS_WIFI_STATE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_ACCESS_WIFI_STATE", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_INTERNET:
-                    Toast.makeText(context, "Result Permission Grant CODE_INTERNET", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_INTERNET", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_READ_CONTACTS:
-                    Toast.makeText(context, "Result Permission Grant CODE_READ_CONTACTS", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_READ_CONTACTS", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_CAMERA:
-                    Toast.makeText(context, "Result Permission Grant CODE_CAMERA", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_CAMERA", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_READ_PHONE_STATE:
-                    Toast.makeText(context, "Result Permission Grant CODE_READ_PHONE_STATE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_READ_PHONE_STATE", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_WRITE_EXTERNAL_STORAGE:
-                    Toast.makeText(context, "Result Permission Grant CODE_WRITE_EXTERNAL_STORAGE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_WRITE_EXTERNAL_STORAGE", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_READ_EXTERNAL_STORAGE:
-                    Toast.makeText(context, "Result Permission Grant CODE_READ_EXTERNAL_STORAGE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_READ_EXTERNAL_STORAGE", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_ACCESS_FINE_LOCATION:
-                    Toast.makeText(context, "Result Permission Grant CODE_ACCESS_FINE_LOCATION", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_ACCESS_FINE_LOCATION", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_READ_SMS:
-                    Toast.makeText(context, "Result Permission Grant CODE_READ_SMS", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_READ_SMS", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_CALL_PHONE:
-                    Toast.makeText(context, "Result Permission Grant CODE_CALL_PHONE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_CALL_PHONE", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_READ_CALENDAR:
-                    Toast.makeText(context, "Result Permission Grant CODE_READ_CALENDAR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_READ_CALENDAR", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_WRITE_CALENDAR:
-                    Toast.makeText(context, "Result Permission Grant CODE_WRITE_CALENDAR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_WRITE_CALENDAR", Toast.LENGTH_SHORT).show();
                     break;
                 case PermissionUtils.CODE_ACCESS_COARSE_LOCATION:
-                    Toast.makeText(context, "Result Permission Grant CODE_ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PluginInit.ACTIVITY, "Result Permission Grant CODE_ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -180,8 +178,8 @@ public class PermissionUtils {
         }
 
         if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, requestPermission)) {
-                shouldShowRationale(activity, requestCode, requestPermission);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(PluginInit.ACTIVITY, requestPermission)) {
+                shouldShowRationale( requestCode, requestPermission);
 
             } else {
                 ActivityCompat.requestPermissions(activity, new String[]{requestPermission}, requestCode);
@@ -226,7 +224,7 @@ public class PermissionUtils {
         if(permissionsList!=null && permissionsList.size()>0){
             for(String permission:permissionsList){
                 if(PERMISSIONS_HITS.get(permission)!=null){
-                    permissions = permissions + context.getString(PERMISSIONS_HITS.get(permission));
+                    permissions = permissions + PluginInit.ACTIVITY.getString(PERMISSIONS_HITS.get(permission));
                 }else{
                 }
             }
@@ -237,9 +235,9 @@ public class PermissionUtils {
     /**
      * 一次申请多个权限
      */
-    public static int requestMultiPermissions(final Activity activity, PermissionGrant grant) {
-        final List<String> permissionsList = getNoGrantedPermission(activity, false);
-        final List<String> shouldRationalePermissionsList = getNoGrantedPermission(activity, true);
+    public static int requestMultiPermissions(PermissionGrant grant) {
+        final List<String> permissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, false);
+        final List<String> shouldRationalePermissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, true);
 
         //TODO checkSelfPermission
         if (permissionsList == null || shouldRationalePermissionsList == null) {
@@ -250,24 +248,24 @@ public class PermissionUtils {
             String showPermissions = SharedHelp.getSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS);
             SharedHelp.setSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS,"false");
             if(showPermissions == null){
-                ActivityCompat.requestPermissions(activity, permissionsList.toArray(new String[permissionsList.size()]),
+                ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
                         CODE_MULTI_PERMISSION);
             }else{
-                showMessageOKCancel(activity, activity.getString(R.string.shoud_open_permissions) + getPermissionsString(permissionsList),
+                showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(permissionsList),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                context.startActivity(getAppDetailSettingIntent());
+                                PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
                             }
                         });
             }
             return permissionsList.size();
         } else if (shouldRationalePermissionsList.size() > 0) {
-            showMessageOKCancel(activity, activity.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
+            showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(activity, shouldRationalePermissionsList.toArray(new String[shouldRationalePermissionsList.size()]),
+                            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, shouldRationalePermissionsList.toArray(new String[shouldRationalePermissionsList.size()]),
                                     CODE_MULTI_PERMISSION);
                         }
                     });
@@ -282,25 +280,25 @@ public class PermissionUtils {
         Intent localIntent = new Intent();
         localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-        localIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        localIntent.setData(Uri.fromParts("package", PluginInit.ACTIVITY.getPackageName(), null));
         return localIntent;
     }
 
-    private static void shouldShowRationale(final Activity activity, final int requestCode, final String requestPermission) {
+    private static void shouldShowRationale(final int requestCode, final String requestPermission) {
         //TODO
-        String[] permissionsHint = activity.getResources().getStringArray(R.array.permissions);
-        showMessageOKCancel(activity, "Rationale: " + permissionsHint[requestCode], new DialogInterface.OnClickListener() {
+        String[] permissionsHint = PluginInit.ACTIVITY.getResources().getStringArray(R.array.permissions);
+        showMessageOKCancel( "Rationale: " + permissionsHint[requestCode], new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ActivityCompat.requestPermissions(activity,
+                ActivityCompat.requestPermissions(PluginInit.ACTIVITY,
                         new String[]{requestPermission},
                         requestCode);
             }
         });
     }
 
-    private static void showMessageOKCancel(final Activity context, String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(context)
+    private static void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(PluginInit.ACTIVITY)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
@@ -344,7 +342,7 @@ public class PermissionUtils {
     }
 
     private static void openSettingActivity(final Activity activity, String message) {
-        showMessageOKCancel(activity, message, new DialogInterface.OnClickListener() {
+        showMessageOKCancel(message, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent();
