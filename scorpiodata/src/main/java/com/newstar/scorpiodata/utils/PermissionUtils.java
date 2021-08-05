@@ -390,8 +390,8 @@ public class PermissionUtils {
         return permissions;
     }
 
-    public static boolean checkPermission(Context context, String permission) {
-        if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED)
+    public static boolean checkPermission(String permission) {
+        if (ContextCompat.checkSelfPermission(PluginInit.ACTIVITY, permission) == PackageManager.PERMISSION_GRANTED)
             return true;
         else
             return false;
