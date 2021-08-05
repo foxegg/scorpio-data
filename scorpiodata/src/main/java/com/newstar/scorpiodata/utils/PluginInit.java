@@ -29,18 +29,6 @@ public class PluginInit {
         PRODUCT = product;
         NetUtils.init();
 
-        PermissionUtils.requestPermissions = new String[]{
-                PermissionUtils.PERMISSION_ACCESS_NETWORK_STATE,
-                PermissionUtils.PERMISSION_ACCESS_WIFI_STATE,
-                PermissionUtils.PERMISSION_INTERNET,
-                PermissionUtils.PERMISSION_READ_CONTACTS,
-                PermissionUtils.PERMISSION_CAMERA,
-                PermissionUtils.PERMISSION_READ_PHONE_STATE,
-                PermissionUtils.PERMISSION_WRITE_EXTERNAL_STORAGE,
-                PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE,
-                PermissionUtils.PERMISSION_ACCESS_FINE_LOCATION,
-                PermissionUtils.PERMISSION_CALL_PHONE,
-        };
         PackageManager pm = activity.getPackageManager();
         PackageInfo pi = null;
         try {
