@@ -245,20 +245,8 @@ public class PermissionUtils {
         }
 
         if (permissionsList.size() > 0) {
-            String showPermissions = SharedHelp.getSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS);
-            SharedHelp.setSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS,"false");
-            if(showPermissions == null){
-                ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
-                        CODE_MULTI_PERMISSION);
-            }else{
-                showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(permissionsList),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
-                            }
-                        });
-            }
+            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
+                    CODE_MULTI_PERMISSION);
             return permissionsList.size();
         } else if (shouldRationalePermissionsList.size() > 0) {
             showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
