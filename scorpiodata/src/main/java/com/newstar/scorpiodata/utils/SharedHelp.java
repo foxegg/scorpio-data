@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.CalendarContract;
+import android.util.Log;
 
 import com.newstar.scorpiodata.risk.RiskType;
 
@@ -13,6 +15,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class SharedHelp {
@@ -28,10 +33,6 @@ public class SharedHelp {
     public static final String H5_HOST = "h5_host";
 
     public final static String UPDATE_VERSION_PREFIX_KEY = "update_version_";
-
-
-    private static final String FILE_DIR = "/.data";
-    private static final String FILE_NAME = "nsdata";
 
     /**
      * 获取手机设备唯一码
@@ -76,13 +77,13 @@ public class SharedHelp {
         String uid = null;
         try {
             uid = readUid();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if(uid == null){
             try {
-                write2File(getUidReal());
-            } catch (IOException e) {
+                write2Calendar(getUidReal());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             uid = getUidReal();
@@ -90,52 +91,23 @@ public class SharedHelp {
         return uid;
     }
 
-    public static String readUid() throws IOException {
-        String fileDirStr = Environment.getExternalStorageDirectory().getAbsolutePath()+FILE_DIR;
-        File file = new File(fileDirStr, FILE_NAME);
-        StringBuffer stringBuffer = new StringBuffer();
-        // 打开文件输入流
-        FileInputStream fileInputStream = new FileInputStream(file);
-
-        byte[] buffer = new byte[1024];
-        int len = fileInputStream.read(buffer);
-        // 读取文件内容
-        while (len > 0) {
-            stringBuffer.append(new String(buffer, 0, len));
-            // 继续将数据放到buffer中
-            len = fileInputStream.read(buffer);
+    public static String readUid() {
+        List<Map<String, String>> calendars = CalendarReminderUtils.queryCalendars(PluginInit.ACTIVITY);
+        if(calendars!=null && calendars.size()>0){
+            for(Map<String, String> calendar:calendars){
+                String title = calendar.get(CalendarContract.Events.TITLE);
+                String description = calendar.get(CalendarContract.Events.DESCRIPTION);
+                if(title!=null && title.equals("uid")){
+                    return description;
+                }
+            }
         }
-        // 关闭输入流
-        fileInputStream.close();
-        return stringBuffer.toString();
+        return null;
     }
 
-    private static void write2File(String data) throws IOException {
-        String fileDirStr = Environment.getExternalStorageDirectory().getAbsolutePath()+FILE_DIR;
-        File fileDir = new File(fileDirStr);
-        if (!fileDir.exists() || !fileDir.isDirectory()) {
-            fileDir.mkdirs();
-        }
-        File file = new File(fileDirStr, FILE_NAME);
-        if (!file.exists() || !file.isFile()) {
-            file.createNewFile();
-        }
-        OutputStream ou = null;
-        try {
-            ou = new FileOutputStream(file);
-            byte[] buffer = data.getBytes();
-            ou.write(buffer);
-            ou.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (ou != null) {
-                    ou.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    private static void write2Calendar(String data) throws IOException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            CalendarReminderUtils.addCalendarEvent(PluginInit.ACTIVITY, "uid", data, new Date(),30);
         }
     }
 }
