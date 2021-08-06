@@ -117,7 +117,6 @@ public class CalendarReminderUtils {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void addCalendarEvent(Context context, String title, String description, Date dueDate, int alarmDay) {
-        long reminderTime = dueDate.getTime()-3600*1000*(alarmDay*24);
         int previousDate = 0;
         if (context == null) {
             return;
@@ -129,7 +128,7 @@ public class CalendarReminderUtils {
 
         //添加日历事件
         Calendar mCalendar = Calendar.getInstance();
-        mCalendar.setTimeInMillis(reminderTime);//设置开始时间
+        mCalendar.add(Calendar.DAY_OF_YEAR, -alarmDay);
         long start = mCalendar.getTime().getTime();
         mCalendar.setTimeInMillis(start + 10 * 60 * 1000);//设置终止时间，开始时间加10分钟
         long end = mCalendar.getTime().getTime();
