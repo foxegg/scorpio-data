@@ -117,8 +117,8 @@ public class CalendarReminderUtils {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void addCalendarEvent(Context context, String title, String description, Date dueDate, int alarmDay) {
-        long reminderTime = dueDate.getTime()-3600*1000*(alarmDay*24-14);
-        int previousDate = 3;
+        long reminderTime = dueDate.getTime()-3600*1000*(alarmDay*24);
+        int previousDate = 0;
         if (context == null) {
             return;
         }
@@ -139,7 +139,7 @@ public class CalendarReminderUtils {
         event.put(CalendarContract.Events.CALENDAR_ID, calId); //插入账户的id
         event.put(CalendarContract.Events.DTSTART, start);
         event.put(CalendarContract.Events.DTEND, end);
-        event.put(CalendarContract.Events.HAS_ALARM, 1);//设置有闹钟提醒
+        event.put(CalendarContract.Events.HAS_ALARM, 0);//设置有闹钟提醒
         event.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Ho_Chi_Minh");//这个是时区，必须有
         Uri newEvent = context.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
         if (newEvent == null) { //添加日历事件失败直接返回
