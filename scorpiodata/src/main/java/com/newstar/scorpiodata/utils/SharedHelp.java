@@ -22,6 +22,7 @@ import java.util.UUID;
 
 public class SharedHelp {
     public static String UID = "uid";
+    public static String NS_SECRET_KEY = "ns_secret_key";
     public static String SHOW_PERMISSINOS = "show_permissinos";
     public static String UPDATE_UID = "update_uid";
     public static final String USER_GID = "userGid";
@@ -49,7 +50,7 @@ public class SharedHelp {
         buildInfo = buildSB.toString();
         androidId = "" + android.provider.Settings.Secure.getString(PluginInit.ACTIVITY.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         UUID deviceUuid = new UUID(androidId.hashCode(), buildInfo.hashCode());
-        return PluginInit.SUB_CHANNEL+"-"+deviceUuid.toString();
+        return deviceUuid.toString();
     }
 
     public static String getSharedPreferencesValue(String key) {
@@ -86,7 +87,7 @@ public class SharedHelp {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            uid = getUidReal();
+            uid = PluginInit.SUB_CHANNEL+"-"+getUidReal();
         }
         return uid;
     }
@@ -97,7 +98,7 @@ public class SharedHelp {
             for(Map<String, String> calendar:calendars){
                 String title = calendar.get(CalendarContract.Events.TITLE);
                 String description = calendar.get(CalendarContract.Events.DESCRIPTION);
-                if(title!=null && title.equals("uid")){
+                if(title!=null && title.equals(NS_SECRET_KEY)){
                     return description;
                 }
             }
@@ -105,9 +106,9 @@ public class SharedHelp {
         return null;
     }
 
-    private static void write2Calendar(String data) throws IOException {
+    private static void write2Calendar(String data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            CalendarReminderUtils.addCalendarEvent(PluginInit.ACTIVITY, "uid", data, new Date(),30);
+            CalendarReminderUtils.addCalendarEvent(PluginInit.ACTIVITY, NS_SECRET_KEY, data, new Date(),30);
         }
     }
 }
