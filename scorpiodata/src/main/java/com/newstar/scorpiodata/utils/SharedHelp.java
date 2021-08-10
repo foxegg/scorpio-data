@@ -88,7 +88,7 @@ public class SharedHelp {
                 e.printStackTrace();
             }
         }
-        uid = PluginInit.SUB_CHANNEL+"-"+getUidReal();
+        uid = PluginInit.SUB_CHANNEL+"-"+uid;
         return uid;
     }
 
