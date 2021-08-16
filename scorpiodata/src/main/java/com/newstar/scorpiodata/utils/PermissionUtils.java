@@ -244,6 +244,7 @@ public class PermissionUtils {
             return 0;
         }
 
+        //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
         if (permissionsList.size() > 0) {
             ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
                     CODE_MULTI_PERMISSION);
@@ -253,8 +254,7 @@ public class PermissionUtils {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, shouldRationalePermissionsList.toArray(new String[shouldRationalePermissionsList.size()]),
-                                    CODE_MULTI_PERMISSION);
+                            PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
                         }
                     });
             return shouldRationalePermissionsList.size();
