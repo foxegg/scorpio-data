@@ -209,4 +209,51 @@ public class CalendarReminderUtils {
         }
         return calendars;
     }
+
+    /**
+     * 添加日历事件
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void addCalendarDueEvent(Context context, String title, String description, Date dueDate, int alarmDay) {
+        //到期当天10点
+        dueDate = new Date(dueDate.getTime()-14*3600*1000);
+        int previousDate = 0;
+        if (context == null) {
+            return;
+        }
+        int calId = checkAndAddCalendarAccount(context); //获取日历账户的id
+        if (calId < 0) { //获取账户id失败直接返回，添加日历事件失败
+            return;
+        }
+
+        //添加日历事件
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.setTime(dueDate);
+        mCalendar.add(Calendar.DAY_OF_YEAR, -alarmDay);
+        long start = mCalendar.getTime().getTime();
+        mCalendar.setTimeInMillis(start + 10 * 60 * 1000);//设置终止时间，开始时间加10分钟
+        long end = mCalendar.getTime().getTime();
+        ContentValues event = new ContentValues();
+        event.put(CalendarContract.Events.TITLE, title);
+        event.put(CalendarContract.Events.DESCRIPTION, description);
+        event.put(CalendarContract.Events.CALENDAR_ID, calId); //插入账户的id
+        event.put(CalendarContract.Events.DTSTART, start);
+        event.put(CalendarContract.Events.DTEND, end);
+        event.put(CalendarContract.Events.HAS_ALARM, 1);//设置有闹钟提醒
+        event.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Ho_Chi_Minh");//这个是时区，必须有
+        Uri newEvent = context.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
+        if (newEvent == null) { //添加日历事件失败直接返回
+            return;
+        }
+
+        //事件提醒的设定
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Reminders.EVENT_ID, ContentUris.parseId(newEvent));
+        values.put(CalendarContract.Reminders.MINUTES, previousDate * 24 * 60);// 提前previousDate天有提醒
+        values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+        Uri uri = context.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
+        if (uri == null) { //添加事件提醒失败直接返回
+            return;
+        }
+    }
 }
