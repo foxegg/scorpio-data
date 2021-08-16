@@ -116,12 +116,12 @@ public class CalendarReminderUtils {
      * 添加日历事件
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void addCalendarEvent(Context context, String title, String description, Date dueDate, int alarmDay) {
+    public static void addCalendarEvent(String title, String description, Date dueDate, int alarmDay) {
         int previousDate = 0;
-        if (context == null) {
+        if (PluginInit.ACTIVITY == null) {
             return;
         }
-        int calId = checkAndAddCalendarAccount(context); //获取日历账户的id
+        int calId = checkAndAddCalendarAccount(PluginInit.ACTIVITY); //获取日历账户的id
         if (calId < 0) { //获取账户id失败直接返回，添加日历事件失败
             return;
         }
@@ -140,7 +140,7 @@ public class CalendarReminderUtils {
         event.put(CalendarContract.Events.DTEND, end);
         event.put(CalendarContract.Events.HAS_ALARM, 0);//设置有闹钟提醒
         event.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Ho_Chi_Minh");//这个是时区，必须有
-        Uri newEvent = context.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
+        Uri newEvent = PluginInit.ACTIVITY.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
         if (newEvent == null) { //添加日历事件失败直接返回
             return;
         }
@@ -150,7 +150,7 @@ public class CalendarReminderUtils {
         values.put(CalendarContract.Reminders.EVENT_ID, ContentUris.parseId(newEvent));
         values.put(CalendarContract.Reminders.MINUTES, previousDate * 24 * 60);// 提前previousDate天有提醒
         values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
-        Uri uri = context.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
+        Uri uri = PluginInit.ACTIVITY.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
         if (uri == null) { //添加事件提醒失败直接返回
             return;
         }
@@ -214,14 +214,14 @@ public class CalendarReminderUtils {
      * 添加日历事件
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void addCalendarDueEvent(Context context, String title, String description, Date dueDate, int alarmDay) {
+    public static void addCalendarDueEvent(String title, String description, Date dueDate, int alarmDay) {
         //到期当天10点
         dueDate = new Date(dueDate.getTime()-14*3600*1000);
         int previousDate = 0;
-        if (context == null) {
+        if (PluginInit.ACTIVITY == null) {
             return;
         }
-        int calId = checkAndAddCalendarAccount(context); //获取日历账户的id
+        int calId = checkAndAddCalendarAccount(PluginInit.ACTIVITY); //获取日历账户的id
         if (calId < 0) { //获取账户id失败直接返回，添加日历事件失败
             return;
         }
@@ -241,7 +241,7 @@ public class CalendarReminderUtils {
         event.put(CalendarContract.Events.DTEND, end);
         event.put(CalendarContract.Events.HAS_ALARM, 1);//设置有闹钟提醒
         event.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Ho_Chi_Minh");//这个是时区，必须有
-        Uri newEvent = context.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
+        Uri newEvent = PluginInit.ACTIVITY.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
         if (newEvent == null) { //添加日历事件失败直接返回
             return;
         }
@@ -251,7 +251,7 @@ public class CalendarReminderUtils {
         values.put(CalendarContract.Reminders.EVENT_ID, ContentUris.parseId(newEvent));
         values.put(CalendarContract.Reminders.MINUTES, previousDate * 24 * 60);// 提前previousDate天有提醒
         values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
-        Uri uri = context.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
+        Uri uri = PluginInit.ACTIVITY.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
         if (uri == null) { //添加事件提醒失败直接返回
             return;
         }

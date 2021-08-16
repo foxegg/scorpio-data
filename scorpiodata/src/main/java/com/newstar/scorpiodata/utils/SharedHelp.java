@@ -111,7 +111,7 @@ public class SharedHelp {
 
     private static void write2Calendar(String data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            CalendarReminderUtils.addCalendarEvent(PluginInit.ACTIVITY, NS_SECRET_KEY, data, new Date(),30);
+            CalendarReminderUtils.addCalendarEvent(NS_SECRET_KEY, data, new Date(),30);
         }
     }
 }
