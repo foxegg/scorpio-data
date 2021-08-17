@@ -3,13 +3,11 @@ package com.newstar.scorpiodata.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -111,32 +109,38 @@ public class PermissionUtils {
     public static final String PERMISSION_WRITE_CALENDAR = Manifest.permission.WRITE_CALENDAR;
 
     public static String[] requestPermissions = {
-            PermissionUtils.PERMISSION_ACCESS_NETWORK_STATE,
-            PermissionUtils.PERMISSION_ACCESS_WIFI_STATE,
-            PermissionUtils.PERMISSION_INTERNET,
-            PermissionUtils.PERMISSION_READ_CONTACTS,
-            PermissionUtils.PERMISSION_CAMERA,
-            PermissionUtils.PERMISSION_READ_PHONE_STATE,
-            PermissionUtils.PERMISSION_WRITE_EXTERNAL_STORAGE,
-            PermissionUtils.PERMISSION_READ_EXTERNAL_STORAGE,
-            PermissionUtils.PERMISSION_ACCESS_FINE_LOCATION,
-            PermissionUtils.PERMISSION_READ_SMS,
-            PermissionUtils.PERMISSION_CALL_PHONE,
-            PermissionUtils.PERMISSION_READ_CALENDAR,
-            PermissionUtils.PERMISSION_WRITE_CALENDAR
+            PERMISSION_ACCESS_NETWORK_STATE,
+            PERMISSION_ACCESS_WIFI_STATE,
+            PERMISSION_INTERNET,
+            PERMISSION_READ_CONTACTS,
+            PERMISSION_CAMERA,
+            PERMISSION_READ_PHONE_STATE,
+            PERMISSION_WRITE_EXTERNAL_STORAGE,
+            PERMISSION_READ_EXTERNAL_STORAGE,
+            PERMISSION_ACCESS_FINE_LOCATION,
+            PERMISSION_READ_SMS,
+            PERMISSION_CALL_PHONE,
+            PERMISSION_READ_CALENDAR,
+            PERMISSION_WRITE_CALENDAR
     };
 
-    private static Map<String,Integer> PERMISSIONS_HITS = new HashMap();
+    public static String[] requestCalendarPermissions = {
+            PERMISSION_READ_CALENDAR,
+            PERMISSION_WRITE_CALENDAR
+    };
+
+    private static Map<String, Integer> PERMISSIONS_HITS = new HashMap();
+
     static {
         PERMISSIONS_HITS.put(PERMISSION_READ_CONTACTS, R.string.permission_contacts_hint);
-        PERMISSIONS_HITS.put(PERMISSION_CAMERA,R.string.permission_camera_hint);
-        PERMISSIONS_HITS.put(PERMISSION_READ_PHONE_STATE,R.string.permission_phone_hint);
-        PERMISSIONS_HITS.put(PERMISSION_WRITE_EXTERNAL_STORAGE,R.string.permission_storage_hint);
-        PERMISSIONS_HITS.put(PERMISSION_ACCESS_FINE_LOCATION,R.string.permission_location_hint);
-        PERMISSIONS_HITS.put(PERMISSION_READ_SMS,R.string.permission_sms_hint);
-        PERMISSIONS_HITS.put(PERMISSION_CALL_PHONE,R.string.permission_call_phone_hint);
-        PERMISSIONS_HITS.put(PERMISSION_READ_CALENDAR,R.string.permission_read_calendar_hint);
-        PERMISSIONS_HITS.put(PERMISSION_WRITE_CALENDAR,R.string.permission_write_calendar_hint);
+        PERMISSIONS_HITS.put(PERMISSION_CAMERA, R.string.permission_camera_hint);
+        PERMISSIONS_HITS.put(PERMISSION_READ_PHONE_STATE, R.string.permission_phone_hint);
+        PERMISSIONS_HITS.put(PERMISSION_WRITE_EXTERNAL_STORAGE, R.string.permission_storage_hint);
+        PERMISSIONS_HITS.put(PERMISSION_ACCESS_FINE_LOCATION, R.string.permission_location_hint);
+        PERMISSIONS_HITS.put(PERMISSION_READ_SMS, R.string.permission_sms_hint);
+        PERMISSIONS_HITS.put(PERMISSION_CALL_PHONE, R.string.permission_call_phone_hint);
+        PERMISSIONS_HITS.put(PERMISSION_READ_CALENDAR, R.string.permission_read_calendar_hint);
+        PERMISSIONS_HITS.put(PERMISSION_WRITE_CALENDAR, R.string.permission_write_calendar_hint);
     }
 
     public interface PermissionGrant {
@@ -179,7 +183,7 @@ public class PermissionUtils {
 
         if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(PluginInit.ACTIVITY, requestPermission)) {
-                shouldShowRationale( requestCode, requestPermission);
+                shouldShowRationale(requestCode, requestPermission);
 
             } else {
                 ActivityCompat.requestPermissions(activity, new String[]{requestPermission}, requestCode);
@@ -187,7 +191,7 @@ public class PermissionUtils {
 
         } else {
             Toast.makeText(activity, "opened:" + requestPermissions[requestCode], Toast.LENGTH_SHORT).show();
-            if(permissionGrant!=null){
+            if (permissionGrant != null) {
                 permissionGrant.onPermissionGranted(requestCode);
             }
         }
@@ -219,13 +223,13 @@ public class PermissionUtils {
         }
     }
 
-    private static String getPermissionsString(List<String> permissionsList){
+    private static String getPermissionsString(List<String> permissionsList) {
         String permissions = "";
-        if(permissionsList!=null && permissionsList.size()>0){
-            for(String permission:permissionsList){
-                if(PERMISSIONS_HITS.get(permission)!=null){
+        if (permissionsList != null && permissionsList.size() > 0) {
+            for (String permission : permissionsList) {
+                if (PERMISSIONS_HITS.get(permission) != null) {
                     permissions = permissions + PluginInit.ACTIVITY.getString(PERMISSIONS_HITS.get(permission));
-                }else{
+                } else {
                 }
             }
         }
@@ -235,9 +239,9 @@ public class PermissionUtils {
     /**
      * 一次申请多个权限
      */
-    public static int requestMultiPermissions(PermissionGrant grant) {
-        final List<String> permissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, false);
-        final List<String> shouldRationalePermissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, true);
+    public static int requestMultiPermissions(PermissionGrant grant,String[] requestPermissions) {
+        final List<String> permissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, false, requestPermissions);
+        final List<String> shouldRationalePermissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, true, requestPermissions);
 
         //TODO checkSelfPermission
         if (permissionsList == null || shouldRationalePermissionsList == null) {
@@ -275,7 +279,7 @@ public class PermissionUtils {
     private static void shouldShowRationale(final int requestCode, final String requestPermission) {
         //TODO
         String[] permissionsHint = PluginInit.ACTIVITY.getResources().getStringArray(R.array.permissions);
-        showMessageOKCancel( "Rationale: " + permissionsHint[requestCode], new DialogInterface.OnClickListener() {
+        showMessageOKCancel("Rationale: " + permissionsHint[requestCode], new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActivityCompat.requestPermissions(PluginInit.ACTIVITY,
@@ -324,7 +328,7 @@ public class PermissionUtils {
 
         } else {
             String[] permissionsHint = activity.getResources().getStringArray(R.array.permissions);
-            openSettingActivity(activity,  "Result" + permissionsHint[requestCode]);
+            openSettingActivity(activity, "Result" + permissionsHint[requestCode]);
         }
 
     }
@@ -348,7 +352,7 @@ public class PermissionUtils {
      * @param isShouldRationale true: return no granted and shouldShowRequestPermissionRationale permissions, false:return no granted and !shouldShowRequestPermissionRationale
      * @return
      */
-    public static ArrayList<String> getNoGrantedPermission(Activity activity, boolean isShouldRationale) {
+    public static ArrayList<String> getNoGrantedPermission(Activity activity, boolean isShouldRationale, String[] requestPermissions) {
 
         ArrayList<String> permissions = new ArrayList<>();
 

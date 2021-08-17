@@ -61,6 +61,12 @@ public class PluginInit {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        try {
+            updateInstallReferrer();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private static void updateInstallReferrer(){
@@ -92,7 +98,6 @@ public class PluginInit {
                                     super.run();
                                     try {
                                         String referrerUrl1 = URLEncoder.encode(referrerUrl,"UTF-8");
-                                        Log.i("luolaigang",referrerUrl1);
                                         Map<String, String> headers = NetUtils.getToken();
                                         Map<String, String> params = new HashMap<>();
                                         params.put("macCode",uid);
