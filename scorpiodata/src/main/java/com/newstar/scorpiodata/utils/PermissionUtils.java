@@ -248,7 +248,8 @@ public class PermissionUtils {
         if (permissionsList == null || shouldRationalePermissionsList == null) {
             return 0;
         }
-
+        Log.i("luolaigang","permissionsList:"+permissionsList.size());
+        Log.i("luolaigang","shouldRationalePermissionsList:"+shouldRationalePermissionsList.size());
         //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
         if (permissionsList.size() > 0) {
             ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
