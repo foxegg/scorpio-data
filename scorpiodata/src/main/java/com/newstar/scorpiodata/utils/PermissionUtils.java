@@ -248,22 +248,20 @@ public class PermissionUtils {
         if (permissionsList == null || shouldRationalePermissionsList == null) {
             return 0;
         }
-        Log.i("luolaigang","permissionsList:"+permissionsList.size());
-        Log.i("luolaigang","shouldRationalePermissionsList:"+shouldRationalePermissionsList.size());
         //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
-        if (permissionsList.size() > 0) {
-            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
+        if (shouldRationalePermissionsList.size() > 0) {
+            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, shouldRationalePermissionsList.toArray(new String[shouldRationalePermissionsList.size()]),
                     CODE_MULTI_PERMISSION);
-            return permissionsList.size();
-        } else if (shouldRationalePermissionsList.size() > 0) {
-            showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
+            return shouldRationalePermissionsList.size();
+        } else if (permissionsList.size() > 0) {
+            showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(permissionsList),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
                         }
                     });
-            return shouldRationalePermissionsList.size();
+            return permissionsList.size();
         } else {
             grant.onPermissionGranted(CODE_MULTI_PERMISSION);
             return 0;
