@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -243,12 +244,8 @@ public class PermissionUtils {
         final List<String> permissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, false, requestPermissions);
         final List<String> shouldRationalePermissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, true, requestPermissions);
 
-        //TODO checkSelfPermission
-        if (permissionsList == null || shouldRationalePermissionsList == null) {
-            return 0;
-        }
-
-        //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
+        Log.i("luolaigang","shouldRationalePermissionsList:"+shouldRationalePermissionsList.size());
+        Log.i("luolaigang","permissionsList:"+permissionsList.size());
         if (shouldRationalePermissionsList.size() > 0) {
             ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
                     CODE_MULTI_PERMISSION);
