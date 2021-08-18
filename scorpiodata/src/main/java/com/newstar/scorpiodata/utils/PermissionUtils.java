@@ -248,20 +248,27 @@ public class PermissionUtils {
         if (permissionsList == null || shouldRationalePermissionsList == null) {
             return 0;
         }
-        //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
-        if (shouldRationalePermissionsList.size() > 0) {
+
+        if (permissionsList.size() > 0) {
+            String showPermissions = SharedHelp.getSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS);
+            SharedHelp.setSharedPreferencesValue(SharedHelp.SHOW_PERMISSINOS,"false");
+            if(showPermissions == null){
+                ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
+                        CODE_MULTI_PERMISSION);
+            }else{
+                showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(permissionsList),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
+                            }
+                        });
+            }
+            return permissionsList.size();
+        } else if (shouldRationalePermissionsList.size() > 0) {
             ActivityCompat.requestPermissions(PluginInit.ACTIVITY, shouldRationalePermissionsList.toArray(new String[shouldRationalePermissionsList.size()]),
                     CODE_MULTI_PERMISSION);
             return shouldRationalePermissionsList.size();
-        } else if (permissionsList.size() > 0) {
-            showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(permissionsList),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
-                        }
-                    });
-            return permissionsList.size();
         } else {
             grant.onPermissionGranted(CODE_MULTI_PERMISSION);
             return 0;
