@@ -249,7 +249,11 @@ public class PermissionUtils {
         }
 
         //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
-        if (permissionsList.size() > 0) {
+        if (shouldRationalePermissionsList.size() > 0) {
+            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
+                    CODE_MULTI_PERMISSION);
+            return shouldRationalePermissionsList.size();
+        } else if (permissionsList.size() > 0) {
             showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -259,10 +263,6 @@ public class PermissionUtils {
                     });
 
             return permissionsList.size();
-        } else if (shouldRationalePermissionsList.size() > 0) {
-            ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
-                    CODE_MULTI_PERMISSION);
-            return shouldRationalePermissionsList.size();
         } else {
             grant.onPermissionGranted(CODE_MULTI_PERMISSION);
             return 0;
