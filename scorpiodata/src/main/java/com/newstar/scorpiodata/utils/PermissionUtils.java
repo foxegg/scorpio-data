@@ -244,13 +244,17 @@ public class PermissionUtils {
         final List<String> permissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, false, requestPermissions);
         final List<String> shouldRationalePermissionsList = getNoGrantedPermission(PluginInit.ACTIVITY, true, requestPermissions);
 
-        Log.i("luolaigang","shouldRationalePermissionsList:"+shouldRationalePermissionsList.size());
-        Log.i("luolaigang","permissionsList:"+permissionsList.size());
-        if (shouldRationalePermissionsList.size() > 0) {
+        //TODO checkSelfPermission
+        if (permissionsList == null || shouldRationalePermissionsList == null) {
+            return 0;
+        }
+
+        //PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
+        if (permissionsList.size() > 0) {
             ActivityCompat.requestPermissions(PluginInit.ACTIVITY, permissionsList.toArray(new String[permissionsList.size()]),
                     CODE_MULTI_PERMISSION);
-            return shouldRationalePermissionsList.size();
-        } else if (permissionsList.size() > 0) {
+            return permissionsList.size();
+        } else if (shouldRationalePermissionsList.size() > 0) {
             showMessageOKCancel(PluginInit.ACTIVITY.getString(R.string.shoud_open_permissions) + getPermissionsString(shouldRationalePermissionsList),
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -258,8 +262,7 @@ public class PermissionUtils {
                             PluginInit.ACTIVITY.startActivity(getAppDetailSettingIntent());
                         }
                     });
-
-            return permissionsList.size();
+            return shouldRationalePermissionsList.size();
         } else {
             grant.onPermissionGranted(CODE_MULTI_PERMISSION);
             return 0;
