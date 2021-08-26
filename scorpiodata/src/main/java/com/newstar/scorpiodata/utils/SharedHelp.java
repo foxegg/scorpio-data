@@ -74,7 +74,7 @@ public class SharedHelp {
      * 获取系统uid
      * @return
      */
-    public static String getUid(){
+    public static synchronized String getUid(){
         String uid = null;
         try {
             uid = readUid();
