@@ -15,6 +15,7 @@ public class OtherRiskInfo {
         public String availableSize;
         public String totalSize;
         public String bootTime;
+        public String isRobot;
 
         @Override
         public String toString() {

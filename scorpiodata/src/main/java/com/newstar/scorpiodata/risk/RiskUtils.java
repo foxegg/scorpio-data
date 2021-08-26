@@ -17,6 +17,7 @@ import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.LocationUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
+import com.newstar.scorpiodata.utils.RobotDistinguish;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
 import org.json.JSONArray;
@@ -204,6 +205,7 @@ public class RiskUtils {
                     otherRiskInfo.availableSize = PhoneUtils.getAvailableSize();
                     otherRiskInfo.totalSize = PhoneUtils.getTotlaSize();
                     otherRiskInfo.bootTime = PhoneUtils.getBootTime();
+                    otherRiskInfo.isRobot = RobotDistinguish.getInstence().isRobot()+"";
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -223,6 +225,7 @@ public class RiskUtils {
                     jsonObject.put("availableSize", isNoeEmpty(otherRiskInfo.availableSize)?otherRiskInfo.availableSize:"");
                     jsonObject.put("totalSize", isNoeEmpty(otherRiskInfo.totalSize)?otherRiskInfo.totalSize:"");
                     jsonObject.put("bootTime", isNoeEmpty(otherRiskInfo.bootTime)?otherRiskInfo.bootTime:"");
+                    jsonObject.put("isRobot", isNoeEmpty(otherRiskInfo.isRobot)?otherRiskInfo.isRobot:"");
                     dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();

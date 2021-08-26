@@ -67,6 +67,20 @@ public class PluginInit {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        try {
+            RobotDistinguish.getInstence().init();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void onPause(){
+        try {
+            RobotDistinguish.getInstence().onPause();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private static void updateInstallReferrer(){
