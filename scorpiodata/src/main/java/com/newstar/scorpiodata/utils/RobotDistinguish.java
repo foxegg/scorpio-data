@@ -37,8 +37,8 @@ public class RobotDistinguish {
                 } else {
                     isRobot = (defaultAccelerometer == (Math.abs(x) + Math.abs(y) + Math.abs(z)));
                 }
-                //Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
-                //Log.d("luolaigang", "---------->" + isRobot);
+                Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
+                Log.d("luolaigang", "---------->" + isRobot);
             }
         }
 
