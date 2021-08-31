@@ -10,12 +10,18 @@ import android.util.Log;
 public class RobotDistinguish {
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
+    private Sensor lightSensor;
     // 将纳秒转化为秒
     private static final float NS2S = 1.0f / 1000000000.0f;
     private float timestamp;
     private float angle[] = new float[3];
 
     private float defaultAccelerometer = 0;
+    private float defaultLight = 0;
+
+    private boolean accelerometerChanged = false;
+    private boolean lightChanged = false;
+
     private boolean isRobot = true;
 
     public boolean isRobot() {
@@ -35,11 +41,19 @@ public class RobotDistinguish {
                 if (defaultAccelerometer == 0) {
                     defaultAccelerometer = Math.abs(x) + Math.abs(y) + Math.abs(z);
                 } else {
-                    isRobot = (defaultAccelerometer == (Math.abs(x) + Math.abs(y) + Math.abs(z)));
+                    accelerometerChanged = (defaultAccelerometer == (Math.abs(x) + Math.abs(y) + Math.abs(z)));
                 }
-                Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
-                Log.d("luolaigang", "---------->" + isRobot);
+                //Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
+                //Log.d("luolaigang", "---------->" + isRobot);
+            }else if(event.sensor.getType() == Sensor.TYPE_LIGHT){
+                float light = event.values[0];
+                if (defaultLight == 0) {
+                    defaultLight = Math.abs(light);
+                } else {
+                    lightChanged = (defaultLight == Math.abs(light));
+                }
             }
+            isRobot = lightChanged || accelerometerChanged;
         }
 
         @Override
@@ -58,9 +72,16 @@ public class RobotDistinguish {
     public void init(){
         sensorManager = (SensorManager) PluginInit.ACTIVITY.getSystemService(Context.SENSOR_SERVICE);
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+        if(accelerometerSensor!=null){
+            sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
 
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        if(lightSensor!=null){
+            sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_GAME);
+        }
         defaultAccelerometer = 0;
+        defaultLight = 0;
     }
 
     public void onPause(){
