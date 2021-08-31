@@ -19,8 +19,8 @@ public class RobotDistinguish {
     private float defaultAccelerometer = 0;
     private float defaultLight = 0;
 
-    private boolean accelerometerChanged = false;
-    private boolean lightChanged = false;
+    private boolean accelerometerNotChanged = true;
+    private boolean lightNotChanged = true;
 
     private boolean isRobot = true;
 
@@ -41,7 +41,7 @@ public class RobotDistinguish {
                 if (defaultAccelerometer == 0) {
                     defaultAccelerometer = Math.abs(x) + Math.abs(y) + Math.abs(z);
                 } else {
-                    accelerometerChanged = (defaultAccelerometer == (Math.abs(x) + Math.abs(y) + Math.abs(z)));
+                    accelerometerNotChanged = (defaultAccelerometer == (Math.abs(x) + Math.abs(y) + Math.abs(z)));
                 }
                 //Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
                 //Log.d("luolaigang", "---------->" + isRobot);
@@ -50,10 +50,10 @@ public class RobotDistinguish {
                 if (defaultLight == 0) {
                     defaultLight = Math.abs(light);
                 } else {
-                    lightChanged = (defaultLight == Math.abs(light));
+                    lightNotChanged = (defaultLight == Math.abs(light));
                 }
             }
-            isRobot = lightChanged || accelerometerChanged;
+            isRobot = lightNotChanged || accelerometerNotChanged;
         }
 
         @Override
