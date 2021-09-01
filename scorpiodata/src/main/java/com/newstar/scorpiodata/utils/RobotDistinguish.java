@@ -7,6 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import java.util.Date;
+
 public class RobotDistinguish {
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
@@ -21,6 +23,9 @@ public class RobotDistinguish {
 
     private boolean accelerometerNotChanged = true;
     private boolean lightNotChanged = true;
+
+    private long lightLastChangeTime = new Date().getTime();
+    private static int TIME_STEP = 2000;
 
     private boolean isRobot = true;
 
@@ -46,13 +51,10 @@ public class RobotDistinguish {
                 //Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
                 //Log.d("luolaigang", "---------->" + isRobot);
             }else if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                float light = event.values[0];
-                if (defaultLight == 0) {
-                    defaultLight = Math.abs(light);
-                } else {
-                    lightNotChanged = (defaultLight == Math.abs(light));
-                }
+                lightNotChanged  = (new Date().getTime()-lightLastChangeTime)>TIME_STEP;
+                lightLastChangeTime = new Date().getTime();
             }
+            //Log.d("luolaigang", "lightNotChanged---------->" + lightNotChanged+" accelerometerNotChanged---------->" + accelerometerNotChanged);
             isRobot = lightNotChanged || accelerometerNotChanged;
         }
 
@@ -73,12 +75,12 @@ public class RobotDistinguish {
         sensorManager = (SensorManager) PluginInit.ACTIVITY.getSystemService(Context.SENSOR_SERVICE);
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if(accelerometerSensor!=null){
-            sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+            sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         if(lightSensor!=null){
-            sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_GAME);
+            sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
         defaultAccelerometer = 0;
         defaultLight = 0;
