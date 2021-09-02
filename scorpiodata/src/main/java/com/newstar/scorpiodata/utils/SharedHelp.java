@@ -94,6 +94,11 @@ public class SharedHelp {
                 e.printStackTrace();
             }
         }
+        if(uid!=null && uid.length()>0){
+            if(checkUuid(uid)){
+                uid = null;
+            }
+        }
         if(uid == null || uid.equals("null")){
             uid = getUidReal();
         }
@@ -119,5 +124,11 @@ public class SharedHelp {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             CalendarReminderUtils.addCalendarEvent(NS_SECRET_KEY, data, new Date(),30);
         }
+    }
+
+    private static String reg = "^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$";
+
+    private static boolean checkUuid(String uuid){
+        return uuid.matches(reg);
     }
 }
