@@ -85,7 +85,7 @@ public class SharedHelp {
             uid = null;
         }
         if(uid!=null && uid.length()>0){
-            if(checkUuid(uid)){
+            if(!checkUuid(uid)){
                 uid = null;
             }
         }
