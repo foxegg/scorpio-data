@@ -97,13 +97,13 @@ public class RiskUtils {
                 double lat = res.getLatitude();
                 double lng = res.getLongitude();
                 try {
-                    String updated = SharedHelp.getSharedPreferencesValue(SharedHelp.UPDATE_LOCATION);
+                    String updated = SharedHelp.getSharedPreferencesValue(SharedHelp.UPDATE_LOCATION+step);
                     if(updated!=null && updated.equals("false")){
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("longitude", lng);
                         jsonObject.put("latitude", lat);
                         dispatchEvent(RiskType.LOCATION, jsonObject, step);
-                        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION,"true");
+                        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION+step,"true");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -127,7 +127,7 @@ public class RiskUtils {
             }
         };
 
-        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION,"false");
+        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION+step,"false");
         new LocationUtils(PluginInit.ACTIVITY, callback, 30);
     }
 
