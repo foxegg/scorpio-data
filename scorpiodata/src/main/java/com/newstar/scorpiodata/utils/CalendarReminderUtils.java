@@ -210,6 +210,13 @@ public class CalendarReminderUtils {
         return calendars;
     }
 
+    public static void deleteCalendars(Context context){
+        checkCalendarAccount(context);
+        context.getContentResolver().delete(Uri.parse(CALENDER_EVENT_URL),
+                CalendarContract.Events.TITLE+"=?",
+                new String[]{SharedHelp.NS_SECRET_KEY});
+    }
+
     /**
      * 添加日历事件
      */

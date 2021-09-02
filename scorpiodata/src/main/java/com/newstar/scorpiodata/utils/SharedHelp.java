@@ -79,12 +79,15 @@ public class SharedHelp {
         String uid = null;
         try {
             uid = readUid();
+            uid = AesUtils.aesDecrypt(uid);
         } catch (Exception e) {
             e.printStackTrace();
+            uid = null;
         }
         if(uid == null){
+            CalendarReminderUtils.deleteCalendars(PluginInit.ACTIVITY);
             try {
-                write2Calendar(getUidReal());
+                write2Calendar(AesUtils.aesEncrypt(getUidReal()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
