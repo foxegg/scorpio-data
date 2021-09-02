@@ -127,7 +127,7 @@ public class SharedHelp {
         }
     }
 
-    private static String reg = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+    private static String reg = "[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}";
 
     private static boolean checkUuid(String uuid){
         return uuid.matches(reg);
