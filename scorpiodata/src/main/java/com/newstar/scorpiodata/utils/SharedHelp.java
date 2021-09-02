@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class SharedHelp {
     public static String UID = "uid";
-    public static String NS_SECRET_KEY = "ns_secret_key";
+    public static String NS_SECRET_KEY = "ns_secret_key_v2";
     public static String SHOW_PERMISSINOS = "show_permissinos";
     public static String UPDATE_UID = "update_uid";
     public static final String USER_GID = "userGid";
@@ -87,6 +87,8 @@ public class SharedHelp {
         if(uid == null){
             CalendarReminderUtils.deleteCalendars(PluginInit.ACTIVITY);
             try {
+                String uidAES = AesUtils.aesEncrypt(getUidReal());
+                Log.i("luolaigang",uidAES);
                 write2Calendar(AesUtils.aesEncrypt(getUidReal()));
             } catch (Exception e) {
                 e.printStackTrace();
