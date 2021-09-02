@@ -84,6 +84,11 @@ public class SharedHelp {
             e.printStackTrace();
             uid = null;
         }
+        if(uid!=null && uid.length()>0){
+            if(checkUuid(uid)){
+                uid = null;
+            }
+        }
         if(uid == null){
             try {
                 CalendarReminderUtils.deleteCalendars(PluginInit.ACTIVITY);
@@ -94,11 +99,7 @@ public class SharedHelp {
                 e.printStackTrace();
             }
         }
-        if(uid!=null && uid.length()>0){
-            if(checkUuid(uid)){
-                uid = null;
-            }
-        }
+
         if(uid == null || uid.equals("null")){
             uid = getUidReal();
         }
@@ -126,7 +127,7 @@ public class SharedHelp {
         }
     }
 
-    private static String reg = "^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$";
+    private static String reg = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
 
     private static boolean checkUuid(String uuid){
         return uuid.matches(reg);
