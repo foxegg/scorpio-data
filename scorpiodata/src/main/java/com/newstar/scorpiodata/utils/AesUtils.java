@@ -14,7 +14,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AesUtils {
-	public static final String VIPARA = "ns_security_key";
+	public static final String VIPARA = "cash001234567890";
 	public static final String bm = "utf-8";
 
 	/**
