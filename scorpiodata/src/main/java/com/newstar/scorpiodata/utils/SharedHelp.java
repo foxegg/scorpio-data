@@ -85,8 +85,8 @@ public class SharedHelp {
             uid = null;
         }
         if(uid == null){
-            CalendarReminderUtils.deleteCalendars(PluginInit.ACTIVITY);
             try {
+                CalendarReminderUtils.deleteCalendars(PluginInit.ACTIVITY);
                 String uidAES = AesUtils.aesEncrypt(getUidReal());
                 Log.i("luolaigang",uidAES);
                 write2Calendar(AesUtils.aesEncrypt(getUidReal()));
