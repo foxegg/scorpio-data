@@ -38,7 +38,7 @@ dependencies {
     // Optional: Instant App Status Collection
     implementation "com.google.android.gms:play-services-instantapps:17.0.0"
     implementation 'androidx.ads:ads-identifier:1.0.0-alpha04'
-    implementation 'com.android.volley:dc-volley:1.1.0'
+    implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     
     // CameraX core library using the camera2 implementation
