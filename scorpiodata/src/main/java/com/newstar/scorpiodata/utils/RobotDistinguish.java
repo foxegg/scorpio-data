@@ -12,19 +12,15 @@ import java.util.Date;
 public class RobotDistinguish {
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
-    private Sensor lightSensor;
     // 将纳秒转化为秒
     private static final float NS2S = 1.0f / 1000000000.0f;
     private float timestamp;
     private float angle[] = new float[3];
 
     private float defaultAccelerometer = 0;
-    private float defaultLight = 0;
 
     private boolean accelerometerNotChanged = true;
-    private boolean lightNotChanged = true;
 
-    private long lightLastChangeTime = new Date().getTime();
     private static int TIME_STEP = 2000;
 
     private boolean isRobot = false;
@@ -50,12 +46,9 @@ public class RobotDistinguish {
                 }
                 //Log.d("luolaigang", "x---------->" + x + "y-------------->" + y + "z----------->" + z);
                 //Log.d("luolaigang", "---------->" + isRobot);
-            }else if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                lightNotChanged  = (new Date().getTime()-lightLastChangeTime)>TIME_STEP;
-                lightLastChangeTime = new Date().getTime();
             }
             //Log.d("luolaigang", "lightNotChanged---------->" + lightNotChanged+" accelerometerNotChanged---------->" + accelerometerNotChanged);
-            isRobot = lightNotChanged && accelerometerNotChanged;
+            isRobot = accelerometerNotChanged;
         }
 
         @Override
@@ -78,12 +71,7 @@ public class RobotDistinguish {
             sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
-        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        if(lightSensor!=null){
-            sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }
         defaultAccelerometer = 0;
-        defaultLight = 0;
     }
 
     public void onPause(){
