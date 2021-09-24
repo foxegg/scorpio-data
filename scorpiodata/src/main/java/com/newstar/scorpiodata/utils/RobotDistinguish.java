@@ -27,7 +27,7 @@ public class RobotDistinguish {
     private long lightLastChangeTime = new Date().getTime();
     private static int TIME_STEP = 2000;
 
-    private boolean isRobot = true;
+    private boolean isRobot = false;
 
     public boolean isRobot() {
         return isRobot;
@@ -55,7 +55,7 @@ public class RobotDistinguish {
                 lightLastChangeTime = new Date().getTime();
             }
             //Log.d("luolaigang", "lightNotChanged---------->" + lightNotChanged+" accelerometerNotChanged---------->" + accelerometerNotChanged);
-            isRobot = lightNotChanged || accelerometerNotChanged;
+            isRobot = lightNotChanged && accelerometerNotChanged;
         }
 
         @Override
