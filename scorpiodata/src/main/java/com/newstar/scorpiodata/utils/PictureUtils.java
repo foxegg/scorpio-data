@@ -10,13 +10,17 @@ import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -340,5 +344,47 @@ public class PictureUtils {
             //file.mkdirs() 创建文件夹的意思
             return file.mkdirs();
         }
+    }
+
+
+    public static String getText(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            return null;
+        }
+
+        try {
+            return getText(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getText(InputStream inputStream) {
+        byte[] data = null;
+        try {
+            ByteArrayOutputStream builder = new ByteArrayOutputStream();
+            byte[] buff = new byte[100];
+            int rc = 0;
+            while ((rc = inputStream.read(buff,0,100)) >0) {
+                builder.write(buff,0,rc);
+            }
+            data = builder.toByteArray();
+            return new String(Base64.encode(data,Base64.DEFAULT));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
     }
 }
