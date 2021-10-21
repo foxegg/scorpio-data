@@ -11,21 +11,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
-import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
@@ -35,10 +30,10 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.newstar.scorpiodata.R;
+import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.PictureUtils;
 
 import java.io.File;
@@ -62,7 +57,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     ImageView captureImage;
     ImageView back;
     ImageView swap_camera;
-    private FrameLayout preview;
+    private FrameLayout preview_frame;
     private ImageView preview_image;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -98,7 +93,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         back = findViewById(R.id.back);
         swap_camera.setOnClickListener(this);
         back.setOnClickListener(this);
-        preview = findViewById(R.id.preview_view);
+        preview_frame = findViewById(R.id.preview_view);
         preview_image = findViewById(R.id.preview_image);
         preview_image.setOnTouchListener((v, event) -> true);
         ImageView cancel = findViewById(R.id.cancel);
@@ -137,11 +132,26 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }, ContextCompat.getMainExecutor(this));
     }
 
+    private String path;
+    private Callback<File, Exception> callback = new Callback<File, Exception>() {
+        @Override
+        public void resolve(File res) {
+            try {
+                preview_frame.setVisibility(View.VISIBLE);
+                preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void reject(Exception err) {
+            err.printStackTrace();
+        }
+    };
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
-
-        Preview preview1 = new Preview.Builder().build();
-
+        Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(cameraSelectorIndex)
                 .build();
@@ -158,7 +168,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
 
-        preview1.setSurfaceProvider(mPreviewView.getSurfaceProvider());
+        preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
         captureImage.setOnClickListener(v -> {
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
@@ -172,31 +182,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
+                            //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
                             path = file.getAbsolutePath();
                             Log.i("luolaigang","Image Saved successfully path:"+path);
-                            com.newstar.scorpiodata.utils.Callback<File, Exception> callback = new com.newstar.scorpiodata.utils.Callback<File, Exception>() {
-                                @Override
-                                public void resolve(File res) {
-                                    try {
-                                        preview.setVisibility(View.VISIBLE);
-                                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void reject(Exception err) {
-                                    err.printStackTrace();
-                                }
-                            };
-
                             try {
                                 PictureUtils.compressBitmap(CameraActivity.this, path, 1024, callback);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                         }
                     });
                 }
@@ -259,7 +252,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             //关闭Activity
             finish();
         } else if (id == R.id.cancel) {
-            preview.setVisibility(View.GONE);
+            preview_frame.setVisibility(View.GONE);
         }
 
     }
@@ -274,6 +267,4 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
         startCamera();
     }
-
-    String path;
 }
