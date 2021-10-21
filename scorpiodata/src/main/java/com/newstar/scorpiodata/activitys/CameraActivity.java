@@ -171,28 +171,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
                             path = file.getAbsolutePath();
                             Log.i("luolaigang","tack Handler run onImageSaved path："+path);
-                            Callback<File, Exception> callback = new Callback<File, Exception>() {
-                                @Override
-                                public void resolve(File res) {
-                                    try {
-                                        preview_frame.setVisibility(View.VISIBLE);
-                                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void reject(Exception err) {
-                                    err.printStackTrace();
-                                }
-                            };
-
-                            try {
-                                PictureUtils.compressBitmap(CameraActivity.this, path, 1024, callback);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Log.i("luolaigang","tack Handler run onImageSaved file.length()："+file.length()/1024);
+                            preview_frame.setVisibility(View.VISIBLE);
+                            preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
                         }
                     });
                 }
