@@ -164,14 +164,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
                 @Override
                 public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                    Log.i("luolaigang","tack onImageSaved");
+                    //Log.i("luolaigang","tack onImageSaved");
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
                             path = file.getAbsolutePath();
-                            Log.i("luolaigang","tack Handler run onImageSaved path："+path);
-                            Log.i("luolaigang","tack Handler run onImageSaved file.length()："+file.length()/1024);
+                            //Log.i("luolaigang","tack Handler run onImageSaved path："+path);
+                            //Log.i("luolaigang","tack Handler run onImageSaved file.length()："+file.length()/1024);
                             preview_frame.setVisibility(View.VISIBLE);
                             preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
                         }
