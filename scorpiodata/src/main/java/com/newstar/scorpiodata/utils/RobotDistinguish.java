@@ -13,13 +13,6 @@ public class RobotDistinguish {
     private SensorManager sensorManager;
     private Sensor lightSensor;
 
-    private float firstLight = -100;
-
-    private boolean lightNotChanged = true;
-
-    private long lightLastChangeTime = new Date().getTime();
-    private static int TIME_STEP = 2000;
-
     private boolean isRobot = true;
 
     public boolean isRobot() {
@@ -31,11 +24,7 @@ public class RobotDistinguish {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                if(firstLight<0){
-                    firstLight = event.values[0];
-                }else{
-                    isRobot = firstLight==event.values[0];
-                }
+                isRobot = event.values[0]==0;
             }
         }
 
@@ -56,7 +45,7 @@ public class RobotDistinguish {
         sensorManager = (SensorManager) PluginInit.ACTIVITY.getSystemService(Context.SENSOR_SERVICE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         if(lightSensor!=null){
-            sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
