@@ -172,27 +172,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                             path = file.getAbsolutePath();
                             Log.i("luolaigang","tack Handler run onImageSaved path："+path);
                             Log.i("luolaigang","tack Handler run onImageSaved file.length()："+file.length()/1024);
-                            Callback<File, Exception> callback = new Callback<File, Exception>() {
-                                @Override
-                                public void resolve(File res) {
-                                    try {
-
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void reject(Exception err) {
-                                    err.printStackTrace();
-                                }
-                            };
-
-                            try {
-                                PictureUtils.compressBitmap(CameraActivity.this, path, 512, callback);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            preview_frame.setVisibility(View.VISIBLE);
+                            preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
                         }
                     });
                 }
