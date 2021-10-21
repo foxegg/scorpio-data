@@ -19,8 +19,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }
@@ -40,18 +40,18 @@ dependencies {
     implementation 'androidx.ads:ads-identifier:1.0.0-alpha04'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.6'
-    
+
     // CameraX core library using the camera2 implementation
-    def camerax_version = "1.1.0-alpha08"
+    def camerax_version = "1.0.2"
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
     // If you want to additionally use the CameraX Lifecycle library
     implementation "androidx.camera:camera-lifecycle:${camerax_version}"
     // If you want to additionally use the CameraX View class
-    implementation "androidx.camera:camera-view:1.0.0-alpha28"
+    implementation "androidx.camera:camera-view:1.0.0-alpha29"
     // If you want to additionally use the CameraX Extensions library
-    implementation "androidx.camera:camera-extensions:1.0.0-alpha28"
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha29"
 
     implementation 'com.google.android.material:material:1.2.1'
     implementation "com.android.installreferrer:installreferrer:2.1"
