@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -154,8 +155,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
         cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
+        Log.i("luolaigang","tack takePicture");
         captureImage.setOnClickListener(v -> {
-
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
             File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
 
@@ -163,11 +164,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
                 @Override
                 public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                    Log.i("luolaigang","tack onImageSaved");
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
                             path = file.getAbsolutePath();
+                            Log.i("luolaigang","tack Handler run onImageSaved path："+path);
                             Callback<File, Exception> callback = new Callback<File, Exception>() {
                                 @Override
                                 public void resolve(File res) {
