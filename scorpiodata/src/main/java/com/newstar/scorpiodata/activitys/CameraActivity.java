@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
@@ -63,6 +64,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     ImageView swap_camera;
     private FrameLayout preview;
     private ImageView preview_image;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +85,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.camera_main);
 
         String cameraType = getIntent().getStringExtra(CAMERA_TYPE);
-        if(cameraType!=null){
-            if(cameraType.endsWith(CAMERA_FRONT)){
+        if (cameraType != null) {
+            if (cameraType.endsWith(CAMERA_FRONT)) {
                 cameraSelectorIndex = CameraSelector.LENS_FACING_FRONT;
-            }else if(cameraType.endsWith(CAMERA_BACK)){
+            } else if (cameraType.endsWith(CAMERA_BACK)) {
                 cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
             }
         }
@@ -103,13 +105,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ImageView ok = findViewById(R.id.ok);
         cancel.setOnClickListener(this);
         ok.setOnClickListener(this);
-        if(allPermissionsGranted()){
+        if (allPermissionsGranted()) {
             startCamera(); //start camera if permission has been granted by user
-        } else{
+        } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
     }
+
     ProcessCameraProvider cameraProvider;
+
     private void startCamera() {
 
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -119,9 +123,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void run() {
                 try {
-                    if(cameraProvider!=null){
+                    if (cameraProvider != null) {
                         cameraProvider.unbindAll();
-                    }else{
+                    } else {
                         cameraProvider = cameraProviderFuture.get();
                     }
                     bindPreview(cameraProvider);
@@ -136,8 +140,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
 
-        Preview preview = new Preview.Builder()
-                .build();
+        Preview preview1 = new Preview.Builder().build();
 
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(cameraSelectorIndex)
@@ -155,27 +158,49 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
                 .build();
 
-        preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
+        preview1.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
         captureImage.setOnClickListener(v -> {
-
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
+            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date()) + ".jpg");
 
             ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
-            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
+            Log.i("luolaigang","takePicture");
+            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback() {
                 @Override
                 public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
                             path = file.getAbsolutePath();
-                            handler.sendEmptyMessage(0);
+                            Log.i("luolaigang","Image Saved successfully path:"+path);
+                            com.newstar.scorpiodata.utils.Callback<File, Exception> callback = new com.newstar.scorpiodata.utils.Callback<File, Exception>() {
+                                @Override
+                                public void resolve(File res) {
+                                    try {
+                                        preview.setVisibility(View.VISIBLE);
+                                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void reject(Exception err) {
+                                    err.printStackTrace();
+                                }
+                            };
+
+                            try {
+                                PictureUtils.compressBitmap(CameraActivity.this, path, 1024, callback);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
                         }
                     });
                 }
+
                 @Override
                 public void onError(@NonNull ImageCaptureException error) {
                     error.printStackTrace();
@@ -196,15 +221,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return app_folder_path;
     }
 
-    private boolean allPermissionsGranted(){
+    private boolean allPermissionsGranted() {
 
-        for(String permission : REQUIRED_PERMISSIONS){
-            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -239,43 +265,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     int cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
+
     private void toggleFrontBackCamera() {
         if (cameraSelectorIndex == CameraSelector.LENS_FACING_FRONT) {
             cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
-        }else if (cameraSelectorIndex == CameraSelector.LENS_FACING_BACK) {
+        } else if (cameraSelectorIndex == CameraSelector.LENS_FACING_BACK) {
             cameraSelectorIndex = CameraSelector.LENS_FACING_FRONT;
         }
         startCamera();
     }
 
     String path;
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            com.newstar.scorpiodata.utils.Callback<File, Exception> callback = new com.newstar.scorpiodata.utils.Callback<File, Exception>() {
-                @Override
-                public void resolve(File res) {
-                    try {
-                        preview.setVisibility(View.VISIBLE);
-                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void reject(Exception err) {
-                    err.printStackTrace();
-                }
-            };
-
-            try {
-                PictureUtils.compressBitmap(CameraActivity.this, path, 1024, callback);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    };
 }
