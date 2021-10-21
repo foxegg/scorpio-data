@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,6 +29,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.newstar.scorpiodata.R;
@@ -59,7 +59,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     ImageView swap_camera;
     private FrameLayout preview_frame;
     private ImageView preview_image;
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +79,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.camera_main);
 
         String cameraType = getIntent().getStringExtra(CAMERA_TYPE);
-        if (cameraType != null) {
-            if (cameraType.endsWith(CAMERA_FRONT)) {
+        if(cameraType!=null){
+            if(cameraType.endsWith(CAMERA_FRONT)){
                 cameraSelectorIndex = CameraSelector.LENS_FACING_FRONT;
-            } else if (cameraType.endsWith(CAMERA_BACK)) {
+            }else if(cameraType.endsWith(CAMERA_BACK)){
                 cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
             }
         }
@@ -100,15 +99,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ImageView ok = findViewById(R.id.ok);
         cancel.setOnClickListener(this);
         ok.setOnClickListener(this);
-        if (allPermissionsGranted()) {
+        if(allPermissionsGranted()){
             startCamera(); //start camera if permission has been granted by user
-        } else {
+        } else{
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
     }
-
     ProcessCameraProvider cameraProvider;
-
     private void startCamera() {
 
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -118,9 +115,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void run() {
                 try {
-                    if (cameraProvider != null) {
+                    if(cameraProvider!=null){
                         cameraProvider.unbindAll();
-                    } else {
+                    }else{
                         cameraProvider = cameraProviderFuture.get();
                     }
                     bindPreview(cameraProvider);
@@ -132,26 +129,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private String path;
-    private Callback<File, Exception> callback = new Callback<File, Exception>() {
-        @Override
-        public void resolve(File res) {
-            try {
-                preview_frame.setVisibility(View.VISIBLE);
-                preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void reject(Exception err) {
-            err.printStackTrace();
-        }
-    };
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
-        Preview preview = new Preview.Builder().build();
+
+        Preview preview = new Preview.Builder()
+                .build();
+
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(cameraSelectorIndex)
                 .build();
@@ -170,13 +153,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
+        cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
         captureImage.setOnClickListener(v -> {
+
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date()) + ".jpg");
+            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
 
             ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
-            Log.i("luolaigang","takePicture");
-            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback() {
+            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
                 @Override
                 public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -184,7 +168,23 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         public void run() {
                             //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
                             path = file.getAbsolutePath();
-                            Log.i("luolaigang","Image Saved successfully path:"+path);
+                            Callback<File, Exception> callback = new Callback<File, Exception>() {
+                                @Override
+                                public void resolve(File res) {
+                                    try {
+                                        preview_frame.setVisibility(View.VISIBLE);
+                                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
+                                    }catch(Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void reject(Exception err) {
+                                    err.printStackTrace();
+                                }
+                            };
+
                             try {
                                 PictureUtils.compressBitmap(CameraActivity.this, path, 1024, callback);
                             } catch (Exception e) {
@@ -193,7 +193,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     });
                 }
-
                 @Override
                 public void onError(@NonNull ImageCaptureException error) {
                     error.printStackTrace();
@@ -214,16 +213,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return app_folder_path;
     }
 
-    private boolean allPermissionsGranted() {
+    private boolean allPermissionsGranted(){
 
-        for (String permission : REQUIRED_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+        for(String permission : REQUIRED_PERMISSIONS){
+            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
                 return false;
             }
         }
         return true;
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -258,13 +256,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     int cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
-
     private void toggleFrontBackCamera() {
         if (cameraSelectorIndex == CameraSelector.LENS_FACING_FRONT) {
             cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
-        } else if (cameraSelectorIndex == CameraSelector.LENS_FACING_BACK) {
+        }else if (cameraSelectorIndex == CameraSelector.LENS_FACING_BACK) {
             cameraSelectorIndex = CameraSelector.LENS_FACING_FRONT;
         }
         startCamera();
     }
+
+    String path;
 }
