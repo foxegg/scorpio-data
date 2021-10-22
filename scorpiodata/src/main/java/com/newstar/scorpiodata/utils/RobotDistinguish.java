@@ -13,7 +13,10 @@ public class RobotDistinguish {
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
 
-    private float defaultAccelerometer = 0;
+    private static final float ACCELEROMETER_DIFF = 0.15f;
+    private float defaultAccelerometerX = 0;
+    private float defaultAccelerometerY = 0;
+    private float defaultAccelerometerZ = 0;
     private int hasNegativeNumberCount = 0;
     private int accelerometerNotChangedCount = 0;
 
@@ -34,28 +37,32 @@ public class RobotDistinguish {
                 float x = event.values[0];
                 float y = event.values[1];
                 float z = event.values[2];
-                if (defaultAccelerometer == 0) {
-                    defaultAccelerometer = Math.abs(x) + Math.abs(y) + Math.abs(z);
+                if (defaultAccelerometerX == 0 && defaultAccelerometerY==0 && defaultAccelerometerZ==0) {
+                    defaultAccelerometerX = Math.abs(x);
+                    defaultAccelerometerY = Math.abs(y);
+                    defaultAccelerometerZ = Math.abs(z);
                 }
 
-                if(Math.abs((defaultAccelerometer - (Math.abs(x) + Math.abs(y) + Math.abs(z))))>0.5){
+                if(Math.abs(defaultAccelerometerX - (Math.abs(x)))>ACCELEROMETER_DIFF
+                        ||Math.abs(defaultAccelerometerY - (Math.abs(y)))>ACCELEROMETER_DIFF
+                        ||Math.abs(defaultAccelerometerZ - (Math.abs(z)))>ACCELEROMETER_DIFF){
                     accelerometerNotChangedCount++;
                 }
 
-                //Log.d("luolaigang",
-                //        "x---------->" + x
-                //        + "y-------------->" + y
-                //        + "z-------------->" + z);
+                /*Log.d("luolaigang",
+                        "x---------->" + x
+                                + "y-------------->" + y
+                                + "z-------------->" + z);*/
                 if(x<0||y<0||z<0){
                     hasNegativeNumberCount++;
                 }
-                //Log.d("luolaigang", "accelerometerNotChangedCount---------->" + accelerometerNotChangedCount
-                //        + "hasNegativeNumberCount-------------->" + hasNegativeNumberCount);
-                //Log.d("luolaigang", "---------->" + isRobot);
+                /*Log.d("luolaigang", "accelerometerNotChangedCount---------->" + accelerometerNotChangedCount
+                        + "hasNegativeNumberCount-------------->" + hasNegativeNumberCount);
+                Log.d("luolaigang", "---------->" + isRobot);*/
             }
             isRobot = accelerometerNotChangedCount<5 || hasNegativeNumberCount<10;
 
-            //Log.i("luolaigang","isRobot="+isRobot);
+            Log.i("luolaigang","isRobot="+isRobot);
         }
 
         @Override
@@ -78,7 +85,7 @@ public class RobotDistinguish {
             sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
-        defaultAccelerometer = 0;
+        defaultAccelerometerX = defaultAccelerometerY = defaultAccelerometerZ = 0;
         hasNegativeNumberCount = 0;
         accelerometerNotChangedCount = 0;
     }
