@@ -61,8 +61,6 @@ public class RobotDistinguish {
                 Log.d("luolaigang", "---------->" + isRobot);*/
             }
             isRobot = accelerometerNotChangedCount<5 || hasNegativeNumberCount<10;
-
-            Log.i("luolaigang","isRobot="+isRobot);
         }
 
         @Override
