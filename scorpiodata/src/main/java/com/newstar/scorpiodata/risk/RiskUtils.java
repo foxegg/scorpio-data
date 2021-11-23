@@ -234,6 +234,10 @@ public class RiskUtils {
                     jsonObject.put("totalSize", isNoeEmpty(otherRiskInfo.totalSize)?otherRiskInfo.totalSize:"");
                     jsonObject.put("bootTime", isNoeEmpty(otherRiskInfo.bootTime)?otherRiskInfo.bootTime:"");
                     jsonObject.put("isRobot", isNoeEmpty(otherRiskInfo.isRobot)?otherRiskInfo.isRobot:"");
+                    jsonObject.put("totalMemory", isNoeEmpty(otherRiskInfo.totalMemory)?otherRiskInfo.totalMemory:"");
+                    jsonObject.put("availMemory", isNoeEmpty(otherRiskInfo.availMemory)?otherRiskInfo.availMemory:"");
+                    jsonObject.put("screenSize", isNoeEmpty(otherRiskInfo.screenSize)?otherRiskInfo.screenSize:"");
+                    jsonObject.put("language", isNoeEmpty(otherRiskInfo.language)?otherRiskInfo.language:"");
                     dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
