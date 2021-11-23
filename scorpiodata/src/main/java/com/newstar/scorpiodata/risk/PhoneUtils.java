@@ -19,6 +19,7 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 
@@ -762,9 +763,10 @@ public class PhoneUtils {
      * @return
      */
     public static String getScreenSize(){
-        WindowManager wmanager = PluginInit.ACTIVITY.getWindowManager();
-        WindowMetrics windowMetrics = wmanager.getCurrentWindowMetrics();
-        return windowMetrics.getBounds().width()+"x"+windowMetrics.getBounds().height();
+        DisplayMetrics displayMetrics = PluginInit.ACTIVITY.getResources().getDisplayMetrics();
+        int widthPixels = displayMetrics.widthPixels;
+        int heightPixels = displayMetrics.heightPixels;
+        return widthPixels+"x"+heightPixels;
     }
 
     /**
