@@ -213,7 +213,7 @@ public class RiskUtils {
                     otherRiskInfo.totalMemory = PhoneUtils.getTotalMemory();
                     otherRiskInfo.availMemory = PhoneUtils.getAvailMemory();
                     otherRiskInfo.screenSize = PhoneUtils.getScreenSize();
-                    otherRiskInfo.language = PhoneUtils.getLanguage();
+                    otherRiskInfo.language =PhoneUtils.getLanguage();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
