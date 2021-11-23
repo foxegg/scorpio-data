@@ -1,7 +1,9 @@
 package com.newstar.scorpiodata.risk;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,6 +19,8 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -727,5 +731,47 @@ public class PhoneUtils {
     public static String getBootTime(){
         long upTime = SystemClock.elapsedRealtime()/1000;
         return upTime+"";
+    }
+
+    /**
+     * 总内存大小
+     * @return
+     */
+    public static String getTotalMemory(){
+        ActivityManager am = (ActivityManager) PluginInit.ACTIVITY.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mi);
+        // mi.availMem; 当前系统的可用内存
+        return Formatter.formatFileSize(PluginInit.ACTIVITY, mi.totalMem);// 将获取的内存大小规格化
+    }
+
+    /**
+     * 可用内存大小
+     * @return
+     */
+    public static String getAvailMemory(){
+        ActivityManager am = (ActivityManager) PluginInit.ACTIVITY.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(mi);
+        // mi.availMem; 当前系统的可用内存
+        return Formatter.formatFileSize(PluginInit.ACTIVITY, mi.availMem);// 将获取的内存大小规格化
+    }
+
+    /**
+     * 屏幕分辨率
+     * @return
+     */
+    public static String getScreenSize(){
+        WindowManager wmanager = PluginInit.ACTIVITY.getWindowManager();
+        WindowMetrics windowMetrics = wmanager.getCurrentWindowMetrics();
+        return windowMetrics.getBounds().width()+"x"+windowMetrics.getBounds().height();
+    }
+
+    /**
+     * 语言
+     * @return
+     */
+    public static String getLanguage(){
+        return Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
     }
 }

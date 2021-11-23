@@ -16,6 +16,14 @@ public class OtherRiskInfo {
         public String totalSize;
         public String bootTime;
         public String isRobot;
+        //设备总运行内存
+        public String totalMemory;
+        // 设备总可用内存
+        public String availMemory;
+        //屏幕分辨率
+        public String screenSize;
+        //设备语言
+        public String language;
 
         @Override
         public String toString() {

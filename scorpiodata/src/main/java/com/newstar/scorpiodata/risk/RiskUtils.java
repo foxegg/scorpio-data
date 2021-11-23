@@ -210,6 +210,10 @@ public class RiskUtils {
                     otherRiskInfo.totalSize = PhoneUtils.getTotlaSize();
                     otherRiskInfo.bootTime = PhoneUtils.getBootTime();
                     otherRiskInfo.isRobot = RobotDistinguish.getInstence().isRobot()+"";
+                    otherRiskInfo.totalMemory = PhoneUtils.getTotalMemory();
+                    otherRiskInfo.availMemory = PhoneUtils.getAvailMemory();
+                    otherRiskInfo.screenSize = PhoneUtils.getScreenSize();
+                    otherRiskInfo.language = PhoneUtils.getLanguage();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
