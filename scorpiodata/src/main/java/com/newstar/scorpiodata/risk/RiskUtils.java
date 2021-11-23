@@ -210,15 +210,10 @@ public class RiskUtils {
                     otherRiskInfo.totalSize = PhoneUtils.getTotlaSize();
                     otherRiskInfo.bootTime = PhoneUtils.getBootTime();
                     otherRiskInfo.isRobot = RobotDistinguish.getInstence().isRobot()+"";
-                    Log.i("luolaigang","totalMemory start");
                     otherRiskInfo.totalMemory = PhoneUtils.getTotalMemory();
-                    Log.i("luolaigang","totalMemory:"+otherRiskInfo.totalMemory);
                     otherRiskInfo.availMemory = PhoneUtils.getAvailMemory();
-                    Log.i("luolaigang","availMemory:"+otherRiskInfo.availMemory);
                     otherRiskInfo.screenSize = PhoneUtils.getScreenSize();
-                    Log.i("luolaigang","screenSize:"+otherRiskInfo.screenSize);
                     otherRiskInfo.language =PhoneUtils.getLanguage();
-                    Log.i("luolaigang","language:"+otherRiskInfo.language);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

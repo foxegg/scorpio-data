@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 
@@ -763,10 +765,10 @@ public class PhoneUtils {
      * @return
      */
     public static String getScreenSize(){
-        DisplayMetrics displayMetrics = PluginInit.ACTIVITY.getResources().getDisplayMetrics();
-        int widthPixels = displayMetrics.widthPixels;
-        int heightPixels = displayMetrics.heightPixels;
-        return widthPixels+"x"+heightPixels;
+        Display Display = PluginInit.ACTIVITY.getDisplay();
+        Point point = new Point();
+        Display.getRealSize(point);
+        return point.x+"x"+point.y;
     }
 
     /**
