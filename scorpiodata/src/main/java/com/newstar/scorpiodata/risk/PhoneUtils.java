@@ -765,10 +765,28 @@ public class PhoneUtils {
      * @return
      */
     public static String getScreenSize(){
-        Display Display = PluginInit.ACTIVITY.getDisplay();
-        Point point = new Point();
-        Display.getRealSize(point);
-        return point.x+"x"+point.y;
+        int widthPixel = 0;
+        int heightPixel = 0;
+        try{
+            DisplayMetrics outMetrics = new DisplayMetrics();
+            PluginInit.ACTIVITY.getWindowManager().getDefaultDisplay().getRealMetrics(outMetrics);
+            widthPixel = outMetrics.widthPixels;
+            heightPixel = outMetrics.heightPixels;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(widthPixel == 0){
+            try{
+                Display Display = PluginInit.ACTIVITY.getDisplay();
+                Point point = new Point();
+                Display.getRealSize(point);
+                widthPixel = point.x;
+                heightPixel = point.y;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return widthPixel+"x"+heightPixel;
     }
 
     /**
