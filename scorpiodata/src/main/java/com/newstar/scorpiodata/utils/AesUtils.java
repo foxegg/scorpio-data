@@ -14,7 +14,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AesUtils {
-	public static final String VIPARA = "cash001234567890";
 	public static final String bm = "utf-8";
 
 	/**
@@ -67,8 +66,8 @@ public class AesUtils {
  
 	public static String aesEncrypt(String content) {
 		try {
-			IvParameterSpec zeroIv = new IvParameterSpec(VIPARA.getBytes());
-			SecretKeySpec key = new SecretKeySpec(VIPARA.getBytes(), "AES");
+			IvParameterSpec zeroIv = new IvParameterSpec(SharedHelp.getSharedPreferencesValue(SharedHelp.AES_KEY).getBytes());
+			SecretKeySpec key = new SecretKeySpec(SharedHelp.getSharedPreferencesValue(SharedHelp.AES_KEY).getBytes(), "AES");
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, key, zeroIv);
 			byte[] encryptedData = cipher.doFinal(content.getBytes(bm));
@@ -108,8 +107,8 @@ public class AesUtils {
 		try {
 			byte[] byteMi = Base64Utils.decode(content);
 //			byte[] byteMi=	str2ByteArray(content);
-			IvParameterSpec zeroIv = new IvParameterSpec(VIPARA.getBytes());
-			SecretKeySpec key = new SecretKeySpec(VIPARA.getBytes(), "AES");
+			IvParameterSpec zeroIv = new IvParameterSpec(SharedHelp.getSharedPreferencesValue(SharedHelp.AES_KEY).getBytes());
+			SecretKeySpec key = new SecretKeySpec(SharedHelp.getSharedPreferencesValue(SharedHelp.AES_KEY).getBytes(), "AES");
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.DECRYPT_MODE, key, zeroIv);
 			byte[] decryptedData = cipher.doFinal(byteMi);

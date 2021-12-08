@@ -33,6 +33,7 @@ public class SharedHelp {
     public static final String IS_FIRST_INSTALL = "is_first_install";
     public static final String H5_HOST = "h5_host";
     public static final String UPDATE_LOCATION = "update_location";
+    public static final String AES_KEY = "aes_key";
 
     public final static String UPDATE_VERSION_PREFIX_KEY = "update_version_";
 

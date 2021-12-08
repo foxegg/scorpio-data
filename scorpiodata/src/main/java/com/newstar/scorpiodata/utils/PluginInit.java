@@ -39,6 +39,7 @@ public class PluginInit {
         SUB_CHANNEL = subChannel;
         HOST = host;
         PRODUCT = product;
+        SharedHelp.setSharedPreferencesValue(SharedHelp.AES_KEY, "ovay001234567890");
         NetUtils.init();
 
         PackageManager pm = activity.getPackageManager();
