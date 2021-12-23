@@ -3,6 +3,7 @@ package com.newstar.scorpiodata.risk;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -421,8 +422,8 @@ public class RiskUtils {
                     data.put("data", compress(AesUtils.aesEncrypt(jsonObject.toString())));
 
                     jsonObject = data;
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.i("luolaigang",e.getMessage());
                 }
 
                 NetUtils.requestPostInQueue(NetUtils.UPLOAD_RISK_DATA,
