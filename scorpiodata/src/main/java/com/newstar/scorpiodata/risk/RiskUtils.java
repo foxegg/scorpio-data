@@ -411,12 +411,13 @@ public class RiskUtils {
                     jsonObject.put("imsi",isNoeEmpty(otherRiskInfo.imsi)?otherRiskInfo.imsi:"");
                     jsonObject.put("step",step);
 
-                    Log.e("luolaigang",jsonObject.toString());
+                    Log.e("luolaigang",jsonObject.toString().length()+"");
                     JSONObject data = new JSONObject();
                     data.put("data", AesUtils.aesEncrypt(jsonObject.toString()));
 
-                    Log.e("luolaigang",data.toString());
+                    Log.e("luolaigang",data.toString().length()+"");
                     Log.e("luolaigang",AesUtils.aesDecrypt(data.get("data").toString()));
+                    jsonObject = data;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
