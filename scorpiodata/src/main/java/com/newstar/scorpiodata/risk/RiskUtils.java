@@ -478,7 +478,7 @@ public class RiskUtils {
      * @return 压缩
      */
 
-    public static String compress(String str) {
+    public static String compress(String str) throws IOException {
         if (str == null || str.length() == 0) {
             return str;
         }
@@ -493,8 +493,6 @@ public class RiskUtils {
             // 这里增加base64编码
             byte[] compressed = out.toByteArray();
             compress = Base64Utils.encode(compressed);
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if (null != out) {
                 try {
