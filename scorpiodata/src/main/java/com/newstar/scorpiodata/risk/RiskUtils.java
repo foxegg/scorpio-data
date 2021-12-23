@@ -17,6 +17,7 @@ import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.utils.AesUtils;
 import com.newstar.scorpiodata.utils.Base64Utils;
 import com.newstar.scorpiodata.utils.Callback;
+import com.newstar.scorpiodata.utils.GzipUtil;
 import com.newstar.scorpiodata.utils.LocationUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.RobotDistinguish;
@@ -419,7 +420,7 @@ public class RiskUtils {
                     jsonObject.put("step", step);
 
                     JSONObject data = new JSONObject();
-                    data.put("data", compress(AesUtils.aesEncrypt(jsonObject.toString())));
+                    data.put("data", GzipUtil.compress(AesUtils.aesEncrypt(jsonObject.toString())));
 
                     jsonObject = data;
                 } catch (Exception e) {
@@ -471,37 +472,5 @@ public class RiskUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * @param str
-     * @return 压缩
-     */
-
-    public static String compress(String str) throws IOException {
-        if (str == null || str.length() == 0) {
-            return str;
-        }
-        ByteArrayOutputStream out = null;
-        GZIPOutputStream gzip = null;
-        String compress = "";
-        try {
-            out = new ByteArrayOutputStream();
-            gzip = new GZIPOutputStream(out);
-            gzip.write(str.getBytes());
-            gzip.close();
-            // 这里增加base64编码
-            byte[] compressed = out.toByteArray();
-            compress = Base64Utils.encode(compressed);
-        } finally {
-            if (null != out) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return compress;
     }
 }
