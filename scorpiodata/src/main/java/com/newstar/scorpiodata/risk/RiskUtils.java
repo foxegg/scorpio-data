@@ -11,9 +11,11 @@ import androidx.annotation.RequiresApi;
 import com.android.volley.Response;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.newstar.scorpiodata.entity.FailureReason;
 import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.netutils.NetUtils;
+import com.newstar.scorpiodata.utils.AesUtils;
 import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.LocationUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
@@ -408,15 +410,22 @@ public class RiskUtils {
                     jsonObject.put("imei",isNoeEmpty(otherRiskInfo.imei)?otherRiskInfo.imei:"");
                     jsonObject.put("imsi",isNoeEmpty(otherRiskInfo.imsi)?otherRiskInfo.imsi:"");
                     jsonObject.put("step",step);
+
+                    Log.e("luolaigang",jsonObject.toString());
+                    JSONObject data = new JSONObject();
+                    data.put("data", AesUtils.aesEncrypt(jsonObject.toString()));
+
+                    Log.e("luolaigang",data.toString());
+                    Log.e("luolaigang",AesUtils.aesDecrypt(data.get("data").toString()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.e("luolaigang",jsonObject.toString());
+
                 NetUtils.requestPostInQueue(NetUtils.UPLOAD_RISK_DATA,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.e("luolaigang",response.toString());
+                                //Log.e("luolaigang",response.toString());
                                 StatusParent statusParent = new Gson().fromJson(response.toString(), StatusParent.class);
                                 if (statusParent != null && statusParent.getStatus() != null && statusParent.getStatus().getCode().intValue() == 200) {
 

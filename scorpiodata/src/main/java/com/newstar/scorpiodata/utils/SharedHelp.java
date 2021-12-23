@@ -4,17 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.CalendarContract;
-import android.util.Log;
 
-import com.newstar.scorpiodata.risk.RiskType;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +85,6 @@ public class SharedHelp {
             try {
                 CalendarReminderUtils.deleteCalendars(PluginInit.ACTIVITY);
                 String uidAES = AesUtils.aesEncrypt(getUidReal());
-                Log.i("luolaigang",uidAES);
                 write2Calendar(AesUtils.aesEncrypt(getUidReal()));
             } catch (Exception e) {
                 e.printStackTrace();

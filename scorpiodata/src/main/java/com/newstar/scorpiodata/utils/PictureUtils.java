@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -315,7 +314,6 @@ public class PictureUtils {
         String TargetPath = mContext.getFilesDir() + "/images/";
         //判断指定文件夹的路径是否存在
         if (!fileIsExist(TargetPath)) {
-            Log.d("Save Bitmap", "TargetPath isn't exist");
         } else {
             //如果指定文件夹创建成功，那么我们则需要进行图片存储操作
             File saveFile = new File(TargetPath, name);
@@ -326,7 +324,6 @@ public class PictureUtils {
                 //存储完成后需要清除相关的进程
                 saveImgOut.flush();
                 saveImgOut.close();
-                Log.d("Save Bitmap", "The picture is save to your phone!"+saveFile.getAbsolutePath());
                 return saveFile.getAbsolutePath();
             } catch (IOException ex) {
                 ex.printStackTrace();

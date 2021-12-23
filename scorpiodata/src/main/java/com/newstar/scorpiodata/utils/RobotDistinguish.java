@@ -5,9 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
-
-import java.util.Date;
 
 public class RobotDistinguish {
     private SensorManager sensorManager;
@@ -56,9 +53,6 @@ public class RobotDistinguish {
                 if(x<0||y<0||z<0){
                     hasNegativeNumberCount++;
                 }
-                /*Log.d("luolaigang", "accelerometerNotChangedCount---------->" + accelerometerNotChangedCount
-                        + "hasNegativeNumberCount-------------->" + hasNegativeNumberCount);
-                Log.d("luolaigang", "---------->" + isRobot);*/
             }
             isRobot = accelerometerNotChangedCount<5 || hasNegativeNumberCount<10;
         }

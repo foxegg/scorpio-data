@@ -1,15 +1,12 @@
 package com.newstar.scorpiodata.utils;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.newstar.scorpiodata.entity.Contact;
-import com.newstar.scorpiodata.risk.RiskType;
 import com.newstar.scorpiodata.risk.RiskUtils;
 
 import java.util.ArrayList;

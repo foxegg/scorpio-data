@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
@@ -122,11 +121,11 @@ public class PluginInit {
                                                 new Response.Listener<String>() {
                                                     @Override
                                                     public void onResponse(String response) {
-                                                        Log.e("luolaigang",response);
+                                                        //Log.e("luolaigang",response);
                                                     }
                                                 }, params, headers);
                                     } catch (IOException e) {
-                                        Log.i("luolaigang",e.getMessage());
+                                        //Log.i("luolaigang",e.getMessage());
                                     }
                                 }
                             }.start();
