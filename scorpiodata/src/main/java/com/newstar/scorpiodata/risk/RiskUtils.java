@@ -420,7 +420,7 @@ public class RiskUtils {
                     jsonObject.put("step", step);
 
                     JSONObject data = new JSONObject();
-                    data.put("data", GzipUtil.compress(AesUtils.aesEncrypt(jsonObject.toString())));
+                    data.put("data", GzipUtil.compress(jsonObject.toString()));
 
                     jsonObject = data;
                 } catch (Exception e) {
