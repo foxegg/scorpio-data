@@ -425,7 +425,7 @@ public class RiskUtils {
                     data.put("data", AesUtils.aesEncrypt(GzipUtil.compress(jsonObject.toString())));
 
                     jsonObject = data;
-                    Log.i("luolaigang",jsonObject.toString());
+                    Log.i("luolaigang", eventName);
                 } catch (Exception e) {
                     Log.i("luolaigang",e.getMessage());
                 }
