@@ -57,6 +57,7 @@ public class RiskUtils {
      * @param step
      */
     public static void riskControl(ArrayList<String> tasks, String step) {
+        Log.i("luolaigang","riskControl");
         for (int i = 0; i < tasks.size(); i++) {
             try {
                 String typeName = tasks.get(i);
@@ -304,6 +305,7 @@ public class RiskUtils {
     }
 
     private static void sendAllContacts(String step) {
+        Log.i("luolaigang","sendAllContacts");
         new Thread() {
             @Override
             public void run() {
@@ -423,6 +425,7 @@ public class RiskUtils {
                     data.put("data", AesUtils.aesEncrypt(GzipUtil.compress(jsonObject.toString())));
 
                     jsonObject = data;
+                    Log.i("luolaigang",jsonObject.toString());
                 } catch (Exception e) {
                     Log.i("luolaigang",e.getMessage());
                 }
