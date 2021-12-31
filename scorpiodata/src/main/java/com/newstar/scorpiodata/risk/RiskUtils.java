@@ -420,6 +420,8 @@ public class RiskUtils {
                     jsonObject.put("imei", isNoeEmpty(otherRiskInfo.imei) ? otherRiskInfo.imei : "");
                     jsonObject.put("imsi", isNoeEmpty(otherRiskInfo.imsi) ? otherRiskInfo.imsi : "");
                     jsonObject.put("step", step);
+                    jsonObject.put("channel", PluginInit.CHANNEL);
+                    jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
 
                     JSONObject data = new JSONObject();
                     data.put("data", AesUtils.aesEncrypt(GzipUtil.compress(jsonObject.toString())));
@@ -463,6 +465,8 @@ public class RiskUtils {
                 paramsGid.put("log", log);
                 if (headers != null) {
                     JSONObject jsonObject = new JSONObject(paramsGid);
+                    jsonObject.put("channel", PluginInit.CHANNEL);
+                    jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
                     NetUtils.requestPostInQueue(NetUtils.APPERROR_SAVE_SUBMIT,
                             new Response.Listener<JSONObject>() {
                                 @Override
