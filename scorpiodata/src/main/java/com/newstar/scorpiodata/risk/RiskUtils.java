@@ -465,8 +465,6 @@ public class RiskUtils {
                 paramsGid.put("log", log);
                 if (headers != null) {
                     JSONObject jsonObject = new JSONObject(paramsGid);
-                    jsonObject.put("channel", PluginInit.CHANNEL);
-                    jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
                     NetUtils.requestPostInQueue(NetUtils.APPERROR_SAVE_SUBMIT,
                             new Response.Listener<JSONObject>() {
                                 @Override

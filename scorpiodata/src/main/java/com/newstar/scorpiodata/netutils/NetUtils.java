@@ -83,7 +83,14 @@ public class NetUtils {
                 isFirst = false;
             }
         }
-
+        if(jsonObject!=null){
+            try {
+                jsonObject.put("channel", PluginInit.CHANNEL);
+                jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         JsonRequest<JSONObject> jsonRequest = new JsonUtil( url, jsonObject,
                 listener, new Response.ErrorListener() {
             @Override
