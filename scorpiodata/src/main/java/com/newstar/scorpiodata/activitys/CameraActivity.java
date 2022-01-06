@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -176,9 +177,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void run() {
                             path = file.getAbsolutePath();
-                            preview_frame.setVisibility(View.VISIBLE);
-                            preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
-                        }
+                            //preview_frame.setVisibility(View.VISIBLE);
+                            //preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
+                        	handler.sendEmptyMessage(0);
+						}
                     });
                 }
                 @Override
@@ -191,8 +193,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     public String getBatchDirectoryName() {
         String app_folder_path = "";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        app_folder_path = storageDir + "/images";
+        app_folder_path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath()+ "/images";
         File dir = new File(app_folder_path);
         if (!dir.exists() && !dir.mkdirs()) {
 
@@ -254,4 +255,33 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     String path;
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            com.newstar.scorpiodata.utils.Callback<File, Exception> callback = new com.newstar.scorpiodata.utils.Callback<File, Exception>() {
+                @Override
+                public void resolve(File res) {
+                    try {
+                        preview_frame.setVisibility(View.VISIBLE);
+                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void reject(Exception err) {
+                    err.printStackTrace();
+                }
+            };
+
+            try {
+                PictureUtils.compressBitmap(CameraActivity.this, path, 1080, callback);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 }
