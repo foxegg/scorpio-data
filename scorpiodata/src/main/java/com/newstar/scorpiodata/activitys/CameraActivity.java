@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Size;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -139,20 +140,22 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .build();
         //设置宽高比
         //设置实际的尺寸
-        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                .setTargetResolution(new Size(1920,1080))
+                .setImageQueueDepth(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
 
         final ImageCapture imageCapture = builder
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
         preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
-        cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis, imageCapture);
         captureImage.setOnClickListener(v -> {
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
             File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
