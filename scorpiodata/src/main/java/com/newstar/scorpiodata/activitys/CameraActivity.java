@@ -143,14 +143,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setTargetResolution(new Size(1920,1080))
-                .setImageQueueDepth(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
 
         final ImageCapture imageCapture = builder
                 .setTargetRotation(this.getWindowManager().getDefaultDisplay().getRotation())
-                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
         preview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
