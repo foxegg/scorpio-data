@@ -1,5 +1,7 @@
 package com.newstar.scorpiodata.netutils;
 
+import android.util.Log;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -7,6 +9,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
@@ -132,5 +136,16 @@ public class NetUtils {
 
 
     private static void authFailureError(VolleyError error){
+    }
+
+    public static void getLivenessInfos(String livenessAccessKey,String livenessId, Response.Listener<JSONObject> response){
+        // 自定义请求头
+        Map<String, String> headers = NetUtils.getToken();
+        headers.put("X-ADVAI-KEY", livenessAccessKey);
+        Map<String, String> params = new HashMap<>();
+        params.put("resultType", "IMAGE_URL");
+        params.put("livenessId", livenessId);
+        NetUtils.requestPostInQueue("https://vn-api.advance.ai/vn/openapi/face-identity/v1/liveness-detection",
+                response, null, params, headers);
     }
 }
