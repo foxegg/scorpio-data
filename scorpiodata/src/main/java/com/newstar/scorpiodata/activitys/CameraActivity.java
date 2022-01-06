@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Size;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -140,9 +141,19 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .build();
         //设置宽高比
         //设置实际的尺寸
+        int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
+        int width = 900;
+        int height = 1200;
+        if(rotation== Surface.ROTATION_0 || rotation== Surface.ROTATION_180){
+            width = 900;
+            height = 1200;
+        }else{
+            width = 1200;
+            height = 900;
+        }
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetAspectRatio(AspectRatio.RATIO_16_9)
-                .setTargetResolution(new Size(1920,1080))
+                .setTargetResolution(new android.util.Size(width, height))
                 .build();
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
