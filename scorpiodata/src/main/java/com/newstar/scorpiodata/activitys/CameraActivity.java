@@ -152,7 +152,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             height = 900;
         }
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setTargetResolution(new android.util.Size(width, height))
                 .build();
 
