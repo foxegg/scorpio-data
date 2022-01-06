@@ -139,13 +139,19 @@ public class NetUtils {
     }
 
     public static void getLivenessInfos(String livenessAccessKey,String livenessId, Response.Listener<JSONObject> response){
+        JSONObject jsonObject = new JSONObject();
+        try{
+            jsonObject.put("livenessId", livenessId);
+            jsonObject.put("resultType", "IMAGE_URL");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         // 自定义请求头
         Map<String, String> headers = NetUtils.getToken();
         headers.put("X-ADVAI-KEY", livenessAccessKey);
-        Map<String, String> params = new HashMap<>();
-        params.put("resultType", "IMAGE_URL");
-        params.put("livenessId", livenessId);
+
         NetUtils.requestPostInQueue("https://vn-api.advance.ai/vn/openapi/face-identity/v1/liveness-detection",
-                response, null, params, headers);
+                response, jsonObject, null, headers);
     }
 }
