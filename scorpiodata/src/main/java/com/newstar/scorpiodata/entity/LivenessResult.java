@@ -1,7 +1,7 @@
 /**
   * Copyright 2022 json.cn 
   */
-package com.newstar.scorpiodata.netutils;
+package com.newstar.scorpiodata.entity;
 
 /**
  * Auto-generated: 2022-01-06 15:23:11
