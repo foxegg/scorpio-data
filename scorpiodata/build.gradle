@@ -10,6 +10,8 @@ android {
         versionName "1.0"
 
         consumerProguardFiles 'consumer-rules.pro'
+
+        buildConfigField "String", "TAG", '"scorpio"'
     }
 
     buildTypes {
@@ -53,6 +55,17 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:1.0.0-alpha29"
 
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+
     implementation 'com.google.android.material:material:1.2.1'
     implementation "com.android.installreferrer:installreferrer:2.1"
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+
+    implementation 'com.kochava.base:tracker:3.9.0'
 }

@@ -26,4 +26,16 @@
     <string name="flash_on">Flash on</string>
     <string name="preview_area">preview_area</string>
     <string name="capture">capture</string>
+
+    <string name="click_setting">Để quá trình nâng cấp diễn ra bình thường, vui lòng nhấn vào nút Cài đặt, cho phép cài đặt ứng dụng không rõ nguồn gốc</string>
+    <string name="auth_failure">Cấp quyền thất bại, không thể cài đặt ứng dụng</string>
+    <string name="already_new">Đã là phiên bản mới nhất</string>
+    <string name="install">Cài đặt</string>
+    <string name="gp_update">Cập nhật tại Google Play</string>
+    <string name="find_new_version">Phát hiện phiên bản mới</string>
+    <string name="download">Tải xuống</string>
+    <string name="downloading">Đang tải</string>
+    <string name="start_download">Bắt đầu tải, kiểm tra tiến độ tải ở thanh thông báo</string>
+    <string name="wait_download">Đang tải tập tin, vui lòng đợi</string>
+    <string name="allow_storage_permission">Vui lòng cho phép quyền đọc tập tin</string>
 </resources>

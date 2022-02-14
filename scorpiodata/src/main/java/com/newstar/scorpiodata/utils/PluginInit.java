@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
@@ -12,6 +13,7 @@ import com.android.installreferrer.api.ReferrerDetails;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.Gson;
+import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.netutils.NetUtils;
 
@@ -31,6 +33,7 @@ public class PluginInit {
     public static String SUB_CHANNEL;
     public static String HOST;
     public static String PRODUCT;
+    public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
     public static void init(Activity activity, Application application, String channel, String subChannel,String host,String product){
         ACTIVITY = activity;
         APPLICATION = application;
@@ -163,5 +166,15 @@ public class PluginInit {
             e.printStackTrace();
         }
         return 0L;
+    }
+
+    public static String getAppName() {
+        try {
+            PackageManager packageManager = PluginInit.ACTIVITY.getPackageManager();
+            return String.valueOf(packageManager.getApplicationLabel(PluginInit.ACTIVITY.getApplicationInfo()));
+        } catch (Throwable e) {
+            Log.i(BuildConfig.TAG,"getAppName >> e:" + e.toString());
+        }
+        return null;
     }
 }
