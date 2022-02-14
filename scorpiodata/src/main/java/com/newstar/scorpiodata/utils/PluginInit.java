@@ -32,15 +32,20 @@ public class PluginInit {
     public static String CHANNEL;
     public static String SUB_CHANNEL;
     public static String HOST;
+    public static String H5_HOST;
     public static String PRODUCT;
+    public static String FILEPROVIDER;
     public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
-    public static void init(Activity activity, Application application, String channel, String subChannel,String host,String product){
+    public static void init(Activity activity, Application application, String channel, String subChannel,String host,
+                            String h5Host,String product,String fileprovider){
         ACTIVITY = activity;
         APPLICATION = application;
         CHANNEL = channel;
         SUB_CHANNEL = subChannel;
         HOST = host;
+        H5_HOST = h5Host;
         PRODUCT = product;
+        FILEPROVIDER = fileprovider;
         SharedHelp.setSharedPreferencesValue(SharedHelp.AES_KEY, "ovay001234567890");
         NetUtils.init();
 
