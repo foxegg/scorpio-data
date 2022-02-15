@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="scorpio/app" />
+      <module fileurl="file://$PROJECT_DIR$/liveness/liveness.iml" filepath="$PROJECT_DIR$/liveness/liveness.iml" group="scorpio/liveness" />
       <module fileurl="file://$PROJECT_DIR$/scorpio.iml" filepath="$PROJECT_DIR$/scorpio.iml" group="scorpio" />
       <module fileurl="file://$PROJECT_DIR$/app/scorpio-data-app.iml" filepath="$PROJECT_DIR$/app/scorpio-data-app.iml" group="scorpio/app" />
       <module fileurl="file://$PROJECT_DIR$/scorpio-data-scorpio.iml" filepath="$PROJECT_DIR$/scorpio-data-scorpio.iml" group="scorpio" />

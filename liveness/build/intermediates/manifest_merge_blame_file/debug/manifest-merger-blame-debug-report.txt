@@ -1,0 +1,29 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="ai.advance.liveness.sdk" >
+4
+5    <uses-sdk
+6        android:minSdkVersion="14"
+6-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml
+7        android:targetSdkVersion="28" />
+7-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml
+8
+9    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+9-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:12:5-79
+9-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:12:22-76
+10
+11    <application>
+11-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:4:5-11:19
+12        <activity
+12-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:6:9-10:72
+13            android:name="ai.advance.liveness.sdk.activity.LivenessActivity"
+13-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:7:13-54
+14            android:launchMode="singleTop"
+14-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:8:13-43
+15            android:screenOrientation="portrait"
+15-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:9:13-49
+16            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+16-->C:\Users\llg\StudioProjects\scorpio-data\liveness\src\main\AndroidManifest.xml:10:13-69
+17    </application>
+18
+19</manifest>

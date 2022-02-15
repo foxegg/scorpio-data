@@ -12,12 +12,20 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
 
         buildConfigField "String", "TAG", '"scorpio"'
+        buildConfigField "Integer", "SOURCE_CODE", '1'
+        buildConfigField "String", "PRUDUCT", '"CashVN"'
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "livenessAccessKey", '"fdf9ec5975d6cdb8"'
+            buildConfigField "String", "livenessSecretKey", '"46a65123a14bf870"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "livenessAccessKey", '"2956b57d6dab2aeb"'
+            buildConfigField "String", "livenessSecretKey", '"6134052bcc060c7c"'
         }
     }
     compileOptions {
@@ -26,9 +34,14 @@ android {
     }
 
 }
-
+repositories {
+    flatDir {
+        dirs project(':liveness').file('libs')
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":liveness")
 
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -68,4 +81,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.1'
 
     implementation 'com.kochava.base:tracker:3.9.0'
+
+    //zalo
+    implementation "com.zing.zalo.zalosdk:core:+"
+    implementation "com.zing.zalo.zalosdk:auth:+"
+    implementation "com.zing.zalo.zalosdk:openapi:+"
 }
