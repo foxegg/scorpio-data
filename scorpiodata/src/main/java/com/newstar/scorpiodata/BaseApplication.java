@@ -33,7 +33,7 @@ public class BaseApplication extends Application {
         GuardianLivenessDetectionSDK.letSDKHandleCameraPermission();
     }
 
-    private void initKochava(String kochavaGuid){
+    public void initKochava(String kochavaGuid){
         // Start the Kochava Tracker
         Tracker.Configuration configuration = new Tracker.Configuration(this);
         configuration.setAppGuid(kochavaGuid);
