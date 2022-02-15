@@ -34,15 +34,7 @@ android {
     }
 
 }
-repositories {
-    flatDir {
-        dirs project(':liveness').file('libs')
-    }
-}
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":liveness")
-
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     apply plugin: 'com.github.dcendents.android-maven'

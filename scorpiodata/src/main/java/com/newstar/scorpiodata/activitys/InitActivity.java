@@ -1,5 +1,6 @@
 package com.newstar.scorpiodata.activitys;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -7,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.newstar.scorpiodata.utils.ViewHelp;
 
-public class InitActivity extends AppCompatActivity {
+public abstract class InitActivity extends AppCompatActivity implements LivenessHelp {
     public boolean lightBar;
 
     @Override

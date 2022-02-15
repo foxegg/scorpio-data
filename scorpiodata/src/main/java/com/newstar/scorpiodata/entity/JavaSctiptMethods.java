@@ -52,9 +52,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ai.advance.liveness.lib.LivenessResult;
-import ai.advance.liveness.sdk.activity.LivenessActivity;
-
 /**
  * Created by youliang.ji on 2016/12/23.
  */
@@ -156,7 +153,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMe
     public void liveness(String str) {
         try {
             SelectUtils.setSelectResult(this);
-            SelectUtils.liveness(PluginInit.ACTIVITY, REQUEST_CODE_LIVENESS, LivenessActivity.class);
+            SelectUtils.liveness(PluginInit.ACTIVITY, REQUEST_CODE_LIVENESS);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -301,7 +298,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMe
     @Override
     public void onSelect(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE_LIVENESS && LivenessResult.isSuccess()) {
+            if (requestCode == REQUEST_CODE_LIVENESS && PluginInit.ACTIVITY.isSuccess()) {
                 getLivenessResult();
             } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
                 Uri contactData = data.getData();
@@ -351,7 +348,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMe
 
     private void getLivenessResult() {
         try {
-            Bitmap livenessBitmap = LivenessResult.getLivenessBitmap();
+            Bitmap livenessBitmap = PluginInit.ACTIVITY.getLivenessBitmap();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_tmp.png";
             String path = PictureUtils.saveBitmap(imageFileName, livenessBitmap, PluginInit.ACTIVITY);
@@ -359,7 +356,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMe
             JSONObject json = new JSONObject();
             json.put("base64", PictureUtils.getText(path));
 
-            NetUtils.getLivenessInfos(BuildConfig.livenessAccessKey,LivenessResult.getLivenessId()
+            NetUtils.getLivenessInfos(BuildConfig.livenessAccessKey,PluginInit.ACTIVITY.getLivenessId()
             , response -> {
                 com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
                 if (livenessResult != null && livenessResult.getData() != null) {

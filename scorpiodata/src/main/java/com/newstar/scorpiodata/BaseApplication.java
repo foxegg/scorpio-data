@@ -16,9 +16,6 @@ import org.json.JSONObject;
 
 import java.util.concurrent.Executors;
 
-import ai.advance.liveness.lib.GuardianLivenessDetectionSDK;
-import ai.advance.liveness.lib.Market;
-
 public class BaseApplication extends Application {
     @Override
     public void onCreate() {
@@ -29,8 +26,7 @@ public class BaseApplication extends Application {
         AppEventsLogger.activateApp(this);
         ZaloSDKApplication.wrap(this);
         initAdid();
-        GuardianLivenessDetectionSDK.init(this, BuildConfig.livenessAccessKey, BuildConfig.livenessSecretKey, Market.Vietnam);
-        GuardianLivenessDetectionSDK.letSDKHandleCameraPermission();
+
     }
 
     public void initKochava(String kochavaGuid){

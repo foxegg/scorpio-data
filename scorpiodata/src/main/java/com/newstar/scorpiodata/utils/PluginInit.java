@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.BuildConfig;
+import com.newstar.scorpiodata.activitys.InitActivity;
 import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.netutils.NetUtils;
 
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PluginInit {
-    public static Activity ACTIVITY;
+    public static InitActivity ACTIVITY;
     public static Application APPLICATION;
     public static String CHANNEL;
     public static String SUB_CHANNEL;
@@ -35,7 +36,7 @@ public class PluginInit {
     public static String H5_HOST;
     public static String FILEPROVIDER;
     public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
-    public static void init(Activity activity, Application application, String channel, String subChannel,String host,
+    public static void init(InitActivity activity, Application application, String channel, String subChannel,String host,
                             String h5Host,String fileprovider){
         ACTIVITY = activity;
         APPLICATION = application;

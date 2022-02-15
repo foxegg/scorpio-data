@@ -34,10 +34,15 @@ public class SelectUtils {
         }
     }
 
-    public static void liveness(Activity activity, int requestCode, Class className) {
+    public static void liveness(Activity activity, int requestCode) {
         if(PermissionUtils.checkPermission(Manifest.permission.CAMERA)){
-            Intent intent = new Intent(PluginInit.ACTIVITY, className);
-            activity.startActivityForResult(intent, requestCode);
+            try{
+                Intent intent = new Intent(PluginInit.ACTIVITY, Class.forName("ai.advance.liveness.sdk.activity.LivenessActivity"));
+                activity.startActivityForResult(intent, requestCode);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
         }else{
             PermissionUtils.requestMultiPermissions(PermissionUtils.mPermissionGrant, PermissionUtils.requestPermissions);
         }
