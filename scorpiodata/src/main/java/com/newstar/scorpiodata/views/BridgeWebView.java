@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.activitys.CameraActivity;
-import com.newstar.scorpiodata.utils.JavaSctiptMethodsBase;
+import com.newstar.scorpiodata.entity.JavaSctiptMethods;
 import com.newstar.scorpiodata.utils.LogUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SelectUtils;
@@ -77,7 +77,7 @@ public class BridgeWebView extends WebView implements SelectUtils.SelectResult {
      * @param reload
      * @param loading
      */
-    public void addBridgeInterface(JavaSctiptMethodsBase javaSctiptMethods, Handler loadingHandler, TextView reload, View loading) {
+    public void addBridgeInterface(JavaSctiptMethods javaSctiptMethods, Handler loadingHandler, TextView reload, View loading) {
         SharedHelp.setSharedPreferencesValue(SharedHelp.FIRST_LOADED, null);
         this.reload = reload;
         this.loading = loading;

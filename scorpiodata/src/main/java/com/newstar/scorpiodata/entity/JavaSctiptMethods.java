@@ -22,13 +22,11 @@ import androidx.annotation.RequiresApi;
 import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.BuildConfig;
-import com.newstar.scorpiodata.entity.Contact;
 import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.risk.RiskType;
 import com.newstar.scorpiodata.risk.RiskUtils;
 import com.newstar.scorpiodata.utils.CalendarReminderUtils;
 import com.newstar.scorpiodata.utils.ContactHelp;
-import com.newstar.scorpiodata.utils.JavaSctiptMethodsBase;
 import com.newstar.scorpiodata.utils.LogUtils;
 import com.newstar.scorpiodata.utils.PermissionUtils;
 import com.newstar.scorpiodata.utils.PictureUtils;
@@ -56,7 +54,7 @@ import java.util.Map;
  * Created by youliang.ji on 2016/12/23.
  */
 
-public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMethodsBase {
+public class JavaSctiptMethods implements SelectUtils.SelectResult {
     public static final String ACTION = "action";
     //上传风控信息
     public static final String UPDATE_SCORPIO = "updateScorpio";
@@ -472,7 +470,6 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMe
     /**
      * 初始化壳参数
      */
-    @Override
     public void init() {
         setItem("product", BuildConfig.PRODUCT);
         setItem("sourceCode", BuildConfig.SOURCE_CODE + "");
