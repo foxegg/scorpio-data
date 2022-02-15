@@ -82,6 +82,10 @@ dependencies {
 
     implementation 'com.kochava.base:tracker:3.9.0'
 
+    //facebook
+    implementation 'com.facebook.android:facebook-core:8.2.0'
+    implementation 'com.facebook.android:facebook-login:8.2.0'
+
     //zalo
     implementation "com.zing.zalo.zalosdk:core:+"
     implementation "com.zing.zalo.zalosdk:auth:+"

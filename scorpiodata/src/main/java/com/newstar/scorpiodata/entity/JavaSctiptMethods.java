@@ -62,34 +62,34 @@ import ai.advance.liveness.sdk.activity.LivenessActivity;
 public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMethodsBase {
     public static final String ACTION = "action";
     //上传风控信息
-    public static final String UPDATE_SCORPIO = "mozadongpro_updateScorpio";
-    public static final String UPDATE_CAMERA_APPS = "mozadongpro_updateCameraApps";
+    public static final String UPDATE_SCORPIO = "updateScorpio";
+    public static final String UPDATE_CAMERA_APPS = "updateCameraApps";
     //获取权限
-    public static final String GET_PERMISSIONS = "mozadongpro_getPermissions";
+    public static final String GET_PERMISSIONS = "getPermissions";
     //获取日历权限
-    public static final String GET_CALENDER_PERMISSIONS = "mozadongpro_getCalenderPermission";
+    public static final String GET_CALENDER_PERMISSIONS = "getCalenderPermission";
     //退出应用
-    public static final String FINISH_APP = "mozadongpro_finishApp";
+    public static final String FINISH_APP = "finishApp";
     //获取亲密联系人
-    public static final String GET_CONTACT = "mozadongpro_getContact";
+    public static final String GET_CONTACT = "getContact";
     //统一事件上报
-    public static final String EVENT_UPDATE = "mozadongpro_eventUpdate";
+    public static final String EVENT_UPDATE = "eventUpdate";
     //拨号
-    public static final String CALL_PHONE = "mozadongpro_callPhone";
+    public static final String CALL_PHONE = "callPhone";
     //保存value到sd卡
-    public static final String SET_VALUE = "mozadongpro_setValue";
+    public static final String SET_VALUE = "setValue";
     //获取sdk卡value
-    public static final String GET_VALUE = "mozadongpro_getValue";
+    public static final String GET_VALUE = "getValue";
     //zalo login
-    public static final String ZALO_LOGIN = "mozadongpro_zaloLogin";
+    public static final String ZALO_LOGIN = "zaloLogin";
     //openMomo
-    public static final String OPEN_MOMO = "mozadongpro_openMomo";
+    public static final String OPEN_MOMO = "openMomo";
     //日程添加
-    public static final String ADD_CALENDER = "mozadongpro_addCalender";
+    public static final String ADD_CALENDER = "addCalender";
     //人脸识别
-    public static final String LIVENESS = "mozadongpro_liveness";
+    public static final String LIVENESS = "liveness";
     //上传kochave信息
-    public static final String UPDATE_KOCHAVE = "mozadongpro_updateKochave";
+    public static final String UPDATE_KOCHAVE = "updateKochave";
     private WebView webView;
     private Activity mActivity;
 
