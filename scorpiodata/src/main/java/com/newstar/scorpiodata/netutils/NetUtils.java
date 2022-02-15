@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.entity.StatusParent;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
@@ -37,7 +38,7 @@ public class NetUtils {
 
         header.put("channel", PluginInit.CHANNEL);
         header.put("subChannel", PluginInit.SUB_CHANNEL);
-        header.put("product", PluginInit.PRODUCT);
+        header.put("product", BuildConfig.PRODUCT);
         queue = Volley.newRequestQueue(PluginInit.ACTIVITY);
         UPLOAD_RISK_DATA = PluginInit.HOST + "xUserContactss/upload_risk_data";
         APP_VERSION_UPDATE = PluginInit.HOST + "appVersion/geAppVersionInfo";

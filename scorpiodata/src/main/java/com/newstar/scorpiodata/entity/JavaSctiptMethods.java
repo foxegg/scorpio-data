@@ -477,7 +477,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult, JavaSctiptMe
      */
     @Override
     public void init() {
-        setItem("product", BuildConfig.PRUDUCT);
+        setItem("product", BuildConfig.PRODUCT);
         setItem("sourceCode", BuildConfig.SOURCE_CODE + "");
         try {
             setItem("app_version", UpdateManager.getVersionName());
