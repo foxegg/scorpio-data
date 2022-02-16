@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.android.volley.Response;
+import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.netutils.NetUtils;
@@ -517,6 +518,25 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
                 }
             }
         }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                String fmcToken = SharedHelp.getSharedPreferencesValue(SharedHelp.FMC_TOKEN);
+                while (fmcToken == null) {//循环等待，直到获取成功
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    fmcToken = SharedHelp.getSharedPreferencesValue(SharedHelp.FMC_TOKEN);
+                }
+                if (fmcToken != null) {
+                    initHandler.sendEmptyMessage(0);
+                }
+            }
+        }.start();
     }
 
     /**
@@ -540,6 +560,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             initKochave();
             setItem("googleReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.GOOGLE_REFERRER_URL));
             setItem("firstInstall", SharedHelp.getSharedPreferencesValue(SharedHelp.IS_FIRST_INSTALL));
+            setItem("fmcToken", SharedHelp.getSharedPreferencesValue(SharedHelp.FMC_TOKEN));
         }
     };
 

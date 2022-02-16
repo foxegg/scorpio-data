@@ -61,16 +61,27 @@ dependencies {
     implementation "androidx.camera:camera-extensions:1.0.0-alpha29"
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
 
-    // Add the dependency for the Firebase SDK for Google Analytics
-    // When using the BoM, don't specify versions in Firebase dependencies
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-crashlytics'
+
+    // Declare the dependencies for any other desired Firebase products
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    // Firebase Cloud Messaging (Java)
+    implementation 'com.google.firebase:firebase-messaging'
+    // Firebase Cloud Messaging (Kotlin)
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'androidx.work:work-runtime:2.5.0'
+
     //归因信息
     implementation "com.android.installreferrer:installreferrer:2.1"
 
-    implementation 'com.kochava.base:tracker:3.9.0'
+    implementation 'com.kochava.base:tracker:3.10.1'
     // Required: ADID collection
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
 
