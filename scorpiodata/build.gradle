@@ -74,8 +74,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     // Firebase Cloud Messaging (Java)
     implementation 'com.google.firebase:firebase-messaging'
-    // Firebase Cloud Messaging (Kotlin)
-    implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'androidx.work:work-runtime:2.5.0'
 
     //归因信息
