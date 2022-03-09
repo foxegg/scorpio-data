@@ -1,6 +1,7 @@
 package com.newstar.scorpiodata;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -30,10 +31,12 @@ public class BaseApplication extends Application {
     }
 
     public void initKochava(String kochavaGuid){
+        Log.i("luolaigang","initKochava");
         // Start the Kochava Tracker
         Tracker.Configuration configuration = new Tracker.Configuration(this);
         configuration.setAppGuid(kochavaGuid);
         Tracker.configure(configuration.setAttributionUpdateListener(attribution -> {
+            Log.i("luolaigang","call back");
                     // got the attribution results, now we need to parse it
                     try {
                         JSONObject attributionObject = new JSONObject(attribution);
@@ -47,7 +50,9 @@ public class BaseApplication extends Application {
                             //Kochave kochave = new Gson().fromJson(attribution, Kochave.class);
                             //Log.i("luolaigangTracker",kochave.getCampaign());
                         }
+                        Log.i("luolaigang",attributionObject.toString());
                     } catch (JSONException exception) {
+                        Log.i("luolaigang",exception.getMessage());
                     }
                 })
         );
