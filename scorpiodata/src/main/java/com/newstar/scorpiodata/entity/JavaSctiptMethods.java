@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.BuildConfig;
+import com.newstar.scorpiodata.activitys.CameraActivity;
 import com.newstar.scorpiodata.netutils.NetUtils;
 import com.newstar.scorpiodata.risk.RiskType;
 import com.newstar.scorpiodata.risk.RiskUtils;
@@ -86,6 +87,8 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     public static final String LIVENESS = "liveness";
     //上传kochave信息
     public static final String UPDATE_KOCHAVE = "updateKochave";
+    //设置摄像头类型0后置,1前置
+    public static final String SET_CAMERA_TYPE = "setCameraType";
     private WebView webView;
     private Activity mActivity;
 
@@ -221,6 +224,8 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
                     }
                 } else if (action.equals(UPDATE_KOCHAVE)) {
                     updateKochave(str);
+                }else if (action.equals(SET_CAMERA_TYPE)) {
+                    setCameraType(str);
                 }
             }
         } catch (JSONException e) {
@@ -698,6 +703,23 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
         }
     }
 
+    /**
+     * //设置摄像头类型0后置,1前置
+     * @param str
+     */
+    public void setCameraType(String str) {
+        try {
+            JSONObject mJson = new JSONObject(str);
+            String type = mJson.optString("type");
+            if(type!=null && type.equals("0")){
+                CameraActivity.cameraType = 0;
+            }else if(type!=null && type.equals("1")){
+                CameraActivity.cameraType = 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void showLog(String msg) {
         LogUtils.i("" + msg);
     }
