@@ -35,9 +35,10 @@ public class PluginInit {
     public static String HOST;
     public static String H5_HOST;
     public static String FILEPROVIDER;
+    public static String LIVENESS_ACCESS_KEY;
     public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
     public static void init(InitActivity activity, Application application, String channel, String subChannel,String host,
-                            String h5Host,String fileprovider){
+                            String h5Host,String fileprovider,String livenessAccessKey){
         ACTIVITY = activity;
         APPLICATION = application;
         CHANNEL = channel;
@@ -45,6 +46,7 @@ public class PluginInit {
         HOST = host;
         H5_HOST = h5Host;
         FILEPROVIDER = fileprovider;
+        LIVENESS_ACCESS_KEY = livenessAccessKey;
         SharedHelp.setSharedPreferencesValue(SharedHelp.AES_KEY, "ovay001234567890");
         NetUtils.init();
 

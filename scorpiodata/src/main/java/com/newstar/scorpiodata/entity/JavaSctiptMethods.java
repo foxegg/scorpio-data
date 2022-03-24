@@ -360,7 +360,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             JSONObject json = new JSONObject();
             json.put("base64", PictureUtils.getText(path));
 
-            NetUtils.getLivenessInfos(BuildConfig.livenessAccessKey,PluginInit.ACTIVITY.getLivenessId()
+            NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.ACTIVITY.getLivenessId()
             , response -> {
                 com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
                 if (livenessResult != null && livenessResult.getData() != null) {
