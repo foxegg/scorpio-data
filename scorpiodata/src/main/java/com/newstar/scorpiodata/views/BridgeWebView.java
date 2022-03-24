@@ -141,6 +141,7 @@ public class BridgeWebView extends WebView implements SelectUtils.SelectResult {
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 mUploadCallbackAboveL = filePathCallback;
                 SelectUtils.setSelectResult(BridgeWebView.this);
+
                 if (fileChooserParams.isCaptureEnabled()) {
                     SelectUtils.selectOnePictureSelf(PluginInit.ACTIVITY, REQUEST_CODE);
                 } else {

@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Size;
 import android.view.Surface;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
@@ -31,11 +29,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.newstar.scorpiodata.R;
-import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.PictureUtils;
 
 import java.io.File;
@@ -47,6 +43,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
+    //摄像头类型0前置,1后置
+    public static int cameraType = 1;
     public static final String PHOTO_PATH = "photo_path";
     public static final String CAMERA_TYPE = "camera_type";
     public static final String CAMERA_FRONT = "camera_front";
@@ -80,14 +78,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_main);
 
-        String cameraType = getIntent().getStringExtra(CAMERA_TYPE);
-        if(cameraType!=null){
-            if(cameraType.endsWith(CAMERA_FRONT)){
-                cameraSelectorIndex = CameraSelector.LENS_FACING_FRONT;
-            }else if(cameraType.endsWith(CAMERA_BACK)){
-                cameraSelectorIndex = CameraSelector.LENS_FACING_BACK;
-            }
-        }
+        cameraSelectorIndex = cameraType;
         mPreviewView = findViewById(R.id.previewView);
         captureImage = findViewById(R.id.captureImg);
         swap_camera = findViewById(R.id.swap_camera);
