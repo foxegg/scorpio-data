@@ -26,6 +26,7 @@ import com.newstar.scorpiodata.BaseApplication;
 import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.activitys.CameraActivity;
 import com.newstar.scorpiodata.netutils.NetUtils;
+import com.newstar.scorpiodata.netutils.StringUtil;
 import com.newstar.scorpiodata.risk.RiskType;
 import com.newstar.scorpiodata.risk.RiskUtils;
 import com.newstar.scorpiodata.utils.CalendarReminderUtils;
@@ -468,7 +469,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
 
     public void initKochave() {
         try {
-            BaseApplication.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
+            StringUtil.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
             setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL).replace("\\","\\\\"));
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,11 +1,17 @@
 package com.newstar.scorpiodata.netutils;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.newstar.scorpiodata.utils.LogUtils;
+import com.newstar.scorpiodata.utils.PluginInit;
 
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class StringUtil extends StringRequest {
 
@@ -49,6 +55,25 @@ public class StringUtil extends StringRequest {
             return mapParams;
         }else{
             return super.getParams();
+        }
+    }
+
+    static int LENGTH = 4000;
+
+    public static void i(String tag, String msg) {
+        if(!PluginInit.DEBUG){
+            return;
+        }
+        if (msg.length() > LENGTH) {
+            for (int i = 0; i < msg.length(); i += LENGTH) {
+                if (i + LENGTH < msg.length()) {
+                    Log.i(tag, msg.substring(i, i + LENGTH));
+                } else {
+                    Log.i(tag, msg.substring(i, msg.length()));
+                }
+            }
+        } else {
+            Log.i(tag, msg);
         }
     }
 }

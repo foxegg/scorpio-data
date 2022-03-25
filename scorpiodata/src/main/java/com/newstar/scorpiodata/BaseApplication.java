@@ -8,7 +8,9 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.kochava.base.Tracker;
+import com.newstar.scorpiodata.netutils.StringUtil;
 import com.newstar.scorpiodata.utils.LogUtils;
+import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
 import com.zing.zalo.zalosdk.oauth.ZaloSDKApplication;
 
@@ -31,12 +33,12 @@ public class BaseApplication extends Application {
     }
 
     public void initKochava(String kochavaGuid) {
-        BaseApplication.i("luolaigang", "initKochava");
+        StringUtil.i("luolaigang", "initKochava");
         // Start the Kochava Tracker
         Tracker.Configuration configuration = new Tracker.Configuration(this);
         configuration.setAppGuid(kochavaGuid);
         Tracker.configure(configuration.setAttributionUpdateListener(attribution -> {
-            BaseApplication.i("luolaigang", "call back");
+            StringUtil.i("luolaigang", "call back");
                     // got the attribution results, now we need to parse it
                     try {
                         JSONObject attributionObject = new JSONObject(attribution);
@@ -50,34 +52,14 @@ public class BaseApplication extends Application {
                             //Kochave kochave = new Gson().fromJson(attribution, Kochave.class);
                             //Log.i("luolaigangTracker",kochave.getCampaign());
                         }
-                        BaseApplication.i("luolaigang", attribution);
+                        StringUtil.i("luolaigang", attribution);
                     } catch (JSONException exception) {
-                        BaseApplication.i("luolaigang", exception.getMessage());
+                        StringUtil.i("luolaigang", exception.getMessage());
                     }
                 })
         );
         Tracker.configure(configuration);
     }
-
-    static int LENGTH = 4000;
-
-    public static void i(String tag, String msg) {
-        if(!BuildConfig.DEBUG){
-            return;
-        }
-        if (msg.length() > LENGTH) {
-            for (int i = 0; i < msg.length(); i += LENGTH) {
-                if (i + LENGTH < msg.length()) {
-                    Log.i(tag, msg.substring(i, i + LENGTH));
-                } else {
-                    Log.i(tag, msg.substring(i, msg.length()));
-                }
-            }
-        } else {
-            Log.i(tag, msg);
-        }
-    }
-
     private void initAdid() {
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
