@@ -479,7 +479,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
      * 初始化壳参数
      */
     public void init() {
-        setItem("product", BuildConfig.PRODUCT);
+        setItem("product", PluginInit.PRODUCT);
         setItem("sourceCode", BuildConfig.SOURCE_CODE + "");
         try {
             setItem("app_version", UpdateManager.getVersionName());

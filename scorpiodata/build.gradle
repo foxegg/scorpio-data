@@ -13,7 +13,6 @@ android {
 
         buildConfigField "String", "TAG", '"scorpio"'
         buildConfigField "Integer", "SOURCE_CODE", '1'
-        buildConfigField "String", "PRODUCT", '"ANDROID"'
     }
 
     buildTypes {
@@ -21,8 +20,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "livenessAccessKey", '"2956b57d6dab2aeb"'
-            buildConfigField "String", "livenessSecretKey", '"6134052bcc060c7c"'
         }
     }
     compileOptions {

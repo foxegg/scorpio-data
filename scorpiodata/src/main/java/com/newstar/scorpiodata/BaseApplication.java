@@ -62,6 +62,9 @@ public class BaseApplication extends Application {
     static int LENGTH = 4000;
 
     public static void i(String tag, String msg) {
+        if(!BuildConfig.DEBUG){
+            return;
+        }
         if (msg.length() > LENGTH) {
             for (int i = 0; i < msg.length(); i += LENGTH) {
                 if (i + LENGTH < msg.length()) {

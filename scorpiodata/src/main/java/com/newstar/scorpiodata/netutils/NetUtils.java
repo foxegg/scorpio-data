@@ -35,10 +35,9 @@ public class NetUtils {
     public static String APPERROR_SAVE_SUBMIT;
 
     public static void init(){
-
         header.put("channel", PluginInit.CHANNEL);
         header.put("subChannel", PluginInit.SUB_CHANNEL);
-        header.put("product", BuildConfig.PRODUCT);
+        header.put("product", PluginInit.PRODUCT);
         queue = Volley.newRequestQueue(PluginInit.ACTIVITY);
         UPLOAD_RISK_DATA = PluginInit.HOST + "xUserContactss/upload_risk_data";
         APP_VERSION_UPDATE = PluginInit.HOST + "appVersion/geAppVersionInfo";
