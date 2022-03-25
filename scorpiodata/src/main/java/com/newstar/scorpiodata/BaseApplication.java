@@ -31,12 +31,12 @@ public class BaseApplication extends Application {
     }
 
     public void initKochava(String kochavaGuid) {
-        Log.i("luolaigang", "initKochava");
+        BaseApplication.i("luolaigang", "initKochava");
         // Start the Kochava Tracker
         Tracker.Configuration configuration = new Tracker.Configuration(this);
         configuration.setAppGuid(kochavaGuid);
         Tracker.configure(configuration.setAttributionUpdateListener(attribution -> {
-                    Log.i("luolaigang", "call back");
+            BaseApplication.i("luolaigang", "call back");
                     // got the attribution results, now we need to parse it
                     try {
                         JSONObject attributionObject = new JSONObject(attribution);
@@ -50,9 +50,9 @@ public class BaseApplication extends Application {
                             //Kochave kochave = new Gson().fromJson(attribution, Kochave.class);
                             //Log.i("luolaigangTracker",kochave.getCampaign());
                         }
-                        Log.i("luolaigang", attribution);
+                        BaseApplication.i("luolaigang", attribution);
                     } catch (JSONException exception) {
-                        Log.i("luolaigang", exception.getMessage());
+                        BaseApplication.i("luolaigang", exception.getMessage());
                     }
                 })
         );
@@ -62,18 +62,16 @@ public class BaseApplication extends Application {
     static int LENGTH = 4000;
 
     public static void i(String tag, String msg) {
-        if (BuildConfig.DEBUG) {
-            if (msg.length() > LENGTH) {
-                for (int i = 0; i < msg.length(); i += LENGTH) {
-                    if (i + LENGTH < msg.length()) {
-                        Log.i(tag, msg.substring(i, i + LENGTH));
-                    } else {
-                        Log.i(tag, msg.substring(i, msg.length()));
-                    }
+        if (msg.length() > LENGTH) {
+            for (int i = 0; i < msg.length(); i += LENGTH) {
+                if (i + LENGTH < msg.length()) {
+                    Log.i(tag, msg.substring(i, i + LENGTH));
+                } else {
+                    Log.i(tag, msg.substring(i, msg.length()));
                 }
-            } else {
-                Log.i(tag, msg);
             }
+        } else {
+            Log.i(tag, msg);
         }
     }
 
