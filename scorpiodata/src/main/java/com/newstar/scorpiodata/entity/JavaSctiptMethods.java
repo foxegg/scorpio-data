@@ -469,7 +469,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     public void initKochave() {
         try {
             BaseApplication.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
-            setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
+            setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL).replace("\\","\\\\"));
         } catch (Exception e) {
             e.printStackTrace();
         }
