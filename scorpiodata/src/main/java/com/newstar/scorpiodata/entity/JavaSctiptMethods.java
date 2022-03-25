@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import com.android.volley.Response;
 import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
+import com.newstar.scorpiodata.BaseApplication;
 import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.activitys.CameraActivity;
 import com.newstar.scorpiodata.netutils.NetUtils;
@@ -467,6 +468,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
 
     public void initKochave() {
         try {
+            BaseApplication.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
             setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
         } catch (Exception e) {
             e.printStackTrace();
