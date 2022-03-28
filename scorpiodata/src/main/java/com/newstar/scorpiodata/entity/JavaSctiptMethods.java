@@ -308,9 +308,10 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
         }
         if (requestCode == REQUEST_CODE_LIVENESS ) {
             if(PluginInit.ACTIVITY.isSuccess()){
+                Log.i("luolaigang1",PluginInit.ACTIVITY.getErrorInfo());
                 getLivenessResult();
             }else{
-                Log.i("luolaigang",PluginInit.ACTIVITY.getErrorInfo());
+                Log.i("luolaigang2",PluginInit.ACTIVITY.getErrorInfo());
             }
 
         } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
