@@ -306,8 +306,13 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
         if (resultCode == Activity.RESULT_OK) {
 
         }
-        if (requestCode == REQUEST_CODE_LIVENESS && PluginInit.ACTIVITY.isSuccess()) {
-            getLivenessResult();
+        if (requestCode == REQUEST_CODE_LIVENESS ) {
+            if(PluginInit.ACTIVITY.isSuccess()){
+                getLivenessResult();
+            }else{
+                Log.i("luolaigang",PluginInit.ACTIVITY.getErrorInfo());
+            }
+
         } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
             Uri contactData = data.getData();
             Cursor cursor = PluginInit.ACTIVITY.getContentResolver().query(contactData, null, null, null, null);
