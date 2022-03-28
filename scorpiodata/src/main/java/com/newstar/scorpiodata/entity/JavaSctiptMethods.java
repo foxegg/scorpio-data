@@ -304,51 +304,16 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     @Override
     public void onSelect(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE_LIVENESS && PluginInit.ACTIVITY.isSuccess()) {
-                getLivenessResult();
-            } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
-                Uri contactData = data.getData();
-                Cursor cursor = PluginInit.ACTIVITY.getContentResolver().query(contactData, null, null, null, null);
-                cursor.moveToFirst();
-                Contact contact = ContactHelp.getContactPhone(cursor);
-                getContactResult(contact);
-            } else if (requestCode == ZALO_LOGIN_CODE) {
-                {
-                    ZaloSDK.Instance.onActivityResult(PluginInit.ACTIVITY, requestCode, resultCode, data);
-                    try {
-                        if (data != null) {
-                            try {
-                                String jsData = data.getStringExtra("data");
-                                JSONObject exData;
-                                String code = (exData = (new JSONObject(jsData)).getJSONObject("data")).getString("code");
-                                String display_name = exData.getString("display_name");
-                                String dob = exData.getString("dob");
-                                String gender = exData.getString("gender");
-                                String phone = exData.getString("phone");
-                                String socialId = exData.getString("socialId");
-                                String uid = exData.getString("uid");
-                                if (uid != null && uid.length() > 0) {                                //解析js callback方法
-                                    String callback = "zaloLoginResult";//解析js回调方法
-                                    JSONObject json = new JSONObject();
-                                    json.put("code", code);
-                                    json.put("displayName", display_name);
-                                    json.put("dob", dob);
-                                    json.put("gender", gender);
-                                    json.put("phone", phone);
-                                    json.put("socialId", socialId);
-                                    json.put("uid", uid);
-                                    //调用js方法必须在主线程
-                                    invokeJavaScript(callback, json.toString());
-                                }
-                            } catch (Exception var8) {
-                                var8.printStackTrace();
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+
+        }
+        if (requestCode == REQUEST_CODE_LIVENESS && PluginInit.ACTIVITY.isSuccess()) {
+            getLivenessResult();
+        } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
+            Uri contactData = data.getData();
+            Cursor cursor = PluginInit.ACTIVITY.getContentResolver().query(contactData, null, null, null, null);
+            cursor.moveToFirst();
+            Contact contact = ContactHelp.getContactPhone(cursor);
+            getContactResult(contact);
         }
     }
 
