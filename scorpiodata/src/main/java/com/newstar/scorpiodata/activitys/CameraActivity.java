@@ -168,9 +168,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void run() {
                             path = file.getAbsolutePath();
-                            //preview_frame.setVisibility(View.VISIBLE);
-                            //preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
-                        	handler.sendEmptyMessage(0);
+                            preview_frame.setVisibility(View.VISIBLE);
+                            preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
+                        	//handler.sendEmptyMessage(0);
 						}
                     });
                 }
