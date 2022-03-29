@@ -309,6 +309,14 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
                     getLivenessResult();
                 }else{
                     LogUtils.i("luolaigang",PluginInit.ACTIVITY.getErrorInfo());
+                    try{
+                        JSONObject json = new JSONObject();
+                        json.put("errorMsg", PluginInit.ACTIVITY.getErrorInfo());
+                        String callback = "getLivenessResult";//解析js回调方法
+                        invokeJavaScript(callback, json.toString());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
             } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
                 Uri contactData = data.getData();
