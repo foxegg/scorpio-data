@@ -149,7 +149,7 @@ public class NetUtils {
         }catch(Exception e){
             LogUtils.i("luolaigang",e.getMessage());
         }
-
+        LogUtils.i("luolaigang",jsonObject.toString());
         // 自定义请求头
         Map<String, String> headers = NetUtils.getToken();
         headers.put("X-ADVAI-KEY", livenessAccessKey);
