@@ -137,6 +137,7 @@ public class NetUtils {
 
 
     private static void authFailureError(VolleyError error){
+        LogUtils.i("luolaigang",error.getMessage());
     }
 
     public static void getLivenessInfos(String livenessAccessKey,String livenessId, Response.Listener<JSONObject> response){
