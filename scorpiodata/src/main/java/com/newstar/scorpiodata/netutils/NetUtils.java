@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.entity.StatusParent;
+import com.newstar.scorpiodata.utils.LogUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
@@ -144,7 +145,7 @@ public class NetUtils {
             jsonObject.put("livenessId", livenessId);
             jsonObject.put("resultType", "IMAGE_URL");
         }catch(Exception e){
-            e.printStackTrace();
+            LogUtils.i("luolaigang",e.getMessage());
         }
 
         // 自定义请求头
