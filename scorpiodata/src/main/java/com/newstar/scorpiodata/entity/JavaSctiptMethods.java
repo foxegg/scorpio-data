@@ -331,7 +331,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             json.put("base64", PictureUtils.getText(path));
             json.put("livenessScore", PluginInit.ACTIVITY.getLivenessScore());
             invokeJavaScript(callback, json.toString());
-            /*NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.ACTIVITY.getLivenessId()
+            NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.ACTIVITY.getLivenessId()
             , response -> {
                 com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
                 if (livenessResult != null && livenessResult.getData() != null) {
@@ -343,7 +343,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
                         e.printStackTrace();
                     }
                 }
-            });*/
+            });
         } catch (Exception e) {
             e.printStackTrace();
             LogUtils.i("luolaigang",e.getMessage());

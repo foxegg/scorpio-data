@@ -38,9 +38,11 @@ public class PluginInit {
     public static String LIVENESS_ACCESS_KEY;
     public static String PRODUCT;
     public static Boolean DEBUG = false;
+    public static String LIVENESS_HOST;
     public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
     public static void init(InitActivity activity, Application application, String channel, String subChannel,String host,
-                            String h5Host,String fileprovider,String livenessAccessKey,String product, boolean debug){
+                            String h5Host,String fileprovider,String livenessAccessKey,String product, boolean debug,
+                            String livenessHost){
         ACTIVITY = activity;
         APPLICATION = application;
         CHANNEL = channel;
@@ -53,6 +55,7 @@ public class PluginInit {
         SharedHelp.setSharedPreferencesValue(SharedHelp.AES_KEY, "ovay001234567890");
         NetUtils.init();
         DEBUG = debug;
+        LIVENESS_HOST = livenessHost;
         PackageManager pm = activity.getPackageManager();
         PackageInfo pi = null;
         try {
