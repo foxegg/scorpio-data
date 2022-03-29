@@ -57,24 +57,5 @@ public class StringUtil extends StringRequest {
             return super.getParams();
         }
     }
-
-    static int LENGTH = 4000;
-
-    public static void i(String tag, String msg) {
-        if(!PluginInit.DEBUG){
-            return;
-        }
-        if (msg.length() > LENGTH) {
-            for (int i = 0; i < msg.length(); i += LENGTH) {
-                if (i + LENGTH < msg.length()) {
-                    Log.i(tag, msg.substring(i, i + LENGTH));
-                } else {
-                    Log.i(tag, msg.substring(i, msg.length()));
-                }
-            }
-        } else {
-            Log.i(tag, msg);
-        }
-    }
 }
 

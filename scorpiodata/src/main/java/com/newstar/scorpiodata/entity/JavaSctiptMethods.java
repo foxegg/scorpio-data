@@ -169,7 +169,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void send(String[] jsons) {
         final String str = jsons[0];
-        showLog(str);
+        LogUtils.i(str);
         try {
             JSONObject json = new JSONObject(str);
             String action = json.optString(ACTION);//js传递过来的动作，比如callPhone代表拨号，share2QQ代表分享到QQ，其实就是H5和android通信协议（自定义的）
@@ -304,22 +304,19 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     @Override
     public void onSelect(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-
-        }
-        if (requestCode == REQUEST_CODE_LIVENESS ) {
-            if(PluginInit.ACTIVITY.isSuccess()){
-                Log.i("luolaigang1",PluginInit.ACTIVITY.getErrorInfo());
-                getLivenessResult();
-            }else{
-                Log.i("luolaigang2",PluginInit.ACTIVITY.getErrorInfo());
+            if (requestCode == REQUEST_CODE_LIVENESS ) {
+                if(PluginInit.ACTIVITY.isSuccess()){
+                    getLivenessResult();
+                }else{
+                    LogUtils.i("luolaigang",PluginInit.ACTIVITY.getErrorInfo());
+                }
+            } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
+                Uri contactData = data.getData();
+                Cursor cursor = PluginInit.ACTIVITY.getContentResolver().query(contactData, null, null, null, null);
+                cursor.moveToFirst();
+                Contact contact = ContactHelp.getContactPhone(cursor);
+                getContactResult(contact);
             }
-
-        } else if (requestCode == SELCT_CONTACT_CODE && data != null) {
-            Uri contactData = data.getData();
-            Cursor cursor = PluginInit.ACTIVITY.getContentResolver().query(contactData, null, null, null, null);
-            cursor.moveToFirst();
-            Contact contact = ContactHelp.getContactPhone(cursor);
-            getContactResult(contact);
         }
     }
 
@@ -440,7 +437,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
 
     public void initKochave() {
         try {
-            StringUtil.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
+            LogUtils.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
             setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL).replace("\\","\\\\"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -693,8 +690,5 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    private void showLog(String msg) {
-        LogUtils.i("" + msg);
     }
 }

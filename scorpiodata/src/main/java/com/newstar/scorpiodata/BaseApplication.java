@@ -33,12 +33,12 @@ public class BaseApplication extends Application {
     }
 
     public void initKochava(String kochavaGuid) {
-        StringUtil.i("luolaigang", "initKochava");
+        LogUtils.i("luolaigang", "initKochava");
         // Start the Kochava Tracker
         Tracker.Configuration configuration = new Tracker.Configuration(this);
         configuration.setAppGuid(kochavaGuid);
         Tracker.configure(configuration.setAttributionUpdateListener(attribution -> {
-            StringUtil.i("luolaigang", "call back");
+            LogUtils.i("luolaigang", "call back");
                     // got the attribution results, now we need to parse it
                     try {
                         JSONObject attributionObject = new JSONObject(attribution);
@@ -52,9 +52,9 @@ public class BaseApplication extends Application {
                             //Kochave kochave = new Gson().fromJson(attribution, Kochave.class);
                             //Log.i("luolaigangTracker",kochave.getCampaign());
                         }
-                        StringUtil.i("luolaigang", attribution);
+                        LogUtils.i("luolaigang", attribution);
                     } catch (JSONException exception) {
-                        StringUtil.i("luolaigang", exception.getMessage());
+                        LogUtils.i("luolaigang", exception.getMessage());
                     }
                 })
         );
