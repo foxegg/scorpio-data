@@ -39,10 +39,11 @@ public class PluginInit {
     public static String PRODUCT;
     public static Boolean DEBUG = false;
     public static String LIVENESS_HOST;
+    public static String COUNTRY_CODE;
     public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
     public static void init(InitActivity activity, Application application, String channel, String subChannel,String host,
                             String h5Host,String fileprovider,String livenessAccessKey,String product, boolean debug,
-                            String livenessHost){
+                            String livenessHost,String countryCode){
         ACTIVITY = activity;
         APPLICATION = application;
         CHANNEL = channel;
@@ -56,6 +57,7 @@ public class PluginInit {
         NetUtils.init();
         DEBUG = debug;
         LIVENESS_HOST = livenessHost;
+        COUNTRY_CODE = countryCode;
         PackageManager pm = activity.getPackageManager();
         PackageInfo pi = null;
         try {

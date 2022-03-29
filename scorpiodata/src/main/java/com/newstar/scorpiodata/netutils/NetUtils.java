@@ -144,6 +144,7 @@ public class NetUtils {
         try{
             jsonObject.put("livenessId", livenessId);
             jsonObject.put("resultType", "IMAGE_URL");
+            jsonObject.put("region", PluginInit.COUNTRY_CODE);
         }catch(Exception e){
             LogUtils.i("luolaigang",e.getMessage());
         }
