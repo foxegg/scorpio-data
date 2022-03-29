@@ -152,7 +152,7 @@ public class NetUtils {
         Map<String, String> headers = NetUtils.getToken();
         headers.put("X-ADVAI-KEY", livenessAccessKey);
 
-        NetUtils.requestPostInQueue("https://vn-api.advance.ai/vn/openapi/face-identity/v1/liveness-detection",
+        NetUtils.requestPostInQueue(PluginInit.LIVENESS_HOST,
                 response, jsonObject, null, headers);
     }
 }

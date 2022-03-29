@@ -329,8 +329,6 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             String callback = "getLivenessResult";//解析js回调方法
             JSONObject json = new JSONObject();
             json.put("base64", PictureUtils.getText(path));
-            json.put("livenessScore", PluginInit.ACTIVITY.getLivenessScore());
-            invokeJavaScript(callback, json.toString());
             NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.ACTIVITY.getLivenessId()
             , response -> {
                 com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
@@ -338,7 +336,6 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
                     try {
                         json.put("livenessScore", livenessResult.getData().getLivenessScore());
                         invokeJavaScript(callback, json.toString());
-                        LogUtils.i("luolaigang",json.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
