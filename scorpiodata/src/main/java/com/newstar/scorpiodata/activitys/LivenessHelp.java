@@ -7,4 +7,5 @@ public interface LivenessHelp {
     public String getLivenessId();
     public boolean isSuccess();
     public String getErrorInfo();
+    public double getLivenessScore();
 }
