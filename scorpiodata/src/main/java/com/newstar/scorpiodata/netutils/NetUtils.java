@@ -152,6 +152,7 @@ public class NetUtils {
         LogUtils.i("luolaigang",jsonObject.toString());
         // 自定义请求头
         Map<String, String> headers = NetUtils.getToken();
+
         headers.put("X-ADVAI-KEY", livenessAccessKey);
 
         NetUtils.requestPostInQueue(PluginInit.LIVENESS_HOST,

@@ -19,6 +19,7 @@ import com.newstar.scorpiodata.utils.Base64Utils;
 import com.newstar.scorpiodata.utils.Callback;
 import com.newstar.scorpiodata.utils.GzipUtil;
 import com.newstar.scorpiodata.utils.LocationUtils;
+import com.newstar.scorpiodata.utils.LogUtils;
 import com.newstar.scorpiodata.utils.PluginInit;
 import com.newstar.scorpiodata.utils.RobotDistinguish;
 import com.newstar.scorpiodata.utils.SharedHelp;
@@ -428,14 +429,14 @@ public class RiskUtils {
 
                     jsonObject = data;
                 } catch (Exception e) {
-                    Log.i("luolaigang",e.getMessage());
+                    LogUtils.i("luolaigang",e.getMessage());
                 }
 
                 NetUtils.requestPostInQueue(NetUtils.UPLOAD_RISK_DATA,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                //Log.e("luolaigang",response.toString());
+                                LogUtils.i("luolaigang",response.toString());
                                 StatusParent statusParent = new Gson().fromJson(response.toString(), StatusParent.class);
                                 if (statusParent != null && statusParent.getStatus() != null && statusParent.getStatus().getCode().intValue() == 200) {
 
