@@ -14,7 +14,7 @@ public class LogUtils {
 
     static int LENGTH = 4000;
     public static void i(String tag, String msg) {
-        if(!PluginInit.DEBUG){
+        if(!PluginInit.DEBUG || msg==null){
             return;
         }
         if (msg!=null && msg.length() > LENGTH) {
