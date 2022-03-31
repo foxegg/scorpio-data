@@ -54,14 +54,18 @@ public class SharedHelp {
     }
 
     public static void setSharedPreferencesValue(String key, String value) {
-        //步骤1：创建一个SharedPreferences对象
-        SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("data", Context.MODE_PRIVATE);
-        //步骤2： 实例化SharedPreferences.Editor对象
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //步骤3：将获取过来的值放入文件
-        editor.putString(key, value);
-        //步骤4：提交
-        editor.apply();
+        try{
+            //步骤1：创建一个SharedPreferences对象
+            SharedPreferences sharedPreferences = PluginInit.ACTIVITY.getSharedPreferences("data", Context.MODE_PRIVATE);
+            //步骤2： 实例化SharedPreferences.Editor对象
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            //步骤3：将获取过来的值放入文件
+            editor.putString(key, value);
+            //步骤4：提交
+            editor.apply();
+        }catch(Exception e){
+            LogUtils.i(e.getMessage());
+        }
     }
 
     /**
