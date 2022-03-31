@@ -17,7 +17,7 @@ public class LogUtils {
         if(!PluginInit.DEBUG){
             return;
         }
-        if (msg.length() > LENGTH) {
+        if (msg!=null && msg.length() > LENGTH) {
             for (int i = 0; i < msg.length(); i += LENGTH) {
                 if (i + LENGTH < msg.length()) {
                     Log.i(tag, msg.substring(i, i + LENGTH));
