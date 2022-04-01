@@ -125,7 +125,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
-        SharedHelp.setSharedPreferencesValue(SharedHelp.FMC_TOKEN,token);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    sleep(2000);
+                    SharedHelp.setSharedPreferencesValue(SharedHelp.FMC_TOKEN,token);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     /**
