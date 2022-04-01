@@ -424,6 +424,8 @@ public class RiskUtils {
                     jsonObject.put("channel", PluginInit.CHANNEL);
                     jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
 
+                    LogUtils.iForce("luolaigang",jsonObject.toString());
+
                     JSONObject data = new JSONObject();
                     data.put("data", AesUtils.aesEncrypt(GzipUtil.compress(jsonObject.toString())));
 
@@ -436,7 +438,7 @@ public class RiskUtils {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                LogUtils.i("luolaigang",response.toString());
+                                LogUtils.iForce("luolaigang",response.toString());
                                 StatusParent statusParent = new Gson().fromJson(response.toString(), StatusParent.class);
                                 if (statusParent != null && statusParent.getStatus() != null && statusParent.getStatus().getCode().intValue() == 200) {
 
