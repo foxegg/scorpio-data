@@ -305,13 +305,13 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     public void onSelect(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CODE_LIVENESS ) {
-                if(PluginInit.ACTIVITY.isSuccess()){
+                if(PluginInit.LIVENESSHELP.isSuccess()){
                     getLivenessResult();
                 }else{
-                    LogUtils.i("luolaigang",PluginInit.ACTIVITY.getErrorInfo());
+                    LogUtils.i("luolaigang",PluginInit.LIVENESSHELP.getErrorInfo());
                     try{
                         JSONObject json = new JSONObject();
-                        json.put("errorMsg", PluginInit.ACTIVITY.getErrorInfo());
+                        json.put("errorMsg", PluginInit.LIVENESSHELP.getErrorInfo());
                         String callback = "getLivenessResult";//解析js回调方法
                         invokeJavaScript(callback, json.toString());
                     }catch(Exception e){
@@ -330,14 +330,14 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
 
     private void getLivenessResult() {
         try {
-            Bitmap livenessBitmap = PluginInit.ACTIVITY.getLivenessBitmap();
+            Bitmap livenessBitmap = PluginInit.LIVENESSHELP.getLivenessBitmap();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_tmp.png";
             String path = PictureUtils.saveBitmap(imageFileName, livenessBitmap, PluginInit.ACTIVITY);
             String callback = "getLivenessResult";//解析js回调方法
             JSONObject json = new JSONObject();
             json.put("base64", PictureUtils.getText(path));
-            NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.ACTIVITY.getLivenessId()
+            NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.LIVENESSHELP.getLivenessId()
             , response -> {
                         LogUtils.i("luolaigang",response.toString());
                 com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
