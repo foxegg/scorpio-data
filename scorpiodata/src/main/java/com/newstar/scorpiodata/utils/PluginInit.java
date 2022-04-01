@@ -43,7 +43,7 @@ public class PluginInit {
     public static String LIVENESS_HOST;
     public static String COUNTRY_CODE;
     public static ArrayList<Runnable> OnDestroyEventList = new ArrayList<>();
-    public static void init(InitActivity activity, LivenessHelp livenesshelp, Application application, String channel, String subChannel,String host,
+    public static void init(Activity activity, LivenessHelp livenesshelp, Application application, String channel, String subChannel,String host,
                             String h5Host,String fileprovider,String livenessAccessKey,String product, boolean debug,
                             String livenessHost,String countryCode){
         ACTIVITY = activity;
