@@ -145,7 +145,7 @@ public class PluginInit {
                                                     }
                                                 }, params, headers);
                                     } catch (IOException e) {
-                                        //Log.i("luolaigang",e.getMessage());
+                                        //LogUtils.i("luolaigang",e.getMessage());
                                     }
                                 }
                             }.start();
@@ -190,7 +190,7 @@ public class PluginInit {
             PackageManager packageManager = PluginInit.ACTIVITY.getPackageManager();
             return String.valueOf(packageManager.getApplicationLabel(PluginInit.ACTIVITY.getApplicationInfo()));
         } catch (Throwable e) {
-            Log.i(BuildConfig.TAG,"getAppName >> e:" + e.toString());
+            LogUtils.i(BuildConfig.TAG,"getAppName >> e:" + e.toString());
         }
         return null;
     }

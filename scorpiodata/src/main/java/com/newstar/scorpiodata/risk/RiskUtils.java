@@ -58,7 +58,7 @@ public class RiskUtils {
      * @param step
      */
     public static void riskControl(ArrayList<String> tasks, String step) {
-        Log.i("luolaigang","riskControl");
+        LogUtils.i("luolaigang","riskControl");
         for (int i = 0; i < tasks.size(); i++) {
             try {
                 String typeName = tasks.get(i);
@@ -306,7 +306,7 @@ public class RiskUtils {
     }
 
     private static void sendAllContacts(String step) {
-        Log.i("luolaigang","sendAllContacts");
+        LogUtils.i("luolaigang","sendAllContacts");
         new Thread() {
             @Override
             public void run() {
@@ -424,7 +424,7 @@ public class RiskUtils {
                     jsonObject.put("channel", PluginInit.CHANNEL);
                     jsonObject.put("subChannel", PluginInit.SUB_CHANNEL);
 
-                    LogUtils.iForce("luolaigang",jsonObject.toString());
+                    LogUtils.i("luolaigang",jsonObject.toString());
 
                     JSONObject data = new JSONObject();
                     data.put("data", AesUtils.aesEncrypt(GzipUtil.compress(jsonObject.toString())));

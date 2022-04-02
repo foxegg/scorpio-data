@@ -50,7 +50,7 @@ public class BaseApplication extends Application {
                             final String attributedNetworkId = attributionObject.optString("network_id");
                             // ...
                             //Kochave kochave = new Gson().fromJson(attribution, Kochave.class);
-                            //Log.i("luolaigangTracker",kochave.getCampaign());
+                            //LogUtils.i("luolaigangTracker",kochave.getCampaign());
                         }
                         LogUtils.i("luolaigang", attribution);
                     } catch (JSONException exception) {
