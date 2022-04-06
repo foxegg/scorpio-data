@@ -20,13 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.android.volley.Response;
-import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
-import com.newstar.scorpiodata.BaseApplication;
 import com.newstar.scorpiodata.BuildConfig;
 import com.newstar.scorpiodata.activitys.CameraActivity;
 import com.newstar.scorpiodata.netutils.NetUtils;
-import com.newstar.scorpiodata.netutils.StringUtil;
 import com.newstar.scorpiodata.risk.RiskType;
 import com.newstar.scorpiodata.risk.RiskUtils;
 import com.newstar.scorpiodata.utils.CalendarReminderUtils;
@@ -91,6 +88,8 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     public static final String UPDATE_KOCHAVE = "updateKochave";
     //设置摄像头类型0后置,1前置
     public static final String SET_CAMERA_TYPE = "setCameraType";
+    //跳转google play
+    public static final String GOTO_GOOGLE_PLAY = "gotoGooglePlay";
     private WebView webView;
     private Activity mActivity;
 
@@ -226,8 +225,10 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
                     }
                 } else if (action.equals(UPDATE_KOCHAVE)) {
                     updateKochave(str);
-                }else if (action.equals(SET_CAMERA_TYPE)) {
+                } else if (action.equals(SET_CAMERA_TYPE)) {
                     setCameraType(str);
+                } else if (action.equals(GOTO_GOOGLE_PLAY)) {
+                    gotoGooglePlay();
                 }
             }
         } catch (JSONException e) {
@@ -304,17 +305,17 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     @Override
     public void onSelect(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE_LIVENESS ) {
-                if(PluginInit.LIVENESSHELP.isSuccess()){
+            if (requestCode == REQUEST_CODE_LIVENESS) {
+                if (PluginInit.LIVENESSHELP.isSuccess()) {
                     getLivenessResult();
-                }else{
-                    LogUtils.i("luolaigang",PluginInit.LIVENESSHELP.getErrorInfo());
-                    try{
+                } else {
+                    LogUtils.i("luolaigang", PluginInit.LIVENESSHELP.getErrorInfo());
+                    try {
                         JSONObject json = new JSONObject();
                         json.put("errorMsg", PluginInit.LIVENESSHELP.getErrorInfo());
                         String callback = "getLivenessResult";//解析js回调方法
                         invokeJavaScript(callback, json.toString());
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -337,22 +338,22 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             String callback = "getLivenessResult";//解析js回调方法
             JSONObject json = new JSONObject();
             json.put("base64", PictureUtils.getText(path));
-            NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY,PluginInit.LIVENESSHELP.getLivenessId()
-            , response -> {
-                        LogUtils.i("luolaigang",response.toString());
-                com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
-                if (livenessResult != null && livenessResult.getData() != null) {
-                    try {
-                        json.put("livenessScore", livenessResult.getData().getLivenessScore());
-                        invokeJavaScript(callback, json.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY, PluginInit.LIVENESSHELP.getLivenessId()
+                    , response -> {
+                        LogUtils.i("luolaigang", response.toString());
+                        com.newstar.scorpiodata.entity.LivenessResult livenessResult = new Gson().fromJson(response.toString(), com.newstar.scorpiodata.entity.LivenessResult.class);
+                        if (livenessResult != null && livenessResult.getData() != null) {
+                            try {
+                                json.put("livenessScore", livenessResult.getData().getLivenessScore());
+                                invokeJavaScript(callback, json.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtils.i("luolaigang",e.getMessage());
+            LogUtils.i("luolaigang", e.getMessage());
         }
     }
 
@@ -445,8 +446,8 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
 
     public void initKochave() {
         try {
-            LogUtils.i("luolaigang initKochave",SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
-            setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL).replace("\\","\\\\"));
+            LogUtils.i("luolaigang initKochave", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL));
+            setItem("kochaveReferrerUrl", SharedHelp.getSharedPreferencesValue(SharedHelp.KOCHAVE_REFERRER_URL).replace("\\", "\\\\"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -684,18 +685,35 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
 
     /**
      * //设置摄像头类型0后置,1前置
+     *
      * @param str
      */
     public void setCameraType(String str) {
         try {
             JSONObject mJson = new JSONObject(str);
             String type = mJson.optString("type");
-            if(type!=null && type.equals("0")){
+            if (type != null && type.equals("0")) {
                 CameraActivity.cameraType = 0;
-            }else if(type!=null && type.equals("1")){
+            } else if (type != null && type.equals("1")) {
                 CameraActivity.cameraType = 1;
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转谷歌play
+     */
+    public void gotoGooglePlay() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=" + PluginInit.ACTIVITY.getPackageName()));
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + PluginInit.ACTIVITY.getPackageName()));
+            if (intent.resolveActivity(PluginInit.ACTIVITY.getPackageManager()) != null) {
+                PluginInit.ACTIVITY.startActivity(intent);
+            }
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
