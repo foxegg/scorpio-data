@@ -37,13 +37,13 @@ public class LogUtils {
         if (msg!=null && msg.length() > LENGTH) {
             for (int i = 0; i < msg.length(); i += LENGTH) {
                 if (i + LENGTH < msg.length()) {
-                    LogUtils.i(tag, msg.substring(i, i + LENGTH));
+                    Log.i(tag, msg.substring(i, i + LENGTH));
                 } else {
-                    LogUtils.i(tag, msg.substring(i, msg.length()));
+                    Log.i(tag, msg.substring(i, msg.length()));
                 }
             }
         } else {
-            LogUtils.i(tag, msg);
+            Log.i(tag, msg);
         }
     }
 }
