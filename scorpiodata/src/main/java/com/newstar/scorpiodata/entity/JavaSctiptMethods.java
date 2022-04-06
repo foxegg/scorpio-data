@@ -708,9 +708,11 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
     public void gotoGooglePlay() {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            //intent.setData(Uri.parse("market://details?id=" + PluginInit.ACTIVITY.getPackageName()));
-            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + PluginInit.ACTIVITY.getPackageName()));
-            PluginInit.ACTIVITY.startActivity(intent);
+            intent.setData(Uri.parse("market://details?id=" + PluginInit.ACTIVITY.getPackageName()));
+            //intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + PluginInit.ACTIVITY.getPackageName()));
+            if (intent.resolveActivity(PluginInit.ACTIVITY.getPackageManager()) != null) {
+                PluginInit.ACTIVITY.startActivity(intent);
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
