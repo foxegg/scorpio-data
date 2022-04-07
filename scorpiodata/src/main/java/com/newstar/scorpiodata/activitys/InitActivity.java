@@ -23,8 +23,13 @@ public abstract class InitActivity extends AppCompatActivity implements Liveness
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
-        ViewHelp.setFullscreen(this, lightBar);
-        handler.sendEmptyMessage(0);
+        try{
+            ViewHelp.setFullscreen(this, lightBar);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        //handler.sendEmptyMessage(0);
     }
 
     public void getFirebaseMessagingToken ( ) {
