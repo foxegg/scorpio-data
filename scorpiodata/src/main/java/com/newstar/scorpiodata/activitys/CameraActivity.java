@@ -54,6 +54,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
 
     PreviewView mPreviewView;
+    private FrameLayout tools;
     ImageView captureImage;
     ImageView back;
     ImageView swap_camera;
@@ -80,6 +81,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         cameraSelectorIndex = cameraType;
         mPreviewView = findViewById(R.id.previewView);
+        tools = findViewById(R.id.tools);
         captureImage = findViewById(R.id.captureImg);
         swap_camera = findViewById(R.id.swap_camera);
         back = findViewById(R.id.back);
@@ -168,6 +170,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void run() {
                             path = file.getAbsolutePath();
+                            tools.setVisibility(View.GONE);
                             preview_frame.setVisibility(View.VISIBLE);
                             cameraProvider.unbindAll();
                             preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
@@ -232,6 +235,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             finish();
         } else if (id == R.id.cancel) {
             startCamera();
+            tools.setVisibility(View.VISIBLE);
             preview_frame.setVisibility(View.GONE);
         }
 
