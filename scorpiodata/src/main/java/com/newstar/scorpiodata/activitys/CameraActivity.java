@@ -144,7 +144,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             height = 900;
         }
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
-                .setTargetResolution(new android.util.Size(width, height))
+                //.setTargetResolution(new android.util.Size(width, height))
                 .build();
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
@@ -168,9 +168,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void run() {
                             path = file.getAbsolutePath();
-                            //preview_frame.setVisibility(View.VISIBLE);
-                            //preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
-                        	handler.sendEmptyMessage(0);
+                            preview_frame.setVisibility(View.VISIBLE);
+                            cameraProvider.unbindAll();
+                            preview_image.setImageDrawable(BitmapDrawable.createFromPath(path));
+                        	//handler.sendEmptyMessage(0);
 						}
                     });
                 }
@@ -230,6 +231,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             //关闭Activity
             finish();
         } else if (id == R.id.cancel) {
+            startCamera();
             preview_frame.setVisibility(View.GONE);
         }
 
@@ -268,7 +270,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             };
 
             try {
-                PictureUtils.compressBitmap(CameraActivity.this, path, 1200, callback);
+                PictureUtils.compressBitmap(CameraActivity.this, path, 1080, callback);
             } catch (Exception e) {
                 e.printStackTrace();
             }
