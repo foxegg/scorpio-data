@@ -7,6 +7,7 @@ import androidx.work.WorkManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.newstar.scorpiodata.utils.LogUtils;
 import com.newstar.scorpiodata.utils.SharedHelp;
 
 /**
@@ -129,11 +130,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             @Override
             public void run() {
                 super.run();
-                try {
-                    sleep(2000);
-                    SharedHelp.setSharedPreferencesValue(SharedHelp.FMC_TOKEN,token);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                while(SharedHelp.getSharedPreferencesValue(SharedHelp.FMC_TOKEN)==null){
+                    try {
+                        sleep(500);
+                        LogUtils.i("luolaigang","token");
+                        SharedHelp.setSharedPreferencesValue(SharedHelp.FMC_TOKEN,token);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.start();

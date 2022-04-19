@@ -579,7 +579,7 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             //解析json
             String key = jsonObject.optString("key");
             String value = jsonObject.optString("value");
-
+            SharedHelp.setSharedPreferencesValue(key,value);
             ShareSdProperty.setValue(key, value);
         } catch (JSONException e) {
             e.printStackTrace();
