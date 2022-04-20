@@ -109,54 +109,53 @@ public class PluginInit {
         referrerClient.startConnection(new InstallReferrerStateListener() {
             @Override
             public void onInstallReferrerSetupFinished(int responseCode) {
-                ReferrerDetails response = null;
                 try {
-                    response = referrerClient.getInstallReferrer();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                switch (responseCode) {
-                    case InstallReferrerClient.InstallReferrerResponse.OK:
-                        String referrerUrl = response.getInstallReferrer();
-                        long referrerClickTime = response.getReferrerClickTimestampSeconds();
-                        long appInstallTime = response.getInstallBeginTimestampSeconds();
-                        boolean instantExperienceLaunched = response.getGooglePlayInstantParam();
-                        long firstInstallTime = response.getInstallBeginTimestampSeconds();
-                        long installTime = getInstallTime();
-                        SharedHelp.setSharedPreferencesValue(SharedHelp.IS_FIRST_INSTALL, (Math.abs(installTime/1000L-firstInstallTime)<10)+"");
-                        String uid = SharedHelp.getUid();
-                        if (uid!=null && uid.length()>0) {
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    super.run();
-                                    try {
-                                        String referrerUrl1 = URLEncoder.encode(referrerUrl,"UTF-8");
-                                        Map<String, String> headers = NetUtils.getToken();
-                                        Map<String, String> params = new HashMap<>();
-                                        params.put("macCode",uid);
-                                        params.put("promotersGid",referrerUrl1);
-                                        NetUtils.requestGetInQueue(Request.Method.GET,
-                                                NetUtils.INSERT_PROMOTERS_GID,
-                                                new Response.Listener<String>() {
-                                                    @Override
-                                                    public void onResponse(String response) {
-                                                        //Log.e("luolaigang",response);
-                                                    }
-                                                }, params, headers);
-                                    } catch (IOException e) {
-                                        //LogUtils.i("luolaigang",e.getMessage());
+                    ReferrerDetails response = referrerClient.getInstallReferrer();
+                    switch (responseCode) {
+                        case InstallReferrerClient.InstallReferrerResponse.OK:
+                            String referrerUrl = response.getInstallReferrer();
+                            long referrerClickTime = response.getReferrerClickTimestampSeconds();
+                            long appInstallTime = response.getInstallBeginTimestampSeconds();
+                            boolean instantExperienceLaunched = response.getGooglePlayInstantParam();
+                            long firstInstallTime = response.getInstallBeginTimestampSeconds();
+                            long installTime = getInstallTime();
+                            SharedHelp.setSharedPreferencesValue(SharedHelp.IS_FIRST_INSTALL, (Math.abs(installTime/1000L-firstInstallTime)<10)+"");
+                            String uid = SharedHelp.getUid();
+                            if (uid!=null && uid.length()>0) {
+                                new Thread() {
+                                    @Override
+                                    public void run() {
+                                        super.run();
+                                        try {
+                                            String referrerUrl1 = URLEncoder.encode(referrerUrl,"UTF-8");
+                                            Map<String, String> headers = NetUtils.getToken();
+                                            Map<String, String> params = new HashMap<>();
+                                            params.put("macCode",uid);
+                                            params.put("promotersGid",referrerUrl1);
+                                            NetUtils.requestGetInQueue(Request.Method.GET,
+                                                    NetUtils.INSERT_PROMOTERS_GID,
+                                                    new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            //Log.e("luolaigang",response);
+                                                        }
+                                                    }, params, headers);
+                                        } catch (IOException e) {
+                                            //LogUtils.i("luolaigang",e.getMessage());
+                                        }
                                     }
-                                }
-                            }.start();
-                        }
-                        break;
-                    case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
-                        // API not available on the current Play Store app.
-                        break;
-                    case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
-                        // Connection couldn't be established.
-                        break;
+                                }.start();
+                            }
+                            break;
+                        case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                            // API not available on the current Play Store app.
+                            break;
+                        case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                            // Connection couldn't be established.
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 referrerClient.endConnection();
             }
