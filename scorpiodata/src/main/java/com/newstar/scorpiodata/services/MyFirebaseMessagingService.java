@@ -95,7 +95,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // FCM registration token to your app server.
-        sendRegistrationToServer(token);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                sendRegistrationToServer(token);
+            }
+        }.start();
     }
     // [END on_new_token]
 
@@ -125,23 +131,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                while(SharedHelp.getSharedPreferencesValue(SharedHelp.FMC_TOKEN)==null){
-                    try {
-                        sleep(500);
-                        LogUtils.i("luolaigang","token");
-                        SharedHelp.setSharedPreferencesValue(SharedHelp.FMC_TOKEN,token);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
+        try {
+            Thread.sleep(500);
+            LogUtils.i("luolaigang","token");
+            SharedHelp.setSharedPreferencesValue(SharedHelp.FMC_TOKEN,token);
+        } catch (Exception e) {
+            sendRegistrationToServer(token);
+        }
     }
+
+
 
     /**
      * Create and show a simple notification containing the received FCM message.
