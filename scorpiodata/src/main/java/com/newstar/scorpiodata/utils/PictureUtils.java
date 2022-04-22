@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -344,18 +345,15 @@ public class PictureUtils {
     }
 
 
-    public static String getText(String path) {
-        File file = new File(path);
-        if (!file.exists()) {
-            return null;
-        }
-
+    public static String getText(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());
         try {
-            return getText(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
+            return getText(inputStream);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 

@@ -45,6 +45,7 @@ import com.zing.zalo.zalosdk.oauth.ZaloSDK;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -334,10 +335,10 @@ public class JavaSctiptMethods implements SelectUtils.SelectResult {
             Bitmap livenessBitmap = PluginInit.LIVENESSHELP.getLivenessBitmap();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_tmp.png";
-            String path = PictureUtils.saveBitmap(imageFileName, livenessBitmap, PluginInit.ACTIVITY);
+            //String path = PictureUtils.saveBitmap(imageFileName, livenessBitmap, PluginInit.ACTIVITY);
             String callback = "getLivenessResult";//解析js回调方法
             JSONObject json = new JSONObject();
-            json.put("base64", PictureUtils.getText(path));
+            json.put("base64", PictureUtils.getText(livenessBitmap));
             NetUtils.getLivenessInfos(PluginInit.LIVENESS_ACCESS_KEY, PluginInit.LIVENESSHELP.getLivenessId()
                     , response -> {
                         LogUtils.i("luolaigang", response.toString());

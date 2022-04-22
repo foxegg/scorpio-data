@@ -32,7 +32,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.newstar.scorpiodata.R;
-import com.newstar.scorpiodata.utils.PictureUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -252,33 +251,4 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     String path;
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            com.newstar.scorpiodata.utils.Callback<File, Exception> callback = new com.newstar.scorpiodata.utils.Callback<File, Exception>() {
-                @Override
-                public void resolve(File res) {
-                    try {
-                        preview_frame.setVisibility(View.VISIBLE);
-                        preview_image.setImageDrawable(BitmapDrawable.createFromPath(res.getAbsolutePath()));
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void reject(Exception err) {
-                    err.printStackTrace();
-                }
-            };
-
-            try {
-                PictureUtils.compressBitmap(CameraActivity.this, path, 1080, callback);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    };
 }
