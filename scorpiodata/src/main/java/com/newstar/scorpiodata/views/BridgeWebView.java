@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -142,10 +143,12 @@ public class BridgeWebView extends WebView implements SelectUtils.SelectResult {
                 mUploadCallbackAboveL = filePathCallback;
                 SelectUtils.setSelectResult(BridgeWebView.this);
 
-                if (fileChooserParams.isCaptureEnabled()) {
-                    SelectUtils.selectOnePictureSelf(PluginInit.ACTIVITY, REQUEST_CODE);
-                } else {
-                    SelectUtils.selectOnePicturePick(PluginInit.ACTIVITY, REQUEST_CODE_PICK);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (fileChooserParams.isCaptureEnabled()) {
+                        SelectUtils.selectOnePictureSelf(PluginInit.ACTIVITY, REQUEST_CODE);
+                    } else {
+                        SelectUtils.selectOnePicturePick(PluginInit.ACTIVITY, REQUEST_CODE_PICK);
+                    }
                 }
 
                 return true;

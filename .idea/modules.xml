@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="scorpio/app" />
-      <module fileurl="file://$PROJECT_DIR$/liveness/liveness.iml" filepath="$PROJECT_DIR$/liveness/liveness.iml" group="scorpio/liveness" />
-      <module fileurl="file://$PROJECT_DIR$/scorpio.iml" filepath="$PROJECT_DIR$/scorpio.iml" group="scorpio" />
-      <module fileurl="file://$PROJECT_DIR$/app/scorpio-data-app.iml" filepath="$PROJECT_DIR$/app/scorpio-data-app.iml" group="scorpio/app" />
-      <module fileurl="file://$PROJECT_DIR$/scorpio-data-scorpio.iml" filepath="$PROJECT_DIR$/scorpio-data-scorpio.iml" group="scorpio" />
-      <module fileurl="file://$PROJECT_DIR$/scorpiodata/scorpio-data-scorpiodata.iml" filepath="$PROJECT_DIR$/scorpiodata/scorpio-data-scorpiodata.iml" group="scorpio/scorpiodata" />
-      <module fileurl="file://$PROJECT_DIR$/scorpiodata/scorpiodata.iml" filepath="$PROJECT_DIR$/scorpiodata/scorpiodata.iml" group="scorpio/scorpiodata" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpio.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/scorpio.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/scorpio.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/scorpio.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/scorpio.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/scorpio.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/scorpio.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/scorpio.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/scorpio.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.main.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/scorpiodata/scorpio.scorpiodata.unitTest.iml" />
     </modules>
   </component>
 </project>

@@ -95,7 +95,7 @@ public class ContactHelp {
         List<ContactHelp> contactsList = new ArrayList<>();
         Cursor cursor = resolver.query(ContactsContract.Contacts.CONTENT_URI,
                 null, ContactsContract.Contacts.HAS_PHONE_NUMBER+" =1",
-                null, ContactsContract.Contacts._ID + " LIMIT 1000");
+                null, null);
         if (cursor != null) {
             RiskUtils.dispatchErrorEvent("ContactHelp2", cursor.getCount()+"");
             try{
